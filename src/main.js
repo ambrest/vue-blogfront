@@ -1,6 +1,7 @@
-import Vue   from 'vue';
-import App   from './vue/App.vue';
-import store from './vue/store/index';
+import Vue       from 'vue';
+import VueRouter from 'vue-router';
+import App       from './vue/App.vue';
+import store     from './vue/store/index';
 
 // Custom plugins
 import CallOnDestroy from './vue-extensions/plugins/CallOnDestroy';
@@ -15,8 +16,17 @@ import * as _ from './js/utils';
 
 Vue.prototype.utils = _;
 
+// Routing
+import Routes from './routes';
+
+Vue.use(VueRouter);
+
 // Entry point
 new Vue({
     render: h => h(App),
-    store
+    store,
+    router: new VueRouter({
+        routes: Routes,
+        mode: 'history'
+    })
 }).$mount('#app');

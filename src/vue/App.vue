@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        Hello World
+        <router-view></router-view>
     </div>
 </template>
 
@@ -32,7 +32,7 @@
     button,
     textarea,
     input {
-        font-family: $font-family-open-sans;
+        font-family: $font-family;
         outline: none;
         border: none;
         background: transparent;
@@ -71,6 +71,7 @@
 
     body {
         background: $palette-snow-white;
+        font-family: $font-family;
     }
 
     // Font awesome default size
