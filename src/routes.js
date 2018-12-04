@@ -1,6 +1,6 @@
 // Routes
-import Index from './vue/pages/index/Index';
+import Home from './vue/pages/home/Home';
 
 export default [
-    {path: '/', component: Index}
+    {path: '/', component: Home}
 ];

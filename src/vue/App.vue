@@ -1,6 +1,7 @@
 <template>
     <div id="app">
-        <router-view></router-view>
+        <page-header></page-header>
+        <router-view class="router"></router-view>
     </div>
 </template>
 
@@ -15,12 +16,21 @@
     // Font-awesome styles
     import '@fortawesome/fontawesome-free/css/all.css';
 
+    // Components
+    import PageHeader from './pages/PageHeader';
+
     export default {
 
-        components: {},
+        components: {PageHeader},
 
         data() {
             return {};
+        },
+
+        mounted() {
+
+            // Update posts
+            this.$store.dispatch('posts/update');
         }
     };
 </script>
@@ -40,6 +50,7 @@
 
     a {
         color: inherit;
+        text-decoration: none;
     }
 
     button {
@@ -70,8 +81,36 @@
     }
 
     body {
+        position: fixed;
         background: $palette-snow-white;
         font-family: $font-family;
+    }
+
+    #app {
+        @include width(70vw, 0, 1000px);
+        margin: 0 auto;
+
+        .router {
+            margin-top: 10vh;
+            background: $palette-snow-white;
+            box-shadow: 0 5px 30px rgba(black, 0.075);
+            border-radius: 0.25em;
+            padding: 0.5em 0.75em;
+            min-height: 50vh;
+            max-height: 80vh;
+            overflow: auto;
+
+            @include animate('0.5s') {
+                from {
+                    opacity: 0;
+                    transform: translateY(-0.5em);
+                }
+                to {
+                    opacity: 1;
+                    transform: none;
+                }
+            }
+        }
     }
 
     // Font awesome default size
