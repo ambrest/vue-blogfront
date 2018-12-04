@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <page-header></page-header>
+        <page-header class="header"></page-header>
         <router-view class="router"></router-view>
     </div>
 </template>
@@ -87,27 +87,51 @@
     }
 
     #app {
+        @include flex(column, center);
         @include width(70vw, 0, 1000px);
         margin: 0 auto;
 
+        .header {
+            width: 100%;
+        }
+
         .router {
+            @include flex(column, center);
             margin-top: 10vh;
             background: $palette-snow-white;
             box-shadow: 0 5px 30px rgba(black, 0.075);
             border-radius: 0.25em;
-            padding: 0.5em 0.75em;
-            min-height: 50vh;
+            padding: 3em 5em;
             max-height: 80vh;
             overflow: auto;
 
-            @include animate('0.5s') {
+
+            @include animate('0.75s') {
                 from {
                     opacity: 0;
-                    transform: translateY(-0.5em);
+                    transform: translateY(-0.75em);
                 }
                 to {
                     opacity: 1;
                     transform: none;
+                }
+            }
+
+            > h1 {
+                position: relative;
+                @include font(500, 1.15em);
+                margin-bottom: 3em;
+                flex-shrink: 0;
+                opacity: 0.85;
+                width: 100%;
+                text-align: center;
+
+                &::after {
+                    @include pseudo();
+                    @include position(auto, 0, -1em, 0);
+                    @include size(3em, 1px);
+                    margin: 0 auto;
+                    background: $palette-decent-blue;
                 }
             }
         }

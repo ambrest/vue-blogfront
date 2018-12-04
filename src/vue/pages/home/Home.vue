@@ -31,8 +31,8 @@
                     <article class="preview">{{ post.body }}</article>
 
                     <div class="buttons">
-                        <button class="read-more-btn">Read More</button>
-                        <button class="share-btn">Share</button>
+                        <button class="button-primary">Read More</button>
+                        <button class="button-secondary">Share</button>
                     </div>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                     return v;
                 });
             }
-        },
+        }
     };
 
 </script>
@@ -77,21 +77,6 @@
 <style lang="scss" scoped>
 
     .home {
-        @include flex(column, center);
-
-        h1 {
-            @include font(500, 1.15em);
-            margin-top: 5em;
-            flex-shrink: 0;
-            opacity: 0.9;
-        }
-
-        .divider {
-            @include size(3em, 1px);
-            background: rgba(black, 0.15);
-            margin: 2em 0;
-            flex-shrink: 0;
-        }
     }
 
     .posts {
@@ -113,7 +98,7 @@
 
                 .day {
                     @include font(300, 3.5em, 0.04em);
-                    color: $palette-erotic-red;
+                    color: $palette-sweet-red;
                 }
 
                 .month,
@@ -142,7 +127,7 @@
                     @include position(2.5em, -4px, auto, auto);
                     @include size(9px);
                     border-radius: 100%;
-                    background: $palette-erotic-red;
+                    background: $palette-sweet-red;
                 }
             }
 
@@ -176,33 +161,7 @@
                     margin-top: auto;
 
                     button {
-                        @include font(500, 0.8em);
-                        text-transform: uppercase;
-                        padding: 0.75em 1.75em;
-                        transition: all 0.3s;
-                    }
-
-                    .read-more-btn {
-                        background: $palette-erotic-red;
-                        border: 1px solid $palette-erotic-red;
-                        color: white;
-
-                        &:hover {
-                            background: white;
-                            color: $palette-erotic-red;
-                        }
-                    }
-
-                    .share-btn {
-                        border: 1px solid $palette-erotic-red;
-                        background: white;
-                        color: $palette-erotic-red;
-                        margin-left: 0.75em;
-
-                        &:hover {
-                            background: $palette-erotic-red;
-                            color: white;
-                        }
+                        margin-right: 0.3em;
                     }
                 }
             }

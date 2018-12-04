@@ -1,14 +1,13 @@
 import Vue  from 'vue';
 import Vuex from 'vuex';
 
-// Server-related nodes
-import {posts} from './posts';
-
-// Virtual modules act only as visual helpers / representation
+// Modules
+import {posts} from './modules/posts';
+import {auth}  from './modules/auth';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
-    modules: {posts},
+    modules: {posts, auth},
 
     state: {},
 

@@ -1,0 +1,31 @@
+// Buttons
+.button-primary,
+.button-secondary {
+    @include font(500, 0.8em);
+    text-transform: uppercase;
+    padding: 0.75em 1.75em;
+    transition: all 0.3s;
+
+    &.button-primary {
+        background: $palette-sweet-red;
+        border: 1px solid $palette-sweet-red;
+        color: white;
+
+        &:hover {
+            background: white;
+            color: $palette-sweet-red;
+        }
+    }
+
+    &.button-secondary {
+        border: 1px solid $palette-sweet-red;
+        background: white;
+        color: $palette-sweet-red;
+
+        &:hover {
+            background: $palette-sweet-red;
+            color: white;
+        }
+    }
+}
+

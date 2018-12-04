@@ -19,6 +19,7 @@
     },
     "rules": {
         "no-cond-assign": "off",
+        "no-unused-vars": "warn",
         "vue/require-v-for-key": "off",
         "vue/html-indent": [
             "error",

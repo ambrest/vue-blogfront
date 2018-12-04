@@ -9,6 +9,7 @@
                 <router-link to="/posts">Posts</router-link>
                 <router-link to="/archieve">Archives</router-link>
                 <router-link to="/login">Login</router-link>
+                <router-link to="/register">Register</router-link>
             </div>
         </div>
 
@@ -24,18 +25,19 @@
         }
 
     };
+
 </script>
 
 <style lang="scss" scoped>
 
     .header {
-        background: $palette-erotic-red;
+        background: $palette-sweet-red;
 
         &::before {
             @include pseudo();
             @include position(0, 0, auto, 0);
             @include size(100%, 30vh);
-            background: $palette-erotic-red;
+            background: $palette-sweet-red;
             z-index: -1;
         }
     }
