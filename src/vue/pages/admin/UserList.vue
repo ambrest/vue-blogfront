@@ -24,7 +24,7 @@
 
                     <span class="index">#{{ String(index).padStart(3, '0') }}</span>
 
-                    <span class="fullname">{{ user.fullname }}</span>
+                    <span class="fullname" @click="setDisabled(user)">{{ user.fullname }}</span>
                     <span class="username">{{ user.username }}</span>
                     <span class="email">{{ user.email }}</span>
 
@@ -39,6 +39,11 @@
                 <p v-if="!users.length" class="empty-msg">Nothing found</p>
             </div>
         </div>
+
+        <button class="download-btn button-primary icon" @click="downloadAsCSV">
+            <i class="fas fa-fw fa-download"></i>
+            <span>Download as CSV</span>
+        </button>
 
     </div>
 </template>
@@ -100,6 +105,16 @@
 
             setDisabled(user) {
                 this.$store.dispatch('users/setDisabled', {user, disabled: !user.disabled});
+            },
+
+            downloadAsCSV() {
+                let content = [];
+                this.users.forEach((usr, index) => {
+                    const line = `${index};${usr.fullname};${usr.username};${usr.email};${usr.permissions.join('.')}`;
+                    content.push(!index ? 'data:text/csv;charset=utf-8,' + line : line);
+                });
+
+                this.utils.download(encodeURI(content.join('\n')), 'userlist.csv');
             }
         }
 
@@ -111,6 +126,7 @@
 
     .userlist {
         @include flex(column);
+        overflow: hidden;
     }
 
     .search-bar {
@@ -217,6 +233,13 @@
             font-weight: 500;
             margin-bottom: 1em;
         }
+    }
+
+    .download-btn {
+        flex-shrink: 0;
+        align-self: flex-end;
+        margin-top: 1em;
+        font-size: 0.7em;
     }
 
 </style>

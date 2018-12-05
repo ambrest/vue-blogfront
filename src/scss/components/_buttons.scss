@@ -27,5 +27,14 @@
             color: white;
         }
     }
+
+    &.icon {
+        @include inline-flex(row, center);
+
+        > i {
+            font-size: 0.9em;
+            margin-right: 0.5em;
+        }
+    }
 }
 

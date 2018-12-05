@@ -162,3 +162,18 @@ export function eventPath(evt) {
     path.push(document, window);
     return path;
 }
+
+/**
+ * Triggers a download of a specific filepath / blob or data URI.
+ * @param path
+ * @param name
+ */
+export function download(path, name) {
+    const link = document.createElement('a');
+    link.setAttribute('href', path);
+    link.setAttribute('target', '_blank');
+    link.setAttribute('download', name);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
