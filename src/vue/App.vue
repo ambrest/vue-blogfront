@@ -1,7 +1,12 @@
 <template>
     <div id="app">
         <page-header class="header"></page-header>
-        <router-view class="router"></router-view>
+
+        <div class="view">
+            <loading-screen></loading-screen>
+            <router-view class="router"></router-view>
+        </div>
+
     </div>
 </template>
 
@@ -18,19 +23,14 @@
 
     // Components
     import PageHeader from './pages/PageHeader';
+    import LoadingScreen from './screens/LoadingScreen';
 
     export default {
 
-        components: {PageHeader},
+        components: {PageHeader, LoadingScreen},
 
         data() {
             return {};
-        },
-
-        mounted() {
-
-            // Update posts
-            this.$store.dispatch('posts/update');
         }
     };
 </script>
@@ -95,16 +95,19 @@
             width: 100%;
         }
 
+        .view {
+            position: relative;
+            margin-top: 10vh;
+        }
+
         .router {
             @include flex(column, center);
-            margin-top: 10vh;
             background: $palette-snow-white;
             box-shadow: 0 5px 30px rgba(black, 0.075);
             border-radius: 0.25em;
             padding: 3em 5em;
             max-height: 80vh;
             overflow: auto;
-
 
             @include animate('0.75s') {
                 from {

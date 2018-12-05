@@ -69,6 +69,12 @@
                     return v;
                 });
             }
+        },
+
+        mounted() {
+
+            // Update posts
+            this.$store.dispatch('posts/update');
         }
     };
 
@@ -86,7 +92,7 @@
         .post {
             @include flex(row);
             margin-bottom: 9em;
-            width: 50%;
+            width: 70%;
 
             .date {
                 position: relative;

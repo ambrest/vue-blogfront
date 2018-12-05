@@ -5,11 +5,20 @@
             <router-link class="h1" to="/">Vue Blogfront</router-link>
 
             <div class="links">
+
+                <!-- Visible as not-logged-in user -->
                 <router-link to="/">Home</router-link>
-                <router-link to="/posts">Posts</router-link>
-                <router-link to="/archieve">Archives</router-link>
-                <router-link to="/login">Login</router-link>
-                <router-link to="/register">Register</router-link>
+                <router-link v-if="!auth.user" to="/login">Login</router-link>
+                <router-link v-if="!auth.user" to="/register">Register</router-link>
+
+                <!-- Only visible with privilege 'admin' -->
+                <router-link v-if="auth.user && auth.user.privilege === 'admin'" to="/admin">Admin</router-link>
+
+                <!-- Visible if logged in -->
+                <router-link v-if="auth.user"
+                             to="/login"
+                             @click.native="logout">Logout
+                </router-link>
             </div>
         </div>
 
@@ -18,14 +27,34 @@
 
 <script>
 
+    // Vuex stuff
+    import {mapState} from 'vuex';
+
     export default {
 
         data() {
             return {};
+        },
+
+        computed: {
+            ...mapState(['auth'])
+        },
+
+        methods: {
+
+            logout() {
+
+                // Remove credentials and go to login
+                this.$store.dispatch('auth/logout').then(() => {
+                    this.$router.push('/login');
+                });
+            }
+
         }
 
     };
 
+    // TODO: LIKE MEDIUM STICKY
 </script>
 
 <style lang="scss" scoped>
@@ -73,6 +102,10 @@
                 &:hover::before {
                     transform: none;
                     opacity: 1;
+                }
+
+                &.router-link-exact-active {
+                    font-weight: 500;
                 }
             }
         }

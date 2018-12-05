@@ -18,7 +18,7 @@
 
             <!-- Clear input -->
             <i :class="{'fas fa-fw fa-times': 1, visible: value}"
-               @click="value = ''"></i>
+               @click="clear()"></i>
         </div>
 
         <!-- Colored border to show focus -->
@@ -45,11 +45,18 @@
         },
 
         methods: {
+
             updateValue() {
 
                 // Emit event
                 this.$emit('update', this.value);
+            },
+
+            clear() {
+                this.value = '';
+                this.updateValue();
             }
+
         }
     };
 
