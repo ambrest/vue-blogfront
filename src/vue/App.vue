@@ -98,13 +98,14 @@
         .view {
             position: relative;
             margin-top: 10vh;
+            border-radius: 0.25em;
+            box-shadow: 0 5px 30px rgba(black, 0.075);
+            overflow: hidden;
         }
 
         .router {
             @include flex(column, center);
             background: $palette-snow-white;
-            box-shadow: 0 5px 30px rgba(black, 0.075);
-            border-radius: 0.25em;
             padding: 3em 5em;
             max-height: 80vh;
             overflow: auto;

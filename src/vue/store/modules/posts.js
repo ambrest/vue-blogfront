@@ -9,7 +9,7 @@ export const posts = {
 
     actions: {
 
-        update({state}) {
+        async update({state}) {
 
             // TODO: Use apollo
             const fakePosts = [];

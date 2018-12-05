@@ -1,8 +1,18 @@
 export default {
+
+    // Maximum length of an Article in the Homepage
     maxPostPreviewLength: 300,
 
+    // Used to calculate the time to read an Article
     wordsPerMinute: 250,
 
+    /**
+     * Messages which are show during loading.
+     * If the type is an Array a random element will be picked on every
+     * re-appear.
+     *
+     * @type String | Array | null
+     */
     loadingScreenMessages: [
         'Smoothing buttons',
         'Procentually generating icons',
@@ -27,5 +37,9 @@ export default {
         'Excuse me, it\'s called a "feature'
     ],
 
+    /**
+     * Array of available permission. Can be toggled and therefore send to the server.
+     * @type Array
+     */
     availableUserPermissions: ['admin', 'post', 'comment']
 };

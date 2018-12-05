@@ -9,7 +9,7 @@ export const users = {
 
     actions: {
 
-        update({state}) {
+        async update({state}) {
 
             // TODO: Use apollo
             const fakeUsers = [];
@@ -24,15 +24,19 @@ export const users = {
             }
 
             state.splice(0, state.length, ...fakeUsers);
+
+            return new Promise(resolve => {
+                setTimeout(resolve, 3000)
+            })
         },
 
-        addPermission({state}, {user, permission}) {
+        async addPermission({state}, {user, permission}) {
 
             // TODO: Use apollo
             !user.permissions.includes(permission) && user.permissions.push(permission);
         },
 
-        removePermission({state}, {user, permission}) {
+        async removePermission({state}, {user, permission}) {
 
             // TODO: Use apollo
             const idx = user.permissions.indexOf(permission);

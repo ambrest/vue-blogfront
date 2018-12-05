@@ -15,16 +15,16 @@ export const auth = {
 
     actions: {
 
-        logout({state}) {
+        async logout({state}) {
             state.user = null;
             state.apikey = null;
         },
 
-        login({state}, {username, password}) {
+        async login({state}, {username, password}) {
             // TODO: Apollo login
         },
 
-        register({state}, {email, username, password}) {
+        async register({state}, {email, username, password}) {
             // TODO: Apollo register
         }
 

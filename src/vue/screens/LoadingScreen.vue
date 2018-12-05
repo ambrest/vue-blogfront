@@ -1,7 +1,7 @@
 <template>
     <div :class="{'loader': 1, open}">
         <div class="box"></div>
-        <p class="message">{{ randomMessage() }}</p>
+        <p v-if="message" class="message">{{ message }}</p>
     </div>
 </template>
 
@@ -11,7 +11,8 @@
 
         data() {
             return {
-                open: false
+                open: false,
+                message: ''
             };
         },
 
@@ -30,37 +31,30 @@
             const dispatch = this.$store.dispatch;
             this.$store.dispatch = (type, payload) => new Promise((resolve, reject) => {
 
-                // Show only on actions which are related to server-actions
-                if (type.startsWith('nodes')) {
+                /**
+                 * VueJs's watchers have some delay and I
+                 * currently don't know a better solution as
+                 * appending the class directly.
+                 */
+                this.open = true;
+                this.message = this.randomMessage();
 
-                    /**
-                     * VueJs's watchers have some delay and I
-                     * currently don't know a better solution as
-                     * appending the class directly.
-                     */
-                    this.open = true;
+                // Wait untile browser repaints
+                requestAnimationFrame(() => {
 
-                    // Wait untile browser repaints
+                    // Wait until class has been appendet and element has been drawn
                     requestAnimationFrame(() => {
 
-                        // Wait until class has been appendet and element has been drawn
-                        requestAnimationFrame(() => {
-
-                            // Dispatch original data and hide loading screen after execution
-                            dispatch(type, payload).then(value => {
-                                resolve(value);
-                                this.open = false;
-                            }).catch(reason => {
-                                reject(reason);
-                                this.open = false;
-                            });
+                        // Dispatch original data and hide loading screen after execution
+                        dispatch(type, payload).then(value => {
+                            resolve(value);
+                            this.open = false;
+                        }).catch(reason => {
+                            reject(reason);
+                            this.open = false;
                         });
                     });
-                } else {
-
-                    // Nothing interesting, call original
-                    dispatch(type, payload).then(resolve).catch(reject);
-                }
+                });
             });
         },
 
