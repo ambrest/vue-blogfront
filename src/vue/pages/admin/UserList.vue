@@ -9,22 +9,21 @@
         <!-- Table header -->
         <div v-if="users.length" class="user header">
             <span class="index">Nr</span>
-            <span class="fullname">Full Name</span>
+            <span class="fullname">Full Name <small>(click to disable account)</small></span>
             <span class="username">Username</span>
             <span class="email">E-Mail Address</span>
 
-            <div class="permissions">
-                Permissions
-            </div>
+            <div class="permissions">Permissions</div>
         </div>
 
         <div class="scroll-wrapper">
             <div class="users">
 
                 <!-- Actual user list -->
-                <div v-for="(user, index) of users" class="user">
+                <div v-for="(user, index) of users" :class="{user: 1, disabled: user.disabled}">
 
                     <span class="index">#{{ String(index).padStart(3, '0') }}</span>
+
                     <span class="fullname">{{ user.fullname }}</span>
                     <span class="username">{{ user.username }}</span>
                     <span class="email">{{ user.email }}</span>
@@ -32,7 +31,7 @@
                     <div class="permissions">
                         <span v-for="per of config.availableUserPermissions"
                               :class="{active: user.permissions.includes(per)}"
-                              @click="togglePermission(user, per)">{{ per }}</span>
+                              @click="setPermissions(user, per)">{{ per }}</span>
                     </div>
                 </div>
 
@@ -55,7 +54,8 @@
 
         data() {
             return {
-                searchQuery: ''
+                searchQuery: '',
+                selectedUser: null
             };
         },
 
@@ -90,17 +90,18 @@
                 this.searchQuery = query;
             },
 
-            togglePermission(user, permission) {
-
+            setPermissions(user, permission) {
                 if (user.permissions.includes(permission)) {
-                    this.$store.dispatch('users/removePermission', {user, permission});
+                    this.$store.dispatch('users/setPermissions', {user, remove: [permission]});
                 } else {
-                    this.$store.dispatch('users/addPermission', {user, permission});
+                    this.$store.dispatch('users/setPermissions', {user, add: [permission]});
                 }
+            },
 
+            setDisabled(user) {
+                this.$store.dispatch('users/setDisabled', {user, disabled: !user.disabled});
             }
-
-        },
+        }
 
     };
 
@@ -110,7 +111,6 @@
 
     .userlist {
         @include flex(column);
-        overflow: hidden;
     }
 
     .search-bar {
@@ -150,11 +150,12 @@
         border-bottom: 1px solid rgba($palette-slate-gray, 0.05);
         flex-shrink: 0;
 
-        span {
+        & > span {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             margin-right: 0.75em;
+            transition: all 0.3s;
         }
 
         .index {
@@ -164,8 +165,10 @@
         }
 
         .fullname {
+            cursor: pointer;
+            position: relative;
             opacity: 1;
-            width: 20%;
+            width: 25%;
         }
 
         .username {
@@ -200,6 +203,10 @@
                     border-color: $palette-sweet-magenta;
                 }
             }
+        }
+
+        &.disabled {
+            color: $palette-sweet-red;
         }
 
         &:nth-last-child(1) {

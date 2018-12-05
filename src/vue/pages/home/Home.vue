@@ -83,6 +83,7 @@
 <style lang="scss" scoped>
 
     .home {
+        @include size(100%);
     }
 
     .posts {

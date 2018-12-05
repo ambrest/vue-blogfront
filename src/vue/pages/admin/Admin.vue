@@ -3,7 +3,7 @@
 
         <h1>Admin panel</h1>
 
-        <userlist class="userlist"></userlist>
+        <user-list class="userlist"></user-list>
 
     </section>
 </template>
@@ -11,10 +11,10 @@
 <script>
 
     // Components
-    import Userlist from './Userlist';
+    import UserList from './UserList';
 
     export default {
-        components: {Userlist},
+        components: {UserList},
 
         data() {
             return {};
@@ -28,12 +28,11 @@
 
     .admin {
         @include flex(column);
-        width: 100%;
+        @include size(100%);
 
         .userlist {
             width: 100%;
         }
-
     }
 
 </style>

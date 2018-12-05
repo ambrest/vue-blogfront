@@ -3,8 +3,8 @@
         <page-header class="header"></page-header>
 
         <div class="view">
-            <loading-screen></loading-screen>
-            <router-view class="router"></router-view>
+            <loading-screen class="loader"></loading-screen>
+            <router-view class="router"> </router-view>
         </div>
 
     </div>
@@ -96,16 +96,23 @@
         }
 
         .view {
+            @include flex(column, center);
+            @include width(70vw, 0, 1000px);
             position: relative;
             margin-top: 10vh;
+            width: inherit;
+            height: inherit;
+        }
+
+        .loader {
             border-radius: 0.25em;
-            box-shadow: 0 5px 30px rgba(black, 0.075);
-            overflow: hidden;
         }
 
         .router {
-            @include flex(column, center);
+            @include inline-flex(column, center);
             background: $palette-snow-white;
+            border-radius: 0.25em;
+            box-shadow: 0 5px 30px rgba(black, 0.075);
             padding: 3em 5em;
             max-height: 80vh;
             overflow: auto;

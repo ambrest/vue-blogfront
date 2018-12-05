@@ -18,31 +18,33 @@ export const users = {
                     userid: Math.floor(Math.random() * 100000),
                     username: faker.internet.userName(),
                     fullname: faker.name.findName(),
+                    disabled: Math.random() < 0.2,
                     permissions: ['admin', 'comment', 'post'],
                     email: faker.internet.email()
                 });
             }
 
             state.splice(0, state.length, ...fakeUsers);
-
-            return new Promise(resolve => {
-                setTimeout(resolve, 3000)
-            })
         },
 
-        async addPermission({state}, {user, permission}) {
+        async setPermissions({state}, {user, add = [], remove = []}) {
 
             // TODO: Use apollo
-            !user.permissions.includes(permission) && user.permissions.push(permission);
+            add.forEach(v => {
+                v && !user.permissions.includes(v) && user.permissions.push(v);
+            });
+
+            remove.forEach(v => {
+                const idx = user.permissions.indexOf(v);
+                ~idx && user.permissions.splice(idx, 1);
+            });
         },
 
-        async removePermission({state}, {user, permission}) {
+        async setDisabled({state}, {user, disabled}){
 
             // TODO: Use apollo
-            const idx = user.permissions.indexOf(permission);
-            ~idx && user.permissions.splice(idx, 1);
+            user.disabled = disabled;
         }
-
     }
 
 };

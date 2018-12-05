@@ -59,7 +59,6 @@
         },
 
         methods: {
-
             randomMessage() {
                 const msgs = this.config.loadingScreenMessages;
 
@@ -69,7 +68,6 @@
                     return msgs ? msgs + '...' : '';
                 }
             }
-
         }
     };
 
@@ -105,7 +103,7 @@
     .box {
         position: relative;
         @include size(2.5em);
-        background: $palette-sweet-red;
+        background: $palette-sweet-magenta;
         animation-play-state: paused;
 
         $perspective: 5em;
@@ -132,7 +130,7 @@
         @include font(500, 0.85em);
         margin-top: 1.75em;
         font-style: italic;
-        color: $palette-sweet-red;
+        color: $palette-sweet-magenta;
         transform: translateY(-0.5em);
     }
 
