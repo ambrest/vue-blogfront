@@ -94,7 +94,9 @@
             position: relative;
             margin-top: 10vh;
             width: inherit;
+            max-width: inherit;
             height: inherit;
+            max-height: initial;
         }
 
         .loader {
@@ -108,7 +110,6 @@
             box-shadow: 0 5px 30px rgba(black, 0.075);
             padding: 3em 5em;
             max-height: 80vh;
-            overflow: auto;
 
             @include animate('0.75s') {
                 from {

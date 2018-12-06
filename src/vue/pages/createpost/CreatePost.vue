@@ -72,8 +72,6 @@
     .new-post {
         @include flex(column);
         width: 100%;
-        height: 100vh;
-        overflow: visible !important;
     }
 
     .title {
@@ -83,11 +81,12 @@
     .editor {
         @include flex(column);
         width: 100%;
-        height: 100%;
         overflow: visible;
         margin: 1em 0;
+        min-height: 0;
 
         #ql-editor {
+            overflow: auto;
             min-height: 0;
         }
     }

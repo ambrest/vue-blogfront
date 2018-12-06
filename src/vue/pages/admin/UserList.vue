@@ -139,6 +139,7 @@
 
     .userlist {
         @include flex(column);
+        overflow: hidden;
     }
 
     .search-bar {

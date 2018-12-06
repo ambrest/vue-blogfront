@@ -96,6 +96,7 @@
         @include flex(column);
         position: fixed;
         opacity: 0;
+        transition: opacity 0.1s;
         pointer-events: none;
         background: white;
         padding: 0.5em 0.25em;

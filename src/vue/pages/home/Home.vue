@@ -84,6 +84,7 @@
 
     .home {
         @include size(100%);
+        overflow: auto;
     }
 
     .posts {
