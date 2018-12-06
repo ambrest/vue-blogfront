@@ -1,15 +1,14 @@
 <template>
-    <div class="userlist">
+    <div class="userlist" @contextmenu.prevent="">
 
         <text-input-field class="search-bar"
                           placeholder="Search users"
                           @update="updateSearchQuery"></text-input-field>
 
-
         <!-- Table header -->
         <div v-if="users.length" class="user header">
             <span class="index">Nr</span>
-            <span class="fullname">Full Name <small>(click to disable account)</small></span>
+            <span class="fullname">Full Name</span>
             <span class="username">Username</span>
             <span class="email">E-Mail Address</span>
 
@@ -20,14 +19,17 @@
             <div class="users">
 
                 <!-- Actual user list -->
-                <div v-for="(user, index) of users" :class="{user: 1, disabled: user.disabled}">
+                <div v-for="(user, index) of users"
+                     :class="{user: 1, disabled: user.disabled, selected: user === selectedUser}"
+                     @click.right="openMenu($event, user)">
 
+                    <!-- General info -->
                     <span class="index">#{{ String(index).padStart(3, '0') }}</span>
-
-                    <span class="fullname" @click="setDisabled(user)">{{ user.fullname }}</span>
+                    <span class="fullname">{{ user.fullname }}</span>
                     <span class="username">{{ user.username }}</span>
                     <span class="email">{{ user.email }}</span>
 
+                    <!-- Permission tags -->
                     <div class="permissions">
                         <span v-for="per of config.availableUserPermissions"
                               :class="{active: user.permissions.includes(per)}"
@@ -45,22 +47,28 @@
             <span>Download as CSV</span>
         </button>
 
+        <context-menu ref="contextMenu" @close="selectedUser = null"></context-menu>
+
     </div>
 </template>
 
 <script>
+
+    // Components
+    import ContextMenu from './ContextMenu';
 
     // UI Components
     import TextInputField from '../../ui/TextInputField';
 
     export default {
 
-        components: {TextInputField},
+        components: {TextInputField, ContextMenu},
 
         data() {
             return {
                 searchQuery: '',
-                selectedUser: null
+                selectedUser: null,
+                selectedUserIndex: -1
             };
         },
 
@@ -90,6 +98,11 @@
         },
 
         methods: {
+
+            openMenu(evt, user) {
+                this.selectedUser = user;
+                this.$refs.contextMenu.$emit('show', evt, user);
+            },
 
             updateSearchQuery(query) {
                 this.searchQuery = query;
@@ -126,7 +139,6 @@
 
     .userlist {
         @include flex(column);
-        overflow: hidden;
     }
 
     .search-bar {
@@ -135,12 +147,14 @@
     }
 
     .scroll-wrapper {
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     .users {
         @include flex(column, center);
         flex-shrink: 0;
+        cursor: default;
 
         .empty-msg {
             @include inline-flex(row, center);
@@ -181,7 +195,6 @@
         }
 
         .fullname {
-            cursor: pointer;
             position: relative;
             opacity: 1;
             width: 25%;
@@ -221,8 +234,12 @@
             }
         }
 
-        &.disabled {
+        &.disabled > span {
             color: $palette-sweet-red;
+        }
+
+        &.selected > span {
+            color: $palette-cloud-blue;
         }
 
         &:nth-last-child(1) {
