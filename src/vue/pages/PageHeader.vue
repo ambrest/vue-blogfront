@@ -15,7 +15,7 @@
                 <router-link v-if="auth.user && auth.user.privilege === 'admin'" to="/admin">Admin</router-link>
 
                 <!-- Visible if logged in -->
-                <router-link v-if="auth.user" to="/createpost">New post</router-link>
+                <router-link v-if="auth.user" to="/new">New post</router-link>
                 <router-link v-if="auth.user"
                              to="/login"
                              @click.native="logout">Logout
@@ -56,7 +56,6 @@
 
     };
 
-    // TODO: LIKE MEDIUM STICKY
 </script>
 
 <style lang="scss" scoped>

@@ -7,7 +7,7 @@
             <div id="ql-editor"></div>
         </div>
 
-        <button class="post-btn button-primary" @click="post">Post!</button>
+        <button class="post-btn button-primary icon" @click="post"><i class="fas fa-fw fa-upload"></i>Post!</button>
 
     </div>
 </template>
@@ -18,7 +18,7 @@
     import TextInputField from '../../ui/TextInputField';
 
     // Import quill stuff
-    import Quill from 'quill';
+    import Quill          from 'quill';
     import './quill.snow.scss';
 
     export default {
@@ -76,6 +76,7 @@
 
     .title {
         width: 100%;
+        flex-shrink: 0;
     }
 
     .editor {
@@ -92,6 +93,7 @@
     }
 
     .post-btn {
+        flex-shrink: 0;
         align-self: flex-end;
     }
 
