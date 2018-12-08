@@ -31,8 +31,8 @@
                     <article class="preview">{{ post.body }}</article>
 
                     <div class="buttons">
-                        <button class="button-primary">Read More</button>
-                        <button class="button-secondary">Share</button>
+                        <button class="button-primary icon"><i class="fas fa-fw fa-book"></i>Read More</button>
+                        <button class="button-secondary icon"><i class="fas fa-fw fa-link"></i>Share</button>
                     </div>
                 </div>
             </div>

@@ -4,7 +4,7 @@
 
         <div class="view">
             <loading-screen class="loader"></loading-screen>
-            <router-view class="router"> </router-view>
+            <router-view class="router"></router-view>
         </div>
 
     </div>

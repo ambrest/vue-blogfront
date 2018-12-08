@@ -40,7 +40,7 @@ export const users = {
             });
         },
 
-        async setDisabled({state}, {user, disabled}){
+        async setDisabled({state}, {user, disabled}) {
 
             // TODO: Use apollo
             user.disabled = disabled;

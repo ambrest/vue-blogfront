@@ -131,7 +131,7 @@
             }
 
             &:hover {
-                color: $palette-sweet-magenta;
+                color: $palette-sweet-red;
             }
         }
     }
