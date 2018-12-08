@@ -25,13 +25,15 @@
 
                     <div class="info">
                         <span class="name">By {{ post.author.fullname }}</span>
-                        <span class="name"> / {{ post.readTime }}</span>
+                        <span class="name"> / {{ post.body | HTMLToTimeToReadString }}</span>
                     </div>
 
-                    <article class="preview">{{ post.body }}</article>
+                    <article class="preview">{{ post.body | LimitParagraphLength }}</article>
 
                     <div class="buttons">
-                        <button class="button-primary icon"><i class="fas fa-fw fa-book"></i>Read More</button>
+                        <router-link :to="`post/${post.id}`">
+                            <button class="button-primary icon"><i class="fas fa-fw fa-book"></i>Read more</button>
+                        </router-link>
                         <button class="button-secondary icon"><i class="fas fa-fw fa-link"></i>Share</button>
                     </div>
                 </div>
@@ -52,20 +54,8 @@
         computed: {
 
             posts() {
-                const {maxPostPreviewLength, wordsPerMinute} = this.config;
-
                 return this.$store.state.posts.map(v => {
                     v.timestamp = new Date(v.timestamp);
-
-                    // Calculate time to read it
-                    v.readTime = Math.round(v.body.match(/\w+/g).length / wordsPerMinute);
-                    v.readTime = `${v.readTime < 1 ? '< 1' : v.readTime} minute Read`;
-
-                    // Crop body
-                    if (v.body.length > maxPostPreviewLength) {
-                        v.body = v.body.substring(0, maxPostPreviewLength) + '...';
-                    }
-
                     return v;
                 });
             }

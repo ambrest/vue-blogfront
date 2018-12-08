@@ -1,22 +1,15 @@
 import Vue       from 'vue';
 import VueRouter from 'vue-router';
 import App       from './vue/App.vue';
-import config    from './config';
 import store     from './vue/store/index';
-
-// Import service worker
+import * as _    from './js/utils';
+import config    from './config';
+import Routes    from './routes';
+import './vue-extensions/filter';
 import './registerServiceWorker';
 
-// Add utils to vue
-import * as _ from './js/utils';
 Vue.prototype.utils = _;
-
-// Add config to vue
 Vue.prototype.config = config;
-
-// Routing
-import Routes from './routes';
-
 Vue.use(VueRouter);
 
 // Entry point

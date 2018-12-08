@@ -14,9 +14,8 @@
 
     // Font-awesome styles
     import '@fortawesome/fontawesome-free/css/all.css';
-
     // Components
-    import PageHeader from './pages/PageHeader';
+    import PageHeader    from './pages/PageHeader';
     import LoadingScreen from './screens/LoadingScreen';
 
     export default {
@@ -49,6 +48,10 @@
 
     button {
         cursor: pointer;
+    }
+
+    b {
+        font-weight: 500;
     }
 
     * {

@@ -18,8 +18,7 @@
     import TextInputField from '../../ui/TextInputField';
 
     // Import quill stuff
-    import Quill          from 'quill';
-    import './quill.snow.scss';
+    import Quill from 'quill';
 
     export default {
 

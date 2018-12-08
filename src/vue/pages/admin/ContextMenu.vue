@@ -77,7 +77,7 @@
                 this.close();
             },
 
-            close(){
+            close() {
                 this.open = false;
                 this.user = {};
                 this.$emit('close');

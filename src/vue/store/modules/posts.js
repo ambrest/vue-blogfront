@@ -15,11 +15,12 @@ export const posts = {
             const fakePosts = [];
             for (let i = 0; i < 20; i++) {
                 fakePosts.push({
-                    postid: Math.floor(Math.random() * 100000),
+                    id: String(Math.floor(Math.random() * 100000)),
                     title: faker.lorem.sentence(),
                     timestamp: Math.random() * Date.now(),
                     body: faker.lorem.paragraphs().repeat(Math.floor(Math.random() * 20) + 1),
                     author: {
+                        userid: String(Math.floor(Math.random() * 100000)),
                         username: faker.internet.userName(),
                         fullname: faker.name.findName()
                     }
