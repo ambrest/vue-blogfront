@@ -22,7 +22,7 @@
         </div>
 
         <!-- Colored border to show focus -->
-        <span :class="{border: 1, error, active: focused}"></span>
+        <span :class="{border: 1, active: focused}"></span>
 
     </div>
 </template>
@@ -90,10 +90,6 @@
         &::after {
             width: 0;
             transition: all 0.3s ease-in-out;
-        }
-
-        &.error::after {
-            background: $palette-sweet-red;
         }
 
         &.active::after {
