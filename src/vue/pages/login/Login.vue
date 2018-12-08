@@ -44,8 +44,10 @@
                 this.$store.dispatch('auth/login', {
                     username: inUsername.value,
                     password: inPassword.value
+                }).then(() => {
+                    this.$router.push('/');
                 }).catch(reason => {
-                    // TODO: Display error msg
+                    this.errorMsg = reason;
                 });
             }
 
@@ -66,10 +68,7 @@
             }
 
             .error {
-                @include font(500, 0.7em);
-                color: $palette-sweet-red;
-                margin-top: 4em;
-                height: 1.5em;
+                margin-top: 2em;
             }
         }
     }

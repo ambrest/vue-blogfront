@@ -1,11 +1,15 @@
 <template>
     <div class="new-post">
 
-        <text-input-field class="title" placeholder="Title"></text-input-field>
+        <text-input-field ref="title"
+                          class="title"
+                          placeholder="Title"></text-input-field>
 
         <div class="editor">
             <div id="ql-editor"></div>
         </div>
+
+        <p class="error">{{ errorMsg }}</p>
 
         <button class="post-btn button-primary icon" @click="post"><i class="fas fa-fw fa-upload"></i>Post!</button>
 
@@ -26,7 +30,8 @@
 
         data() {
             return {
-                quill: null
+                quill: null,
+                errorMsg: ''
             };
         },
 
@@ -51,14 +56,23 @@
                         [{'font': []}]
                     ]
                 },
+                bounds: '#ql-editor',
                 theme: 'snow'
             });
         },
 
         methods: {
             post() {
-                const hmtl = this.quill.root.innerHTML;
-                // TODO: Do something
+                this.errorMsg = '';
+
+                this.$store.dispatch('posts/newPost', {
+                    title: this.$refs.title.value,
+                    body: this.quill.root.innerHTML
+                }).then(() => {
+                    this.$router.push('/');
+                }).catch(reason => {
+                    this.errorMsg = reason;
+                });
             }
         }
 
@@ -81,13 +95,12 @@
     .editor {
         @include flex(column);
         width: 100%;
-        overflow: visible;
         margin: 1em 0;
         min-height: 0;
 
         #ql-editor {
-            overflow: auto;
-            min-height: 0;
+            overflow-y: auto;
+            min-height: 6em;
         }
     }
 

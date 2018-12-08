@@ -8,6 +8,8 @@
             <text-input-field ref="inEmail"
                               :error="errorEmail"
                               placeholder="Your email"></text-input-field>
+            <text-input-field ref="inFullName"
+                              placeholder="Fullname"></text-input-field>
             <text-input-field ref="inUsername"
                               :error="errorUsername"
                               placeholder="Username"></text-input-field>
@@ -51,7 +53,7 @@
         methods: {
 
             submit() {
-                const {inEmail, inUsername, inPassword, inPasswordRepeat} = this.$refs;
+                const {inEmail, inUsername, inPassword, inPasswordRepeat, inFullName} = this.$refs;
                 this.errorUsername = this.errorEmail = this.errorPassword = false;
                 this.errorMsg = '';
 
@@ -70,12 +72,15 @@
                 }
 
                 // Fire auth
-                this.$store.dispatch('auth/login', {
+                this.$store.dispatch('auth/register', {
                     email: inEmail.value,
+                    fullname: inFullName.value,
                     username: inUsername.value,
                     password: inPassword.value
+                }).then(() => {
+                    this.$router.push('/');
                 }).catch(reason => {
-                    // TODO: Display error msg
+                    this.errorMsg = reason;
                 });
             }
 
@@ -96,10 +101,7 @@
             }
 
             .error {
-                @include font(500, 0.7em);
-                color: $palette-sweet-red;
-                margin-top: 4em;
-                height: 1.5em;
+                margin-top: 2em;
             }
         }
     }
