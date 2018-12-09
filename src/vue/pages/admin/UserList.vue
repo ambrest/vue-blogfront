@@ -122,6 +122,7 @@
 
             downloadAsCSV() {
                 let content = [];
+
                 this.users.forEach((usr, index) => {
                     const line = `${index};${usr.fullname};${usr.username};${usr.email};${usr.permissions.join('.')}`;
                     content.push(!index ? 'data:text/csv;charset=utf-8,' + line : line);

@@ -1,19 +1,26 @@
 <template>
-    <div class="post">
+    <div class="post extendet">
 
         <h1>{{ post.title }}</h1>
 
         <!-- Author and user description -->
         <p class="by">By <b>{{ post.author.fullname }}</b> aka. <b>{{ post.author.username }}</b></p>
 
+        <!-- Comment body as HTML -->
         <article class="ql-editor" v-html="post.body"></article>
+
+        <create-comment :postid="post.id" class="create-comment"></create-comment>
 
     </div>
 </template>
 
 <script>
 
+    // Components
+    import CreateComment from './CreateComment';
+
     export default {
+        components: {CreateComment},
 
         data() {
             return {
@@ -47,6 +54,12 @@
         article {
             padding: 0;
             font-size: 0.95em;
+            flex-shrink: 1;
+        }
+
+        .create-comment {
+            width: 100%;
+            flex-shrink: 0;
         }
     }
 
