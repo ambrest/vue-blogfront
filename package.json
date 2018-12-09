@@ -4,6 +4,8 @@
     "private": true,
     "description": "Simple - material blog frontend",
     "author": "Ambrest Designs",
+    "license": "MIT",
+    "main": "app.js",
     "scripts": {
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint ./src",
@@ -33,7 +35,5 @@
         "last 2 versions",
         "not ie <= 11"
     ],
-    "keywords": [],
-    "license": "MIT",
-    "main": "app.js"
+    "keywords": []
 }

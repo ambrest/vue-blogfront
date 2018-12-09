@@ -16,6 +16,7 @@
 
     // Font-awesome styles
     import '@fortawesome/fontawesome-free/css/all.css';
+
     // Components
     import PageHeader    from './pages/PageHeader';
     import LoadingScreen from './screens/LoadingScreen';
@@ -26,6 +27,14 @@
 
         data() {
             return {};
+        },
+
+        mounted() {
+            const apikey = localStorage.getItem('apikey');
+
+            if (apikey) {
+                this.$store.dispatch('auth/key', {apikey}).catch(() => 0);
+            }
         }
     };
 </script>
@@ -98,6 +107,8 @@
     #app {
         @include flex(column, center);
         margin: 0 auto;
+        min-height: 100vh;
+        padding-bottom: 1em;
 
         &::before {
             @include pseudo();
@@ -127,12 +138,11 @@
 
         .router {
             @include inline-flex(column, center);
-            @include width(70vw, 0, 1000px);
+            @include width(auto, 0, 1000px);
             background: $palette-snow-white;
             border-radius: 0.25em;
             box-shadow: 0 5px 30px rgba(black, 0.075);
             padding: 3em 5em;
-            margin-bottom: 1em;
 
             @include animate('0.75s') {
                 from {
