@@ -41,6 +41,7 @@
     // TipTap editor
     import {Editor, EditorContent, EditorMenuBar} from 'tiptap';
     import {
+        /* eslint-disable no-unused-vars */
         Blockquote,
         CodeBlock,
         HardBreak,
@@ -105,7 +106,6 @@
             post() {
                 this.errorMsg = '';
 
-                // TODO: Move styles to external scss file?
                 this.$store.dispatch('posts/newPost', {
                     title: this.$refs.title.value,
                     body: this.html
@@ -173,6 +173,10 @@
         border: 1px solid $palette-decent-blue;
         padding: 0.5em;
         font-size: 0.9em;
+    }
+
+    .error {
+        margin-top: 0.25em;
     }
 
     .post-btn {

@@ -17,6 +17,12 @@ module.exports = {
         disableHostCheck: true
     },
 
+    pluginOptions: {
+        webpackBundleAnalyzer: {
+            openAnalyzer: false
+        }
+    },
+
     pwa: {
         themeColor: '#673AB7',
         msTileColor: '#F5F6FA',

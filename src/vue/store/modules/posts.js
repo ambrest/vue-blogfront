@@ -1,6 +1,5 @@
 import {fetchGraphQL} from '../../../js/utils';
 import config         from '../../../config';
-import faker          from 'faker';
 
 export const posts = {
 
@@ -11,24 +10,30 @@ export const posts = {
     actions: {
 
         async update({state}) {
+            return fetchGraphQL(config.apiEndPoint, {
+                query: `
+                       query {
+                           getAllPosts {
+                               title,
+                               body,
+                               timestamp,
+                               user {
+                                   id,
+                                   username,
+                                   fullname                                 
+                               }
+                           }
+                       }
+                `
+            }).then(({errors, data}) => {
 
-            // TODO: Use apollo
-            const fakePosts = [];
-            for (let i = 0; i < 20; i++) {
-                fakePosts.push({
-                    id: String(Math.floor(Math.random() * 100000)),
-                    title: faker.lorem.sentence(),
-                    timestamp: Math.random() * Date.now(),
-                    body: faker.lorem.paragraphs().repeat(Math.floor(Math.random() * 20) + 1),
-                    author: {
-                        userid: String(Math.floor(Math.random() * 100000)),
-                        username: faker.internet.userName(),
-                        fullname: faker.name.findName()
-                    }
-                });
-            }
+                if (errors && errors.length) {
+                    // TODO: Log?
+                } else {
+                    state.splice(0, state.length, ...data.getAllPosts);
+                }
 
-            state.splice(0, state.length, ...fakePosts);
+            });
         },
 
         async newPost({state, rootState}, {title, body}) {
@@ -39,19 +44,17 @@ export const posts = {
                        query Post($apikey: String!, $title: String!, $body: String!) {
                            post(apikey: $apikey, title: $title, body: $body) {
                                id,
-                               timestamp,
-                               error,
-                               errorMessage
+                               timestamp
                            }
                        }
-                    `,
+                `,
                 variables: {title, body, apikey}
-            }).then(({data}) => {
-                const {error, errorMessage, id, timestamp} = data.post;
+            }).then(({errors, data}) => {
 
-                if (error) {
-                    return Promise.reject(errorMessage);
+                if (errors && errors.length) {
+                    return Promise.reject(errors[0].message);
                 } else {
+                    const {id, timestamp} = data.post;
                     state.splice(0, 0, {
                         id,
                         timestamp,

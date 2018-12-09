@@ -1,6 +1,3 @@
-// TODO: Remove faker
-import faker from 'faker';
-
 export const users = {
 
     namespaced: true,
@@ -11,20 +8,6 @@ export const users = {
 
         async update({state}) {
 
-            // TODO: Use apollo
-            const fakeUsers = [];
-            for (let i = 0; i < 150; i++) {
-                fakeUsers.push({
-                    userid: Math.floor(Math.random() * 100000),
-                    username: faker.internet.userName(),
-                    fullname: faker.name.findName(),
-                    disabled: Math.random() < 0.2,
-                    permissions: ['admin', 'comment', 'post'],
-                    email: faker.internet.email()
-                });
-            }
-
-            state.splice(0, state.length, ...fakeUsers);
         },
 
         async setPermissions({state}, {user, add = [], remove = []}) {

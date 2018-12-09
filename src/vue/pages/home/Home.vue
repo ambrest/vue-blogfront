@@ -7,6 +7,8 @@
 
         <!-- Posts listing -->
         <div class="posts">
+
+            <!-- List -->
             <div v-for="post of posts" class="post">
 
                 <!-- Left side -->
@@ -24,7 +26,7 @@
                     <h2>{{ post.title }}</h2>
 
                     <div class="info">
-                        <span class="name">By {{ post.author.fullname }}</span>
+                        <span class="name">By {{ post.user.fullname }}</span>
                         <span class="name"> / {{ post.body | HTMLToTimeToReadString }}</span>
                     </div>
 
@@ -38,6 +40,11 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Placeholder -->
+            <div v-if="!posts.length" class="placeholder">Nothing posted yet...</div>
+
+            <!-- TODO: Error or new badge? -->
         </div>
 
     </section>
@@ -61,7 +68,7 @@
             }
         },
 
-        mounted() {
+        beforeMount() {
 
             // Update posts
             this.$store.dispatch('posts/update');
@@ -75,6 +82,10 @@
     .home {
         @include size(100%);
         overflow: auto;
+    }
+
+    .placeholder {
+        opacity: 0.8;
     }
 
     .posts {

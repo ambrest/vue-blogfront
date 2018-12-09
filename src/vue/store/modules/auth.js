@@ -23,25 +23,23 @@ export const auth = {
         async login({state}, {username, password}) {
             return fetchGraphQL(config.apiEndPoint, {
                 query: `
-                       query Login($username: String!, $password: String!) {
-                           login(username: $username, password: $password) {
-                               apikey,
-                               email,
-                               permissions,
-                               id,
-                               fullname,
-                               error,
-                               errorMessage
-                           }
-                       }
-                    `,
+                     query Login($username: String!, $password: String!) {
+                         login(username: $username, password: $password) {
+                             apikey,
+                             email,
+                             permissions,
+                             id,
+                             fullname
+                         }
+                     }
+                 `,
                 variables: {username, password}
-            }).then(({data}) => {
-                const {error, errorMessage, apikey, id, email, fullname, permissions} = data.login;
+            }).then(({errors, data}) => {
 
-                if (error) {
-                    return Promise.reject(errorMessage);
+                if (errors && errors.length) {
+                    return Promise.reject(errors[0].message);
                 } else {
+                    const {apikey, id, email, fullname, permissions} = data.login;
                     state.apikey = apikey;
                     state.user = {
                         email,
@@ -60,25 +58,24 @@ export const auth = {
         async key({state, rootState}, {apikey}) {
             return fetchGraphQL(config.apiEndPoint, {
                 query: `
-                       query Login($apikey: String!) {
-                           login(apikey: $apikey) {
-                               email,
-                               permissions,
-                               id,
-                               fullname,
-                               username,
-                               error,
-                               errorMessage
-                           }
-                       }
-                    `,
+                     query Login($apikey: String!) {
+                        login(apikey: $apikey) {
+                            email,
+                            permissions,
+                            id,
+                            fullname,
+                            username
+                        }
+                     }
+                `,
                 variables: {apikey}
-            }).then(({data}) => {
-                const {error, errorMessage, id, email, fullname, username, permissions} = data.login;
+            }).then(({errors, data}) => {
 
-                if (error) {
-                    return Promise.reject(errorMessage);
+                if (errors && errors.length) {
+                    return Promise.reject(errors[0].message);
                 } else {
+                    const {id, email, fullname, username, permissions} = data.login;
+                    state.apikey = apikey;
                     state.user = {
                         email,
                         id,
@@ -93,23 +90,21 @@ export const auth = {
         async register({state}, {email, username, fullname, password}) {
             return fetchGraphQL(config.apiEndPoint, {
                 query: `
-                       query Register($username: String!, $email: String!, $fullname: String!, $password: String!) {
-                           register(username: $username, email: $email, fullname: $fullname, password: $password) {
-                               apikey,
-                               id,
-                               permissions,
-                               error,
-                               errorMessage
-                           }
-                       }
-                    `,
+                     query Register($username: String!, $email: String!, $fullname: String!, $password: String!) {
+                         register(username: $username, email: $email, fullname: $fullname, password: $password) {
+                             apikey,
+                             id,
+                             permissions
+                         }
+                     }
+                `,
                 variables: {email, username, fullname, password}
-            }).then(({data}) => {
-                const {error, errorMessage, id, apikey, permissions} = data.register;
+            }).then(({errors, data}) => {
 
-                if (error) {
-                    return Promise.reject(errorMessage);
+                if (errors && errors.length) {
+                    return Promise.reject(errors[0].message);
                 } else {
+                    const {id, apikey, permissions} = data.register;
                     state.apikey = apikey;
                     state.user = {
                         email,
