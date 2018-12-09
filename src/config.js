@@ -44,5 +44,5 @@ export default {
      * Array of available permission. Can be toggled and therefore send to the server.
      * @type Array
      */
-    availableUserPermissions: ['admin', 'post', 'comment']
+    availableUserPermissions: ['administrate', 'post', 'comment']
 };

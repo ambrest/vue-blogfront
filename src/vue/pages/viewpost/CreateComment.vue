@@ -43,8 +43,18 @@
 
             submit() {
                 this.errorMsg = '';
-                const content = this.$refs.input.value;
-                // TODO Do smth
+                const body = this.$refs.input.value;
+
+                // Fire auth
+                this.$store.dispatch('post/addComment', {
+                    body,
+                    postid: this.postid
+                }).then(() => {
+                    // TODO: Update comments? yes? yes!
+                    this.$router.push('/');
+                }).catch(reason => {
+                    this.errorMsg = reason;
+                });
             }
 
         }
@@ -64,12 +74,8 @@
         max-height: 8em;
     }
 
-    // TODO Remove on merge
     .error {
-        @include font(500, 0.7em);
-        color: $palette-sweet-red;
         margin-top: 0.3em;
-        height: 1.5em;
     }
 
     .action-bar {

@@ -1,5 +1,7 @@
 <template>
     <div id="app">
+
+        <!-- Actual app -->
         <page-header class="header"></page-header>
 
         <div class="view">
@@ -78,15 +80,32 @@
     }
 
     body {
-        position: fixed;
         background: $palette-snow-white;
         font-family: $font-family;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 0.75em;
+            background: initial;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: lighten($palette-grayish-blue, 10);
+            border-radius: 0;
+        }
     }
 
     #app {
         @include flex(column, center);
-        @include width(70vw, 0, 1000px);
         margin: 0 auto;
+
+        &::before {
+            @include pseudo();
+            @include position(0, 0, auto, 0);
+            @include size(100%, 30vh);
+            background: $palette-sweet-red;
+            z-index: -1;
+        }
 
         .header {
             width: 100%;
@@ -108,11 +127,12 @@
 
         .router {
             @include inline-flex(column, center);
+            @include width(70vw, 0, 1000px);
             background: $palette-snow-white;
             border-radius: 0.25em;
             box-shadow: 0 5px 30px rgba(black, 0.075);
             padding: 3em 5em;
-            max-height: 80vh;
+            margin-bottom: 1em;
 
             @include animate('0.75s') {
                 from {

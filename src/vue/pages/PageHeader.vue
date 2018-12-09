@@ -12,7 +12,7 @@
                 <router-link v-if="!auth.user" to="/register">Register</router-link>
 
                 <!-- Only visible with privilege 'admin' -->
-                <router-link v-if="auth.user && auth.user.privilege === 'admin'" to="/admin">Admin</router-link>
+                <router-link v-if="auth.user && auth.user.permissions.includes('administrate')" to="/admin">Admin</router-link>
 
                 <!-- Visible if logged in -->
                 <router-link v-if="auth.user" to="/new">New post</router-link>
@@ -61,20 +61,16 @@
 <style lang="scss" scoped>
 
     .header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
         background: $palette-sweet-red;
-
-        &::before {
-            @include pseudo();
-            @include position(0, 0, auto, 0);
-            @include size(100%, 30vh);
-            background: $palette-sweet-red;
-            z-index: -1;
-        }
     }
 
     .bar {
         @include flex(row, center);
-        margin-top: 1.5em;
+        @include width(70vw, 0, 1000px);
+        margin: 1.5em auto;
         color: white;
 
         .h1 {

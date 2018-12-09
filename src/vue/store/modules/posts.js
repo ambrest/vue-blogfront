@@ -70,7 +70,10 @@ export const posts = {
                 }
             });
         }
+    },
 
+    async addComment({state, rootState}, {postid, body}) {
+        const {apikey} = rootState.auth;
+        // TODO: Integrate
     }
-
 };
