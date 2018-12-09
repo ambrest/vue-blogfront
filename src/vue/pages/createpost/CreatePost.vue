@@ -79,8 +79,8 @@
         mounted() {
             this.editor = new Editor({
                 content: '',
-                onUpdate: ({ getHTML }) => {
-                    this.html = getHTML()
+                onUpdate: ({getHTML}) => {
+                    this.html = getHTML();
                 },
                 extensions: [
                     new Blockquote(),
@@ -115,7 +115,7 @@
                     this.errorMsg = reason;
                 });
             }
-        },
+        }
 
     };
 

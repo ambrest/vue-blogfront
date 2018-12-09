@@ -14,6 +14,7 @@ export const posts = {
                 query: `
                        query {
                            getAllPosts {
+                               id,
                                title,
                                body,
                                timestamp,
@@ -60,8 +61,8 @@ export const posts = {
                         timestamp,
                         title,
                         body,
-                        author: {
-                            ...state.rootState.auth.user
+                        user: {
+                            ...rootState.auth.user
                         }
                     });
                 }

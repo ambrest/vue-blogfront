@@ -8,15 +8,17 @@
 
                 <!-- Visible as not-logged-in user -->
                 <router-link to="/">Home</router-link>
-                <router-link v-if="!auth.user" to="/login">Login</router-link>
-                <router-link v-if="!auth.user" to="/register">Register</router-link>
+                <router-link v-if="!user" to="/login">Login</router-link>
+                <router-link v-if="!user" to="/register">Register</router-link>
 
-                <!-- Only visible with privilege 'admin' -->
-                <router-link v-if="auth.user && auth.user.permissions.includes('administrate')" to="/admin">Admin</router-link>
+                <!-- Only visible with permission 'admin' -->
+                <router-link v-if="user && user.permissions.includes('administrate')" to="/admin">Admin</router-link>
+
+                <!-- Only visible with permission 'post' -->
+                <router-link v-if="user && user.permissions.includes('post')" to="/new">New post</router-link>
 
                 <!-- Visible if logged in -->
-                <router-link v-if="auth.user" to="/new">New post</router-link>
-                <router-link v-if="auth.user"
+                <router-link v-if="user"
                              to="/login"
                              @click.native="logout">Logout
                 </router-link>
@@ -39,7 +41,11 @@
         },
 
         computed: {
-            ...mapState(['auth'])
+
+            user() {
+                return this.$store.state.auth.user;
+            }
+
         },
 
         methods: {

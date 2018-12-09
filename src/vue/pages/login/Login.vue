@@ -5,10 +5,14 @@
         <div class="input">
 
             <!-- Text fields -->
-            <text-input-field ref="inUsername" placeholder="Username"></text-input-field>
+            <text-input-field ref="inUsername"
+                              placeholder="Username"
+                              @submit="submit"></text-input-field>
+
             <text-input-field ref="inPassword"
                               :password="true"
-                              placeholder="Password"></text-input-field>
+                              placeholder="Password"
+                              @submit="submit"></text-input-field>
 
             <!-- Error message -->
             <p class="error">{{ errorMsg }}</p>

@@ -15,9 +15,6 @@
 
 <script>
 
-    // Vue stuff
-    import {mapState} from 'vuex';
-
     export default {
 
         data() {
@@ -69,6 +66,7 @@
         methods: {
 
             toggleDisable() {
+
                 this.$store.dispatch('users/setDisabled', {
                     user: this.user,
                     disabled: !this.user.disabled

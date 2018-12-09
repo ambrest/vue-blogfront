@@ -4,7 +4,7 @@
         <h1>{{ post.title }}</h1>
 
         <!-- Author and user description -->
-        <p class="by">By <b>{{ post.author.fullname }}</b> aka. <b>{{ post.author.username }}</b></p>
+        <p class="by">By <b>{{ post.user.fullname }}</b> aka. <b>{{ post.user.username }}</b></p>
 
         <!-- Comment body as HTML -->
         <article class="blog-content" v-html="post.body"></article>
@@ -40,6 +40,7 @@
 <style lang="scss" scoped>
 
     .post {
+        width: 100%;
 
         .by {
             @include font(400, 0.9em);
@@ -55,6 +56,7 @@
             padding: 0;
             font-size: 0.95em;
             flex-shrink: 1;
+            width: 100%;
         }
 
         .create-comment {

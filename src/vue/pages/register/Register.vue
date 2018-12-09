@@ -7,20 +7,29 @@
             <!-- Text fields -->
             <text-input-field ref="inEmail"
                               :error="errorEmail"
-                              placeholder="Your email"></text-input-field>
+                              placeholder="Your email"
+                              @submit="submit"></text-input-field>
+
             <text-input-field ref="inFullName"
-                              placeholder="Fullname"></text-input-field>
+                              placeholder="Fullname"
+                              @submit="submit"></text-input-field>
+
             <text-input-field ref="inUsername"
                               :error="errorUsername"
-                              placeholder="Username"></text-input-field>
+                              placeholder="Username"
+                              @submit="submit"></text-input-field>
+
             <text-input-field ref="inPassword"
                               :error="errorPassword"
                               :password="true"
-                              placeholder="Password"></text-input-field>
+                              placeholder="Password"
+                              @submit="submit"></text-input-field>
+
             <text-input-field ref="inPasswordRepeat"
                               :error="errorPassword"
                               :password="true"
-                              placeholder="Repeat Password"></text-input-field>
+                              placeholder="Repeat Password"
+                              @submit="submit"></text-input-field>
 
             <!-- Error message -->
             <p class="error">{{ errorMsg }}</p>
