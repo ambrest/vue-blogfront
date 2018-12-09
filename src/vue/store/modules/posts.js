@@ -1,5 +1,6 @@
-import config from '../../../config';
-import faker  from 'faker';
+import {fetchGraphQL} from '../../../js/utils';
+import config         from '../../../config';
+import faker          from 'faker';
 
 export const posts = {
 
@@ -33,14 +34,8 @@ export const posts = {
         async newPost({state, rootState}, {title, body}) {
             const {apikey} = rootState.auth;
 
-            return fetch(config.apiEndPoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    query: `
+            return fetchGraphQL(config.apiEndPoint, {
+                query: `
                        query Post($apikey: String!, $title: String!, $body: String!) {
                            post(apikey: $apikey, title: $title, body: $body) {
                                id,
@@ -50,10 +45,9 @@ export const posts = {
                            }
                        }
                     `,
-                    variables: {title, body, apikey}
-                })
-            }).then(v => v.json()).catch(v => v.json()).then(v => {
-                const {error, errorMessage, id, timestamp} = v.data.post;
+                variables: {title, body, apikey}
+            }).then(({data}) => {
+                const {error, errorMessage, id, timestamp} = data.post;
 
                 if (error) {
                     return Promise.reject(errorMessage);

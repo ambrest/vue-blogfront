@@ -1,4 +1,5 @@
-import config from '../../../config';
+import {fetchGraphQL} from '../../../js/utils';
+import config         from '../../../config';
 
 export const auth = {
 
@@ -14,21 +15,19 @@ export const auth = {
         async logout({state}) {
             state.user = null;
             state.apikey = null;
+
+            // Clear session
+            localStorage.removeItem('apikey');
         },
 
         async login({state}, {username, password}) {
-            return fetch(config.apiEndPoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    query: `
+            return fetchGraphQL(config.apiEndPoint, {
+                query: `
                        query Login($username: String!, $password: String!) {
                            login(username: $username, password: $password) {
                                apikey,
                                email,
+                               permissions,
                                id,
                                fullname,
                                error,
@@ -36,10 +35,9 @@ export const auth = {
                            }
                        }
                     `,
-                    variables: {username, password}
-                })
-            }).then(v => v.json()).catch(v => v.json()).then(v => {
-                const {error, errorMessage, apikey, id, email, fullname} = v.data.login;
+                variables: {username, password}
+            }).then(({data}) => {
+                const {error, errorMessage, apikey, id, email, fullname, permissions} = data.login;
 
                 if (error) {
                     return Promise.reject(errorMessage);
@@ -48,6 +46,43 @@ export const auth = {
                     state.user = {
                         email,
                         id,
+                        permissions,
+                        username,
+                        fullname
+                    };
+
+                    // Save api-key
+                    localStorage.setItem('apikey', apikey);
+                }
+            });
+        },
+
+        async key({state, rootState}, {apikey}) {
+            return fetchGraphQL(config.apiEndPoint, {
+                query: `
+                       query Login($apikey: String!) {
+                           login(apikey: $apikey) {
+                               email,
+                               permissions,
+                               id,
+                               fullname,
+                               username,
+                               error,
+                               errorMessage
+                           }
+                       }
+                    `,
+                variables: {apikey}
+            }).then(({data}) => {
+                const {error, errorMessage, id, email, fullname, username, permissions} = data.login;
+
+                if (error) {
+                    return Promise.reject(errorMessage);
+                } else {
+                    state.user = {
+                        email,
+                        id,
+                        permissions,
                         username,
                         fullname
                     };
@@ -56,27 +91,21 @@ export const auth = {
         },
 
         async register({state}, {email, username, fullname, password}) {
-            return fetch(config.apiEndPoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    query: `
+            return fetchGraphQL(config.apiEndPoint, {
+                query: `
                        query Register($username: String!, $email: String!, $fullname: String!, $password: String!) {
                            register(username: $username, email: $email, fullname: $fullname, password: $password) {
                                apikey,
                                id,
+                               permissions,
                                error,
                                errorMessage
                            }
                        }
                     `,
-                    variables: {email, username, fullname, password}
-                })
-            }).then(v => v.json()).catch(v => v.json()).then(v => {
-                const {error, errorMessage, id, apikey} = v.data.register;
+                variables: {email, username, fullname, password}
+            }).then(({data}) => {
+                const {error, errorMessage, id, apikey, permissions} = data.register;
 
                 if (error) {
                     return Promise.reject(errorMessage);
@@ -85,13 +114,16 @@ export const auth = {
                     state.user = {
                         email,
                         id,
+                        permissions,
                         username,
                         fullname
                     };
+
+                    // Save api-key
+                    localStorage.setItem('apikey', apikey);
                 }
             });
         }
-
     }
 
 };
