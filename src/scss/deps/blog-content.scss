@@ -1,0 +1,32 @@
+.blog-content {
+
+    blockquote {
+        background-color: rgba(27, 31, 35, 0.02);
+        border-radius: 3px;
+        font-size: 85%;
+        line-height: 1.45;
+        overflow: auto;
+        padding: 16px;
+    }
+
+    code {
+        background-color: rgba(27, 31, 35, 0.05);
+        border-radius: 3px;
+        margin: 0;
+        padding: .2em .4em;
+    }
+
+    h1, h2, h3 {
+        font-weight: 500;
+    }
+
+    li, ol {
+        list-style-position: inside;
+        margin-left: 0.25em;
+
+        p {
+            display: inline-block;
+        }
+    }
+
+}

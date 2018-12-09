@@ -45,7 +45,8 @@
     // Some resets
     button,
     textarea,
-    input {
+    input,
+    [contenteditable] {
         font-family: $font-family;
         outline: none;
         border: none;
@@ -130,47 +131,49 @@
             max-width: inherit;
             height: inherit;
             max-height: initial;
+            @include width(70vw, 0, 1000px);
         }
 
         .loader {
             border-radius: 0.25em;
         }
+    }
 
-        .router {
-            @include inline-flex(column, center);
-            @include width(auto, 0, 1000px);
-            background: $palette-snow-white;
-            border-radius: 0.25em;
-            box-shadow: 0 5px 30px rgba(black, 0.075);
-            padding: 3em 5em;
 
-            @include animate('0.75s') {
-                from {
-                    opacity: 0;
-                    transform: translateY(-0.75em);
-                }
-                to {
-                    opacity: 1;
-                    transform: none;
-                }
+    .router {
+        @include inline-flex(column, center);
+        @include width(auto, 0, 1000px);
+        background: $palette-snow-white;
+        border-radius: 0.25em;
+        box-shadow: 0 5px 30px rgba(black, 0.075);
+        padding: 3em 5em;
+
+        @include animate('0.75s') {
+            from {
+                opacity: 0;
+                transform: translateY(-0.75em);
             }
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
 
-            > h1 {
-                position: relative;
-                @include font(500, 1.15em);
-                margin-bottom: 3em;
-                flex-shrink: 0;
-                opacity: 0.85;
-                width: 100%;
-                text-align: center;
+        > h1 {
+            position: relative;
+            @include font(500, 1.15em);
+            margin-bottom: 3em;
+            flex-shrink: 0;
+            opacity: 0.85;
+            width: 100%;
+            text-align: center;
 
-                &::after {
-                    @include pseudo();
-                    @include position(auto, 0, -1em, 0);
-                    @include size(3em, 1px);
-                    margin: 0 auto;
-                    background: $palette-decent-blue;
-                }
+            &::after {
+                @include pseudo();
+                @include position(auto, 0, -1em, 0);
+                @include size(3em, 1px);
+                margin: 0 auto;
+                background: $palette-decent-blue;
             }
         }
     }

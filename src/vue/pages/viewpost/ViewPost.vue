@@ -7,7 +7,7 @@
         <p class="by">By <b>{{ post.author.fullname }}</b> aka. <b>{{ post.author.username }}</b></p>
 
         <!-- Comment body as HTML -->
-        <article class="ql-editor" v-html="post.body"></article>
+        <article class="blog-content" v-html="post.body"></article>
 
         <create-comment :postid="post.id" class="create-comment"></create-comment>
 
