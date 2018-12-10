@@ -40,7 +40,7 @@ export default [
         beforeEnter(to, from, next) {
 
             // Check if user is authenticated and redirect to home if not
-            authenticate().then(next).catch(() => next('/'));
+            authenticate().then(() => next('/')).catch(() => next());
         }
     },
     {
@@ -49,7 +49,7 @@ export default [
         beforeEnter(to, from, next) {
 
             // Check if user is authenticated and redirect to home if not
-            authenticate().then(next).catch(() => next('/'));
+            authenticate().then(() => next('/')).catch(() => next());
         }
     },
     {

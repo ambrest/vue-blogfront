@@ -40,5 +40,7 @@ export function fetchGraphQL(url, {query, variables}) {
         body: JSON.stringify({
             query, variables
         })
-    }).then(v => v.json()).catch(v => v.json());
+
+        /* eslint-disable no-console */
+    }).then(v => v.json()).catch(console.error); // TODO: Server error message?
 }
