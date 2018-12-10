@@ -28,17 +28,8 @@
 
         data() {
             return {
-                // TODO Optional in-component loading screen?
                 loading: false
             };
-        },
-
-        mounted() {
-            const {apikey} = this.$store.state.auth;
-
-            if (apikey) {
-                this.$store.dispatch('auth/key', {apikey}).catch(() => 0);
-            }
         }
     };
 </script>
@@ -142,6 +133,13 @@
         &.inactive {
             pointer-events: none;
             filter: grayscale(1) blur(0.5px);
+        }
+
+        @include animate('0.4s ease-in-out') {
+            from {
+                transform: translateY(-0.5em);
+                opacity: 0;
+            }
         }
 
         > h1 {

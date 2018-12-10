@@ -19,7 +19,7 @@
     h1, h2, h3 {
         font-weight: 500;
 
-        &:not(:first-child){
+        &:not(:first-child) {
             margin-top: 0.3em;
         }
     }

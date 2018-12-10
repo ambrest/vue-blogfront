@@ -7,7 +7,7 @@ export const auth = {
 
     state: {
         user: null,
-        apikey: localStorage.getItem('apikey')
+        apikey: null
     },
 
     actions: {
@@ -51,6 +51,7 @@ export const auth = {
 
                     // Save api-key
                     localStorage.setItem('apikey', apikey);
+                    return state.user;
                 }
             });
         },
@@ -72,6 +73,7 @@ export const auth = {
             }).then(({errors, data}) => {
 
                 if (errors && errors.length) {
+                    this.dispatch('/auth/logout');
                     return Promise.reject(errors[0].message);
                 } else {
                     const {id, email, fullname, username, permissions} = data.login;
@@ -83,6 +85,8 @@ export const auth = {
                         username,
                         fullname
                     };
+
+                    return state.user;
                 }
             });
         },
@@ -116,6 +120,7 @@ export const auth = {
 
                     // Save api-key
                     localStorage.setItem('apikey', apikey);
+                    return state.user;
                 }
             });
         }
