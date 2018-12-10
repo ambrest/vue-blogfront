@@ -20,7 +20,7 @@
 
                 <!-- Actual user list -->
                 <div v-for="(user, index) of users"
-                     :class="{user: 1, disabled: user.disabled, selected: user === selectedUser}"
+                     :class="{user: 1, deactivated: user.deactivated, selected: user === selectedUser}"
                      @click.right="openMenu($event, user)">
 
                     <!-- General info -->
@@ -33,7 +33,7 @@
                     <div class="permissions">
                         <span v-for="per of config.availableUserPermissions"
                               :class="{active: user.permissions.includes(per)}"
-                              @click="setPermissions(user, per)">{{ per }}</span>
+                              @click="setPermission(user, per)">{{ per }}</span>
                     </div>
                 </div>
 
@@ -108,16 +108,12 @@
                 this.searchQuery = query;
             },
 
-            setPermissions(user, permission) {
-                if (user.permissions.includes(permission)) {
-                    this.$store.dispatch('users/setPermissions', {user, remove: [permission]});
-                } else {
-                    this.$store.dispatch('users/setPermissions', {user, add: [permission]});
-                }
-            },
-
-            setDisabled(user) {
-                this.$store.dispatch('users/setDisabled', {user, disabled: !user.disabled});
+            setPermission(user, permission) {
+                this.$store.dispatch('users/setPermission', {
+                    user,
+                    permission,
+                    type: user.permissions.includes(permission) ? 'remove' : 'add'
+                });
             },
 
             downloadAsCSV() {
@@ -199,7 +195,7 @@
         .fullname {
             position: relative;
             opacity: 1;
-            width: 25%;
+            width: 15%;
         }
 
         .username {
@@ -236,7 +232,7 @@
             }
         }
 
-        &.disabled > span {
+        &.deactivated > span {
             color: $palette-sweet-red;
         }
 

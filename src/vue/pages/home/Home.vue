@@ -30,7 +30,8 @@
                         <span class="name"> / {{ post.body | HTMLToTimeToReadString }}</span>
                     </div>
 
-                    <article class="preview">{{ post.body | LimitParagraphLength }}</article>
+                    <!-- TODO: Render raw post -->
+                    <article class="preview blog-content" v-html="post.body"></article>
 
                     <div class="buttons">
                         <router-link :to="`post/${post.id}`">
@@ -64,7 +65,7 @@
                 return this.$store.state.posts.map(v => {
                     v.timestamp = new Date(v.timestamp);
                     return v;
-                });
+                }).sort((a, b) => a.timestamp > b.timestamp ? -1 : 1);
             }
         },
 
@@ -80,8 +81,8 @@
 <style lang="scss" scoped>
 
     .home {
-        @include size(100%);
         overflow: auto;
+        width: 100%;
     }
 
     .placeholder {
@@ -91,6 +92,7 @@
     .posts {
         @include flex(column, center);
         flex-shrink: 0;
+        width: 80%;
 
         .post {
             @include flex(row);

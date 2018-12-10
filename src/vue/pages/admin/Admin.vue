@@ -1,6 +1,5 @@
 <template>
     <section class="admin">
-
         <h1>Admin panel</h1>
 
         <user-list class="userlist"></user-list>
@@ -28,7 +27,7 @@
 
     .admin {
         @include flex(column);
-        @include size(100%);
+        width: 100%;
 
         .userlist {
             width: 100%;

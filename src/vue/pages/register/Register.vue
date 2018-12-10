@@ -1,5 +1,6 @@
 <template>
     <section class="login">
+
         <h1>Join our community!</h1>
 
         <div class="input">

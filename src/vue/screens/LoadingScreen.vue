@@ -1,7 +1,18 @@
 <template>
     <div :class="{'loader': 1, open}">
-        <div class="box"></div>
-        <p v-if="message" class="message">{{ message }}</p>
+
+        <div class="box-grid">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
     </div>
 </template>
 
@@ -11,8 +22,7 @@
 
         data() {
             return {
-                open: false,
-                message: ''
+                open: false
             };
         },
 
@@ -37,7 +47,7 @@
                  * appending the class directly.
                  */
                 this.open = true;
-                this.message = this.randomMessage();
+                this.$emit('onvisible');
 
                 // Wait untile browser repaints
                 requestAnimationFrame(() => {
@@ -48,26 +58,16 @@
                         // Dispatch original data and hide loading screen after execution
                         dispatch(type, payload).then(value => {
                             resolve(value);
+                            this.$emit('onhidden');
                             this.open = false;
                         }).catch(reason => {
                             reject(reason);
+                            this.$emit('onhidden');
                             this.open = false;
                         });
                     });
                 });
             });
-        },
-
-        methods: {
-            randomMessage() {
-                const msgs = this.config.loadingScreenMessages;
-
-                if (Array.isArray(msgs)) {
-                    return msgs[Math.floor(Math.random() * msgs.length)] + '...';
-                } else {
-                    return msgs ? msgs + '...' : '';
-                }
-            }
         }
     };
 
@@ -80,10 +80,11 @@
     $jump-height: 0.25em;
 
     .loader {
-        position: absolute;
+        position: fixed;
         @include flex(column, center, center);
         @include position(0, 0, 0, 0);
-        background: $palette-snow-white;
+        @include size(20em, 20em);
+        margin: 12vh auto auto auto;
         z-index: 100;
         opacity: 0;
         pointer-events: none;
@@ -100,38 +101,37 @@
         }
     }
 
-    .box {
-        position: relative;
-        @include size(2.5em);
-        background: $palette-sweet-magenta;
-        animation-play-state: paused;
+    .box-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 2px;
 
-        $perspective: 5em;
-        @include animate('3s ease-in-out infinite') {
-            0% {
-                transform: perspective($perspective);
+        > div {
+            @include size(7px);
+            background: $palette-sweet-red;
+            animation-play-state: paused;
+
+            @include animate('6s infinite') {
+                0%, 60%, 100% {
+                    opacity: 1;
+                    transform: none;
+                }
+                10%, 49.999% {
+                    opacity: 0;
+                    transform: translateY(0.5em);
+                }
             }
-            25% {
-                transform: perspective($perspective) rotateX(180deg) rotateY(0);
-            }
-            50% {
-                transform: perspective($perspective) rotateX(180deg) rotateY(180deg);
-            }
-            75% {
-                transform: perspective($perspective) rotateX(0) rotateY(180deg);
-            }
-            100% {
-                transform: perspective($perspective) rotateX(0) rotateY(0);
+
+            @for $i from 0 through 9 {
+                &:nth-child(#{$i}) {
+                    animation-delay: #{$i * 300ms};
+                }
             }
         }
-    }
 
-    .message {
-        @include font(500, 0.85em);
-        margin-top: 1.75em;
-        font-style: italic;
-        color: $palette-sweet-magenta;
-        transform: translateY(-0.5em);
+        &.open {
+            animation-play-state: running;
+        }
     }
 
 </style>

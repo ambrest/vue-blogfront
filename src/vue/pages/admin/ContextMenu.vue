@@ -4,9 +4,9 @@
          :style="style">
 
         <div class="option disable"
-             @click="toggleDisable()">
-            <i :class="`fas fa-fw fa-${user.disabled ? 'check' : 'times'}`"></i>
-            <span class="name">{{ user.disabled ? 'Enable' : 'Disable' }}</span>
+             @click="toggleDeactivated">
+            <i :class="`fas fa-fw fa-${user.deactivated ? 'check' : 'times'}`"></i>
+            <span class="name">{{ user.deactivated ? 'Enable' : 'Disable' }}</span>
         </div>
 
     </div>
@@ -65,11 +65,11 @@
 
         methods: {
 
-            toggleDisable() {
+            toggleDeactivated() {
 
-                this.$store.dispatch('users/setDisabled', {
+                this.$store.dispatch('users/setDeactivated', {
                     user: this.user,
-                    disabled: !this.user.disabled
+                    deactivated: !this.user.deactivated
                 });
 
                 this.close();

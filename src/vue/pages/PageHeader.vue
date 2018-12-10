@@ -31,9 +31,6 @@
 
 <script>
 
-    // Vuex stuff
-    import {mapState} from 'vuex';
-
     export default {
 
         data() {
@@ -41,15 +38,12 @@
         },
 
         computed: {
-
             user() {
                 return this.$store.state.auth.user;
             }
-
         },
 
         methods: {
-
             logout() {
 
                 // Remove credentials and go to login
@@ -57,7 +51,6 @@
                     this.$router.push('/login');
                 });
             }
-
         }
 
     };

@@ -1,6 +1,5 @@
 <template>
     <div class="new-post">
-
         <text-input-field ref="title"
                           class="title"
                           placeholder="Title"></text-input-field>

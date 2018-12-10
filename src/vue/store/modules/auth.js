@@ -7,7 +7,7 @@ export const auth = {
 
     state: {
         user: null,
-        apikey: null
+        apikey: localStorage.getItem('apikey')
     },
 
     actions: {

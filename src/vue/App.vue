@@ -4,10 +4,11 @@
         <!-- Actual app -->
         <page-header class="header"></page-header>
 
-        <div class="view">
-            <loading-screen class="loader"></loading-screen>
-            <router-view class="router"></router-view>
-        </div>
+        <!-- Router and loading screen -->
+        <router-view :class="{router: 1, inactive: loading}"></router-view>
+        <loading-screen class="loader"
+                        @onvisible="loading = true"
+                        @onhidden="loading = false"></loading-screen>
 
     </div>
 </template>
@@ -26,11 +27,14 @@
         components: {PageHeader, LoadingScreen},
 
         data() {
-            return {};
+            return {
+                // TODO Optional in-component loading screen?
+                loading: false
+            };
         },
 
         mounted() {
-            const apikey = localStorage.getItem('apikey');
+            const {apikey} = this.$store.state.auth;
 
             if (apikey) {
                 this.$store.dispatch('auth/key', {apikey}).catch(() => 0);
@@ -118,45 +122,36 @@
             background: $palette-sweet-red;
             z-index: -1;
         }
-
-        .header {
-            width: 100%;
-        }
-
-        .view {
-            @include flex(column, center);
-            position: relative;
-            margin-top: 10vh;
-            width: inherit;
-            max-width: inherit;
-            height: inherit;
-            max-height: initial;
-            @include width(70vw, 0, 1000px);
-        }
-
-        .loader {
-            border-radius: 0.25em;
-        }
     }
 
+    .header {
+        width: 100%;
+    }
 
     .router {
+        position: relative;
         @include inline-flex(column, center);
-        @include width(auto, 0, 1000px);
+        @include width(null, 0, 1000px);
         background: $palette-snow-white;
         border-radius: 0.25em;
         box-shadow: 0 5px 30px rgba(black, 0.075);
         padding: 3em 5em;
+        margin-top: 10vh;
+        transition: all 0.3s;
 
-        @include animate('0.75s') {
-            from {
-                opacity: 0;
-                transform: translateY(-0.75em);
-            }
-            to {
-                opacity: 1;
-                transform: none;
-            }
+        &::after {
+            @include pseudo();
+            @include position(0, 0, 0, 0);
+            background: $palette-snow-white;
+            pointer-events: none;
+            border-radius: 0.25em;
+            opacity: 0;
+            z-index: 10;
+        }
+
+        &.inactive::after {
+            pointer-events: none;
+            opacity: 1;
         }
 
         > h1 {
