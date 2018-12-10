@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import App       from './vue/App.vue';
 import store     from './vue/store/index';
 import * as _    from './js/utils';
-import config    from './config';
+import config    from '../config/config';
 import Routes    from './routes';
 import './vue-extensions/filter';
 import './registerServiceWorker';

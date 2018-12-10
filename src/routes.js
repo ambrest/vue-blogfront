@@ -1,4 +1,3 @@
-// Routes
 import Home       from './vue/pages/home/Home';
 import Login      from './vue/pages/login/Login';
 import Register   from './vue/pages/register/Register';
@@ -12,5 +11,8 @@ export default [
     {path: '/register', component: Register},
     {path: '/admin', component: Admin},
     {path: '/new', component: CreatePost},
-    {path: '/post/*', component: ViewPost}
+    {path: '/post/:id', component: ViewPost},
+
+    // 404 catcher
+    {path: '*', redirect: '/'}
 ];

@@ -29,7 +29,7 @@
         },
 
         beforeMount() {
-            const id = this.$route.params.pathMatch;
+            const {id} = this.$route.params;
             this.post = this.$store.state.posts.find(post => post.id === id);
         }
 
