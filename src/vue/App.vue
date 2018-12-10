@@ -139,19 +139,9 @@
         margin-top: 10vh;
         transition: all 0.3s;
 
-        &::after {
-            @include pseudo();
-            @include position(0, 0, 0, 0);
-            background: $palette-snow-white;
+        &.inactive {
             pointer-events: none;
-            border-radius: 0.25em;
-            opacity: 0;
-            z-index: 10;
-        }
-
-        &.inactive::after {
-            pointer-events: none;
-            opacity: 1;
+            filter: grayscale(1) blur(0.5px);
         }
 
         > h1 {

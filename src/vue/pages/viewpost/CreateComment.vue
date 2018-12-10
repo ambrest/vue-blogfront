@@ -85,6 +85,11 @@
 
         button {
             margin-left: 0.25em;
+
+            i {
+                // Some font-awesome icons don't fit properly
+                margin-bottom: -1px;
+            }
         }
     }
 </style>

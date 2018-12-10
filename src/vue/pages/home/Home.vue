@@ -11,7 +11,7 @@
             <!-- List -->
             <div v-for="post of posts" class="post">
 
-                <!-- Left side -->
+                <!-- Date info -->
                 <div class="date">
                     <span class="day">{{ String(post.timestamp.getDate()).padStart(2, '0') }}</span>
                     <div>
@@ -23,6 +23,8 @@
 
                 <!-- Right side -->
                 <div class="content">
+
+                    <!-- Post header and general information -->
                     <h2>{{ post.title }}</h2>
 
                     <div class="info">
@@ -30,9 +32,10 @@
                         <span class="name"> / {{ post.body | HTMLToTimeToReadString }}</span>
                     </div>
 
-                    <!-- TODO: Render raw post -->
+                    <!-- Preview -->
                     <article class="preview blog-content" v-html="post.body"></article>
 
+                    <!-- Action buttons -->
                     <div class="buttons">
                         <router-link :to="`post/${post.id}`">
                             <button class="button-primary icon"><i class="fas fa-fw fa-book"></i>Read more</button>
@@ -63,7 +66,10 @@
 
             posts() {
                 return this.$store.state.posts.map(v => {
+
+                    // Convert timestamp to date
                     v.timestamp = new Date(v.timestamp);
+
                     return v;
                 }).sort((a, b) => a.timestamp > b.timestamp ? -1 : 1);
             }
@@ -158,6 +164,7 @@
                 }
 
                 .preview {
+                    position: relative;
                     flex-grow: 0;
                     @include font(500, 0.9em);
                     line-height: 1.6em;
@@ -166,6 +173,13 @@
                     overflow: hidden;
                     margin: 1.5em 0;
                     opacity: 0.9;
+                    max-height: 16em;
+
+                    &::after {
+                        @include pseudo();
+                        @include position(0, 0, 0, 0);
+                        background: linear-gradient(to top, $palette-snow-white, transparent 15%);
+                    }
                 }
 
                 .buttons {
