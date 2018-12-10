@@ -12,7 +12,7 @@ import ViewPost   from '../vue/pages/viewpost/ViewPost';
  * Responsible for trying to authenticate the user via a existing api-key.
  * @returns {Promise<*>}
  */
-const authenticate = (async () => {
+const authenticate = async () => {
 
     // User is already logged in so resolve it
     if (store.state.auth.user) {
@@ -24,7 +24,10 @@ const authenticate = (async () => {
 
     // If null reject promise, otherwise try to login
     return apikey ? store.dispatch('auth/key', {apikey}) : Promise.reject();
-})();
+};
+
+// Initiate login
+authenticate().catch(() => localStorage.removeItem('apikey'));
 
 export default [
     {
@@ -37,7 +40,7 @@ export default [
         beforeEnter(to, from, next) {
 
             // Check if user is authenticated and redirect to home if not
-            authenticate.then(next).catch(() => next('/'));
+            authenticate().then(next).catch(() => next('/'));
         }
     },
     {
@@ -46,7 +49,7 @@ export default [
         beforeEnter(to, from, next) {
 
             // Check if user is authenticated and redirect to home if not
-            authenticate.then(next).catch(() => next('/'));
+            authenticate().then(next).catch(() => next('/'));
         }
     },
     {
@@ -55,7 +58,7 @@ export default [
         beforeEnter(to, from, next) {
 
             // Check if user is authenticated and redirect to home if not
-            authenticate.then(user => {
+            authenticate().then(user => {
 
                 // Check if user is logged in and has sufficent permissions
                 if (!user.permissions.includes('administrate')) {
@@ -75,7 +78,7 @@ export default [
              * Check if user is logged in and has sufficent permissions, redirect to
              * homepage if not so.
              */
-            authenticate.then(user => {
+            authenticate().then(user => {
 
                 // Check if user is logged in and has sufficent permissions
                 if (!user.permissions.includes('post')) {
