@@ -151,6 +151,7 @@
             .content {
                 @include flex(column, flex-start);
                 padding-left: 2em;
+                word-break: break-all;
 
                 h2 {
                     @include font(400);
