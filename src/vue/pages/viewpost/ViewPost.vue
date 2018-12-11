@@ -71,8 +71,9 @@
 
         article {
             padding: 0;
-            font-size: 0.95em;
+            font-size: 0.9em;
             flex-shrink: 1;
+            line-height: 1.5em;
             width: 100%;
         }
 
