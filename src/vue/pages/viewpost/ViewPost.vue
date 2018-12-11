@@ -1,5 +1,5 @@
 <template>
-    <div class="post extendet">
+    <div v-if="post" class="post">
 
         <h1>{{ post.title }}</h1>
 
@@ -24,13 +24,30 @@
 
         data() {
             return {
-                post: {}
+                post: null
             };
         },
 
         beforeMount() {
             const {id} = this.$route.params;
-            this.post = this.$store.state.posts.find(post => post.id === id);
+
+            // Try to fetch from store
+            let post = this.$store.state.posts.find(post => post.id === id);
+
+            if (!post) {
+                this.$store.dispatch('posts/update').then(() => {
+                    const post = this.$store.state.posts.find(post => post.id === id);
+
+                    // Redirect to homepage if not found
+                    if (!post) {
+                        this.$router.replace('/');
+                    } else {
+                        this.post = post;
+                    }
+                });
+            } else {
+                this.post = post;
+            }
         }
 
     };
