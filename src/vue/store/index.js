@@ -1,6 +1,9 @@
 import Vue  from 'vue';
 import Vuex from 'vuex';
 
+// Config
+import config from '../../../config/config';
+
 // Modules
 import {posts} from './modules/posts';
 import {auth}  from './modules/auth';
@@ -10,7 +13,34 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     modules: {posts, auth, users},
 
-    state: {},
+    state: {
+        requestActive: false
+    },
 
-    mutations: {}
+    mutations: {},
+
+    actions: {
+
+        async graphql({state}, {query, variables}) {
+            state.requestActive = true;
+            return fetch(config.apiEndPoint, {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+
+                body: JSON.stringify({
+                    query, variables
+                })
+
+                /* eslint-disable no-console */
+            }).then(v => {
+                state.requestActive = false;
+                return v.json();
+            }).catch(console.error); // TODO: Server error message?
+        }
+
+    }
 });

@@ -10,7 +10,7 @@ export const posts = {
     actions: {
 
         async update({state}) {
-            return fetchGraphQL(config.apiEndPoint, {
+            return this.dispatch('graphql', {
                 query: `
                        query {
                            getAllPosts {
@@ -40,7 +40,8 @@ export const posts = {
         async newPost({state, rootState}, {title, body}) {
             const {apikey} = rootState.auth;
 
-            return fetchGraphQL(config.apiEndPoint, {
+            return this.dispatch('graphql', {
+                variables: {title, body, apikey},
                 query: `
                        query Post($apikey: String!, $title: String!, $body: String!) {
                            post(apikey: $apikey, title: $title, body: $body) {
@@ -48,8 +49,7 @@ export const posts = {
                                timestamp
                            }
                        }
-                `,
-                variables: {title, body, apikey}
+                `
             }).then(({errors, data}) => {
 
                 if (errors && errors.length) {
@@ -66,12 +66,8 @@ export const posts = {
                         }
                     });
                 }
+
             });
         }
-    },
-
-    async addComment({state, rootState}, {postid, body}) {
-        const {apikey} = rootState.auth;
-        // TODO: Integrate
     }
 };

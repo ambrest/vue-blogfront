@@ -21,7 +21,7 @@ export const auth = {
         },
 
         async login({state}, {username, password}) {
-            return fetchGraphQL(config.apiEndPoint, {
+            return this.dispatch('graphql', {
                 query: `
                      query Login($username: String!, $password: String!) {
                          login(username: $username, password: $password) {
@@ -57,7 +57,7 @@ export const auth = {
         },
 
         async key({state, rootState}, {apikey}) {
-            return fetchGraphQL(config.apiEndPoint, {
+            return this.dispatch('graphql', {
                 query: `
                      query Login($apikey: String!) {
                         login(apikey: $apikey) {
@@ -92,7 +92,7 @@ export const auth = {
         },
 
         async register({state}, {email, username, fullname, password}) {
-            return fetchGraphQL(config.apiEndPoint, {
+            return this.dispatch('graphql', {
                 query: `
                      query Register($username: String!, $email: String!, $fullname: String!, $password: String!) {
                          register(username: $username, email: $email, fullname: $fullname, password: $password) {

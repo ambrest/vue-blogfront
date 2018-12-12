@@ -5,7 +5,7 @@
         <page-header class="header"></page-header>
 
         <!-- Router and loading screen -->
-        <router-view :class="{router: 1, inactive: loading}"></router-view>
+        <router-view :class="{router: 1, inactive: $store.state.requestActive}"></router-view>
         <loading-screen class="loader"
                         @onvisible="loading = true"
                         @onhidden="loading = false"></loading-screen>
@@ -27,9 +27,7 @@
         components: {PageHeader, LoadingScreen},
 
         data() {
-            return {
-                loading: false
-            };
+            return {};
         }
     };
 </script>

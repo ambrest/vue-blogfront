@@ -30,21 +30,6 @@ export function download(path, name) {
     document.body.removeChild(link);
 }
 
-export function fetchGraphQL(url, {query, variables}) {
-    return fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-            query, variables
-        })
-
-        /* eslint-disable no-console */
-    }).then(v => v.json()).catch(console.error); // TODO: Server error message?
-}
-
 export function setMetaTags(tags) {
     const uniqueTags = ['name', 'property'];
 

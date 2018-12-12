@@ -1,6 +1,3 @@
-import {fetchGraphQL} from '../../../js/utils';
-import config         from '../../../../config/config';
-
 export const users = {
 
     namespaced: true,
@@ -12,7 +9,8 @@ export const users = {
         async update({state, rootState}) {
             const {apikey} = rootState.auth;
 
-            return fetchGraphQL(config.apiEndPoint, {
+            return this.dispatch('graphql', {
+                variables: {apikey},
                 query: `
                        query GetAllUsers($apikey: String!) {
                            getAllUsers(apikey: $apikey) {
@@ -24,14 +22,15 @@ export const users = {
                                email
                            }
                        }
-                `,
-                variables: {apikey}
+                `
             }).then(({errors, data: {getAllUsers}}) => {
+
                 if (errors && errors.length) {
                     // TODO: Log?
                 } else if (Array.isArray(getAllUsers)) {
                     state.splice(0, state.length, ...getAllUsers);
                 }
+
             });
         },
 
@@ -49,15 +48,15 @@ export const users = {
             }
 
             const {permissions} = user;
-            return fetchGraphQL(config.apiEndPoint, {
+            return this.dispatch('graphql', {
+                variables: {apikey, permissions, id},
                 query: `
                        query UpdateUser($id: String!, $apikey: String!, $permissions: [String]!) {
                            updateUser(id: $id, apikey: $apikey, permissions: $permissions) {
                                id
                            }
                        }
-                `,
-                variables: {apikey, permissions, id}
+                `
             }).then(({errors}) => {
                 if (errors && errors.length) {
                     // TODO: Log?
@@ -71,21 +70,23 @@ export const users = {
             const {apikey} = rootState.auth;
             const {id} = user;
 
-            return fetchGraphQL(config.apiEndPoint, {
+            return this.dispatch('graphql', {
+                variables: {apikey, deactivated, id},
                 query: `
                        query UpdateUser($id: String!, $apikey: String!, $deactivated: Boolean!) {
                            updateUser(id: $id, apikey: $apikey, deactivated: $deactivated) {
                                id
                            }
                        }
-                `,
-                variables: {apikey, deactivated, id}
+                `
             }).then(({errors}) => {
+
                 if (errors && errors.length) {
                     // TODO: Log?
                 } else {
                     return this.dispatch('users/update');
                 }
+
             });
         }
     }
