@@ -26,11 +26,11 @@ export const users = {
                        }
                 `,
                 variables: {apikey}
-            }).then(({errors, data}) => {
+            }).then(({errors, data: {getAllUsers}}) => {
                 if (errors && errors.length) {
                     // TODO: Log?
-                } else {
-                    state.splice(0, state.length, ...data.getAllUsers);
+                } else if (Array.isArray(getAllUsers)) {
+                    state.splice(0, state.length, ...getAllUsers);
                 }
             });
         },

@@ -26,7 +26,7 @@
             };
         },
 
-        mounted() {
+        beforeMount() {
 
             /**
              * Currently vuex does not support before and after
@@ -52,7 +52,7 @@
                 // Wait untile browser repaints
                 requestAnimationFrame(() => {
 
-                    // Wait until class has been appendet and element has been drawn
+                    // Wait until class has been appended and element has been drawn
                     requestAnimationFrame(() => {
 
                         // Dispatch original data and hide loading screen after execution

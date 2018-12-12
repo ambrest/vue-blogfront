@@ -26,12 +26,12 @@ export const posts = {
                            }
                        }
                 `
-            }).then(({errors, data}) => {
+            }).then(({errors, data: {getAllPosts}}) => {
 
                 if (errors && errors.length) {
                     // TODO: Log?
-                } else {
-                    state.splice(0, state.length, ...data.getAllPosts);
+                } else if (Array.isArray(getAllPosts)) {
+                    state.splice(0, state.length, ...getAllPosts);
                 }
 
             });

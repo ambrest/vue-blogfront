@@ -7,7 +7,9 @@
         <p class="by">By <b>{{ post.user.fullname }}</b> aka. <b>{{ post.user.username }}</b></p>
 
         <!-- Comment body as HTML -->
-        <article class="blog-content" v-html="post.body"></article>
+        <article ref="postBodyElement"
+                 class="blog-content"
+                 v-html="post.body"></article>
 
         <create-comment :postid="post.id" class="create-comment"></create-comment>
 
@@ -34,20 +36,46 @@
             // Try to fetch from store
             let post = this.$store.state.posts.find(post => post.id === id);
 
-            if (!post) {
-                this.$store.dispatch('posts/update').then(() => {
-                    const post = this.$store.state.posts.find(post => post.id === id);
+            new Promise(resolve => {
 
-                    // Redirect to homepage if not found
-                    if (!post) {
-                        this.$router.replace('/');
-                    } else {
-                        this.post = post;
-                    }
-                });
-            } else {
-                this.post = post;
-            }
+                if (!post) {
+                    return this.$store.dispatch('posts/update').then(() => {
+                        const post = this.$store.state.posts.find(post => post.id === id);
+
+                        // Redirect to homepage if not found
+                        if (!post) {
+                            this.$router.replace('/');
+                        } else {
+                            resolve(this.post = post);
+                        }
+                    });
+                } else {
+                    resolve(this.post = post);
+                }
+
+            }).then(post => {
+
+                // Update meta tags
+                const tmpBody = document.createElement('body');
+                tmpBody.innerHTML = post.body;
+
+                const description = tmpBody.innerText.substring(0, 150) + '...';
+                const {title, user: {fullname}} = this.post;
+
+                this.utils.setMetaTags([
+                    {name: 'twitter:card', content: 'product'},
+                    {name: 'twitter:site', content: '@publisher_handle'},
+                    {name: 'twitter:title', content: title},
+                    {name: 'twitter:description', content: description},
+                    {name: 'twitter:creator', content: fullname},
+                    {property: 'og:title', content: title},
+                    {property: 'og:type', content: 'article'},
+                    {property: 'og:url', content: 'http://www.example.com/'},
+                    {property: 'og:image', content: 'http://example.com/image.jpg'},
+                    {property: 'og:description', content: description},
+                    {property: 'og:site_name:', content: 'Site name:, i.e. Moz'}
+                ]);
+            });
         }
 
     };

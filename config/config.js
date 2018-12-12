@@ -1,5 +1,8 @@
 export default {
 
+    // Theme color
+    themeColor: '#C62642',
+
     // GraphQL API Endpoint
     apiEndPoint: 'http://localhost:4000/api',
 

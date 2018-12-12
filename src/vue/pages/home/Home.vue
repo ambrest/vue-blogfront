@@ -75,7 +75,7 @@
             }
         },
 
-        beforeMount() {
+        mounted() {
 
             // Update posts
             this.$store.dispatch('posts/update');

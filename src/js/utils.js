@@ -44,3 +44,33 @@ export function fetchGraphQL(url, {query, variables}) {
         /* eslint-disable no-console */
     }).then(v => v.json()).catch(console.error); // TODO: Server error message?
 }
+
+export function setMetaTags(tags) {
+    const uniqueTags = ['name', 'property'];
+
+    for (const tag of tags) {
+        const {content} = tag;
+
+        // Check if document has already a related meta tag
+        uniqueTags.forEach(uniqueTag => {
+
+            // Check if tag contains a prop which is unique
+            if (uniqueTag in tag) {
+
+                // Find existing
+                let el = document.head.querySelector(`[${uniqueTag}="${tag[uniqueTag]}"]`);
+
+                // Create a new meta-tag and append it to the header section if tag not already exists
+                if (!el) {
+                    el = document.createElement('meta');
+                    el.setAttribute(uniqueTag, tag[uniqueTag]);
+                    document.head.appendChild(el);
+                }
+
+                // Apply content
+                el.setAttribute('content', content);
+            }
+
+        });
+    }
+}
