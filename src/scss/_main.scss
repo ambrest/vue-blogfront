@@ -1,8 +1,8 @@
 // Libraries
-@import '/lib/mixins';
-@import '/lib/variables';
-@import '/components/buttons';
-@import 'components/general';
+@import './lib/mixins';
+@import './lib/variables';
+@import './components/buttons';
+@import './components/general';
 
 // Dependencies
-@import 'deps/blog-content';
+@import './deps/blog-content';

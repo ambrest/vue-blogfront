@@ -1,5 +1,6 @@
 .blog-content {
     color: $palette-slate-gray;
+    line-height: 1.5em;
 
     blockquote {
         border-left: .25em solid #dfe2e5;
@@ -25,10 +26,12 @@
 
     h1 {
         font-size: 2em;
+        margin-bottom: 0.25em;
     }
 
     h2 {
         font-size: 1.5em;
+        margin-bottom: 0.15em;
     }
 
     h3 {

@@ -17,8 +17,6 @@ export default new Vuex.Store({
         requestActive: false
     },
 
-    mutations: {},
-
     actions: {
 
         async graphql({state}, {query, variables}) {

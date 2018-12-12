@@ -6,9 +6,7 @@
 
         <!-- Router and loading screen -->
         <router-view :class="{router: 1, inactive: $store.state.requestActive}"></router-view>
-        <loading-screen class="loader"
-                        @onvisible="loading = true"
-                        @onhidden="loading = false"></loading-screen>
+        <loading-screen class="loader"></loading-screen>
 
     </div>
 </template>

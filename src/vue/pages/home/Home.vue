@@ -168,7 +168,6 @@
                     position: relative;
                     flex-grow: 0;
                     @include font(500, 0.9em);
-                    line-height: 1.6em;
                     white-space: pre-line;
                     text-overflow: ellipsis;
                     overflow: hidden;
