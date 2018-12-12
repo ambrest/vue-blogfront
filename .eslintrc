@@ -48,6 +48,7 @@
                     "allowFirstLine": true
                 }
             }
-        ]
+        ],
+        "vue/valid-v-for": "off"
     }
 }

@@ -1,6 +1,3 @@
-import {fetchGraphQL} from '../../../js/utils';
-import config         from '../../../../config/config';
-
 export const auth = {
 
     namespaced: true,
@@ -56,7 +53,7 @@ export const auth = {
             });
         },
 
-        async key({state, rootState}, {apikey}) {
+        async key({state}, {apikey}) {
             return this.dispatch('graphql', {
                 query: `
                      query Login($apikey: String!) {

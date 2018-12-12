@@ -1,6 +1,3 @@
-import {fetchGraphQL} from '../../../js/utils';
-import config         from '../../../../config/config';
-
 export const posts = {
 
     namespaced: true,
@@ -18,10 +15,21 @@ export const posts = {
                                title,
                                body,
                                timestamp,
+                               
                                user {
                                    id,
                                    username,
                                    fullname                                 
+                               },
+                               
+                               comments {
+                                   id,
+                                   body,
+                                   timestamp,
+                                   user {
+                                       fullname,
+                                       username
+                                   }
                                }
                            }
                        }
@@ -67,6 +75,26 @@ export const posts = {
                     });
                 }
 
+            });
+        },
+
+        async newComment({rootState}, {postid, body}) {
+            const {apikey} = rootState.auth;
+
+            return this.dispatch('graphql', {
+                variables: {postid, body, apikey},
+                query: `
+                       query Comment($apikey: String!, $postid: String!, $body: String!) {
+                           comment(apikey: $apikey, postid: $postid, body: $body) {
+                               id,
+                               timestamp
+                           }
+                       }
+                `
+            }).then(({errors}) => {
+                if (errors && errors.length) {
+                    return Promise.reject(errors[0].message);
+                }
             });
         }
     }

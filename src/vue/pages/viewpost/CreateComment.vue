@@ -1,7 +1,7 @@
 <template>
     <div class="create-comment">
 
-        <text-area-input-field ref="input" placeholder="Add a public comment..."></text-area-input-field>
+        <text-area-input-field ref="input" placeholder="Write a response"></text-area-input-field>
 
         <p class="error">{{ errorMsg }}</p>
 
@@ -46,12 +46,14 @@
                 const body = this.$refs.input.value;
 
                 // Fire auth
-                this.$store.dispatch('post/addComment', {
+                this.$store.dispatch('posts/newComment', {
                     body,
                     postid: this.postid
                 }).then(() => {
-                    // TODO: Update comments? yes? yes!
-                    this.$router.push('/');
+                    this.$refs.input.clear();
+                    return this.$store.dispatch('posts/update');
+                }).then(() => {
+                    this.$emit('submitted');
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });

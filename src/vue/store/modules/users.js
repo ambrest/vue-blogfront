@@ -34,7 +34,7 @@ export const users = {
             });
         },
 
-        async setPermission({state, rootState}, {user, type, permission}) {
+        async setPermission({rootState}, {user, type, permission}) {
             const {apikey} = rootState.auth;
             const {id} = user;
 
@@ -66,7 +66,7 @@ export const users = {
             });
         },
 
-        async setDeactivated({state, rootState}, {user, deactivated}) {
+        async setDeactivated({rootState}, {user, deactivated}) {
             const {apikey} = rootState.auth;
             const {id} = user;
 
