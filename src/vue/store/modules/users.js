@@ -39,7 +39,7 @@ export const users = {
 
             const {permissions} = user;
             return this.dispatch('graphql', {
-                operation: 'getAllUsers',
+                operation: 'updateUser',
                 vars: {apikey, permissions, id},
                 fields: ['id']
             }).then(({errors}) => {
@@ -56,7 +56,7 @@ export const users = {
             const {id} = user;
 
             return this.dispatch('graphql', {
-                operation: 'getAllUsers',
+                operation: 'updateUser',
                 vars: {apikey, deactivated, id},
                 fields: ['id']
             }).then(({errors}) => {

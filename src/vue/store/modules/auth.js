@@ -95,6 +95,32 @@ export const auth = {
                     return state.user;
                 }
             });
+        },
+
+        async updateCredentials({state}, {email, fullname, password}) {
+            return this.dispatch('graphql', {
+                operation: 'updateUser',
+                vars: {
+                    email, fullname, password,
+                    id: state.user.id,
+                    apikey: state.apikey
+                },
+                fields: ['email', 'fullname', 'permissions']
+            }).then(({errors, data}) => {
+                if (errors && errors.length) {
+                    return Promise.reject(errors[0].message);
+                } else {
+                    const {email, fullname, permissions} = data.updateUser;
+                    state.user = {
+                        ...state.user,
+                        email,
+                        fullname,
+                        permissions
+                    };
+
+                    return state.user;
+                }
+            });
         }
     }
 

@@ -7,6 +7,7 @@ import Register   from '../vue/pages/register/Register';
 import Admin      from '../vue/pages/admin/Admin';
 import CreatePost from '../vue/pages/createpost/CreatePost';
 import ViewPost   from '../vue/pages/viewpost/ViewPost';
+import Settings   from '../vue/pages/settings/Settings';
 
 /**
  * Responsible for trying to authenticate the user via a existing api-key.
@@ -86,7 +87,18 @@ export default [
                 }
 
                 next();
-            }).catch(() => next('/'));
+            }).catch(() => next('/login'));
+        }
+    },
+    {
+        path: '/settings',
+        component: Settings,
+        beforeEnter(to, from, next) {
+
+            /**
+             * Check if user is logged in.
+             */
+            authenticate().then(() => next()).catch(() => next('/login'));
         }
     },
     {

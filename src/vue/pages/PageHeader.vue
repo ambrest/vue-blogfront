@@ -18,6 +18,7 @@
                 <router-link v-if="user && user.permissions.includes('post')" to="/new">New post</router-link>
 
                 <!-- Visible if logged in -->
+                <router-link v-if="user" to="/settings">Settings</router-link>
                 <router-link v-if="user"
                              to="/login"
                              @click.native="logout">Logout
