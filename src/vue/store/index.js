@@ -4,6 +4,9 @@ import Vuex from 'vuex';
 // Config
 import config from '../../../config/config';
 
+// Utils
+import queryBuilder from '../../js/GraphQLQueryBuilder';
+
 // Modules
 import {posts} from './modules/posts';
 import {auth}  from './modules/auth';
@@ -19,7 +22,7 @@ export default new Vuex.Store({
 
     actions: {
 
-        async graphql({state}, {query, variables}) {
+        async graphql({state}, {operation, vars, fields}) {
             state.requestActive = true;
             return fetch(config.apiEndPoint, {
                 method: 'POST',
@@ -29,9 +32,7 @@ export default new Vuex.Store({
                     'Accept': 'application/json'
                 },
 
-                body: JSON.stringify({
-                    query, variables
-                })
+                body: JSON.stringify(queryBuilder({operation, vars, fields}))
 
                 /* eslint-disable no-console */
             }).then(v => {

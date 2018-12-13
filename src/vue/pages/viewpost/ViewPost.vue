@@ -13,7 +13,9 @@
                      v-html="post.body"></article>
         </div>
 
-        <div class="tab">
+        <div v-if="$store.state.auth.user"
+             class="tab">
+
             <create-comment :postid="post.id"
                             class="create-comment"
                             @submitted="fetch"></create-comment>

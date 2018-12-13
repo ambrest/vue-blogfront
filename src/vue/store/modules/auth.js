@@ -19,18 +19,9 @@ export const auth = {
 
         async login({state}, {username, password}) {
             return this.dispatch('graphql', {
-                query: `
-                     query Login($username: String!, $password: String!) {
-                         login(username: $username, password: $password) {
-                             apikey,
-                             email,
-                             permissions,
-                             id,
-                             fullname
-                         }
-                     }
-                 `,
-                variables: {username, password}
+                operation: 'login',
+                vars: {username, password},
+                fields: ['apikey', 'email', 'permissions', 'id', 'fullname']
             }).then(({errors, data}) => {
 
                 if (errors && errors.length) {
@@ -55,18 +46,9 @@ export const auth = {
 
         async key({state}, {apikey}) {
             return this.dispatch('graphql', {
-                query: `
-                     query Login($apikey: String!) {
-                        login(apikey: $apikey) {
-                            email,
-                            permissions,
-                            id,
-                            fullname,
-                            username
-                        }
-                     }
-                `,
-                variables: {apikey}
+                operation: 'login',
+                vars: {apikey},
+                fields: ['email', 'permissions', 'id', 'fullname', 'username']
             }).then(({errors, data}) => {
 
                 if (errors && errors.length) {
@@ -90,16 +72,9 @@ export const auth = {
 
         async register({state}, {email, username, fullname, password}) {
             return this.dispatch('graphql', {
-                query: `
-                     query Register($username: String!, $email: String!, $fullname: String!, $password: String!) {
-                         register(username: $username, email: $email, fullname: $fullname, password: $password) {
-                             apikey,
-                             id,
-                             permissions
-                         }
-                     }
-                `,
-                variables: {email, username, fullname, password}
+                operation: 'register',
+                vars: {email, username, fullname, password},
+                fields: ['apikey', 'id', 'permissions']
             }).then(({errors, data}) => {
 
                 if (errors && errors.length) {

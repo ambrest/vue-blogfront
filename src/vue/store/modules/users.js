@@ -10,19 +10,9 @@ export const users = {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
-                variables: {apikey},
-                query: `
-                       query GetAllUsers($apikey: String!) {
-                           getAllUsers(apikey: $apikey) {
-                               id,
-                               username,
-                               fullname,
-                               permissions,
-                               deactivated,
-                               email
-                           }
-                       }
-                `
+                operation: 'getAllUsers',
+                vars: {apikey},
+                fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email']
             }).then(({errors, data: {getAllUsers}}) => {
 
                 if (errors && errors.length) {
@@ -49,14 +39,9 @@ export const users = {
 
             const {permissions} = user;
             return this.dispatch('graphql', {
-                variables: {apikey, permissions, id},
-                query: `
-                       query UpdateUser($id: String!, $apikey: String!, $permissions: [String]!) {
-                           updateUser(id: $id, apikey: $apikey, permissions: $permissions) {
-                               id
-                           }
-                       }
-                `
+                operation: 'getAllUsers',
+                vars: {apikey, permissions, id},
+                fields: ['id']
             }).then(({errors}) => {
                 if (errors && errors.length) {
                     // TODO: Log?
@@ -71,14 +56,9 @@ export const users = {
             const {id} = user;
 
             return this.dispatch('graphql', {
-                variables: {apikey, deactivated, id},
-                query: `
-                       query UpdateUser($id: String!, $apikey: String!, $deactivated: Boolean!) {
-                           updateUser(id: $id, apikey: $apikey, deactivated: $deactivated) {
-                               id
-                           }
-                       }
-                `
+                operation: 'getAllUsers',
+                vars: {apikey, deactivated, id},
+                fields: ['id']
             }).then(({errors}) => {
 
                 if (errors && errors.length) {
