@@ -83,6 +83,9 @@
 
                 }).then(post => {
 
+                    // Sort comments
+                    post.comments.sort((a, b) => a.timestamp > b.timestamp ? -1 : 1);
+
                     // Update meta tags
                     const tmpBody = document.createElement('body');
                     tmpBody.innerHTML = post.body;
