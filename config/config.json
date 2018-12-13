@@ -1,0 +1,10 @@
+{
+    "themeColor": "#C62642",
+    "apiEndPoint": "http://localhost:4000/api",
+    "wordsPerMinute": 250,
+    "availableUserPermissions": [
+        "administrate",
+        "post",
+        "comment"
+    ]
+}
