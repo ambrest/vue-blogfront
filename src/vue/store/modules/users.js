@@ -41,6 +41,7 @@ export const users = {
             return this.dispatch('graphql', {
                 operation: 'updateUser',
                 vars: {apikey, permissions, id},
+                types: {permissions: 'String'},
                 fields: ['id']
             }).then(({errors}) => {
                 if (errors && errors.length) {

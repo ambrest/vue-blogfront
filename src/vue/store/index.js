@@ -22,7 +22,7 @@ export default new Vuex.Store({
 
     actions: {
 
-        async graphql({state}, {operation, vars, fields}) {
+        async graphql({state}, ops) {
             state.requestActive = true;
             return fetch(config.apiEndPoint, {
                 method: 'POST',
@@ -32,7 +32,7 @@ export default new Vuex.Store({
                     'Accept': 'application/json'
                 },
 
-                body: JSON.stringify(queryBuilder({operation, vars, fields}))
+                body: JSON.stringify(queryBuilder(ops))
 
                 /* eslint-disable no-console */
             }).then(v => {
