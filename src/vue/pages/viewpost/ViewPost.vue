@@ -13,17 +13,16 @@
                      v-html="post.body"></article>
         </div>
 
-        <div v-if="$store.state.auth.user"
-             class="tab">
+        <div class="tab">
 
-            <create-comment :postid="post.id"
-                            class="create-comment"
+            <create-comment v-if="canComment"
+                            :postid="post.id"
                             @submitted="fetch"></create-comment>
 
             <!-- Comment list -->
             <div class="comments">
 
-                <div v-if="post.comments.length">
+                <div>
                     <h1>Responses</h1>
                     <comment v-for="comment of post.comments"
                              :comment="comment"></comment>
@@ -50,6 +49,15 @@
             return {
                 post: null
             };
+        },
+
+        computed: {
+
+            canComment() {
+                const {user} = this.$store.state.auth;
+                return user && user.permissions.includes('comment');
+            }
+
         },
 
         beforeMount() {
@@ -144,13 +152,12 @@
     .create-comment {
         width: 100%;
         flex-shrink: 0;
-        margin-top: 0.5em;
+        margin: 0.5em 0 2em;
     }
 
     .comments {
         @include flex(column, stretch);
         color: $palette-slate-gray;
-        margin-top: 2em;
         width: 100%;
 
         div > h1 {

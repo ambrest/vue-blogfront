@@ -15,11 +15,13 @@
 
         <text-input-field ref="inPassword"
                           :error="errorPassword"
+                          :password="true"
                           placeholder="New password"
                           @submit="submit"></text-input-field>
 
         <text-input-field ref="inPasswordRepeat"
                           :error="errorPassword"
+                          :password="true"
                           placeholder="Repeat new password"
                           @submit="submit"></text-input-field>
 
