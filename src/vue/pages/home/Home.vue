@@ -164,7 +164,7 @@
             .content {
                 @include flex(column, flex-start);
                 padding-left: 2em;
-                word-break: break-all;
+                word-break: break-word;
 
                 h2 {
                     @include font(400);

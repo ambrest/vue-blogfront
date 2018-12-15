@@ -56,7 +56,7 @@ export const posts = {
                     return Promise.reject(errors[0].message);
                 } else {
                     const {id, timestamp} = data.post;
-                    state.splice(0, 0, {
+                    state.unshift({
                         id,
                         timestamp,
                         title,
@@ -119,6 +119,21 @@ export const posts = {
                     return Promise.reject(errors[0].message);
                 } else {
                     return this.dispatch('posts/update');
+                }
+            });
+        },
+
+        async updateComment({state, rootState}, {postid, id, body}) {
+            const {apikey} = rootState.auth;
+
+            return this.dispatch('graphql', {
+                operation: 'updateComment',
+                vars: {postid, id, body, apikey},
+                fields: ['id']
+            }).then(({errors}) => {
+                if (!errors) {
+                    const post = state.find(post => post.id === postid);
+                    post.comments.find(cmd => cmd.id === id && (cmd.body = body));
                 }
             });
         },

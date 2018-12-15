@@ -5,20 +5,46 @@
 
         <p class="date">{{ toDateString(comment.timestamp) }} • {{ comment.body | HTMLToTimeToReadString }}</p>
 
-        <p class="body">{{ comment.body }}</p>
+        <p v-if="!edit"
+           class="body">
+            {{ comment.body }}
+        </p>
 
-        <span class="delete" @click="removeComment">Delete comment</span>
+        <!-- Only available for the creator of the comment -->
+        <text-area-input-field v-show="edit"
+                               ref="textArea"
+                               placeholder="Edit comment"></text-area-input-field>
+
+        <div v-if="auth.user && auth.user.id === comment.user.id" class="actions">
+
+            <!-- Editor actions -->
+            <span v-show="!edit"
+                  class="edit"
+                  @click="editComment()">Edit</span>
+
+            <span v-show="edit"
+                  @click=" updateComment()">Save</span>
+
+            <span v-show="edit"
+                  class="delete"
+                  @click="cancelUpdateComment">Cancel</span>
+
+            <span class="delete" @click="removeComment">Delete comment</span>
+        </div>
 
     </div>
 </template>
 
 <script>
 
+    // UI Components
+    import TextAreaInputField from '../../ui/TextAreaInputField';
 
     // Vuex stuff
     import {mapState} from 'vuex';
 
     export default {
+        components: {TextAreaInputField},
 
         props: {
             comment: {
@@ -32,7 +58,9 @@
         },
 
         data() {
-            return {};
+            return {
+                edit: false
+            };
         },
 
         computed: {
@@ -51,6 +79,27 @@
                 const {id} = this.comment;
 
                 this.$store.dispatch('posts/removeComment', {postid, id});
+            },
+
+            updateComment() {
+                const postid = this.post.id;
+                const {id} = this.comment;
+
+                this.$store.dispatch('posts/updateComment', {
+                    postid, id,
+                    body: this.$refs.textArea.value
+                });
+
+                this.edit = false;
+            },
+
+            editComment() {
+                this.edit = true;
+                this.$refs.textArea.setContent(this.comment.body);
+            },
+
+            cancelUpdateComment() {
+                this.edit = false;
             }
         }
     };
@@ -78,17 +127,23 @@
             margin-top: 0.5em;
         }
 
-        .delete {
+        .actions {
 
-            @include font(500, 0.75em);
-            margin-top: 0.25em;
-            margin-right: 0.25em;
-            transition: all 0.3s;
-            cursor: pointer;
-            text-decoration: underline;
+            span {
+                @include font(500, 0.75em);
+                margin-top: 0.25em;
+                margin-right: 0.25em;
+                transition: all 0.3s;
+                cursor: pointer;
+                text-decoration: underline;
+            }
 
-            &:hover {
+            .delete:hover {
                 color: $palette-sweet-red;
+            }
+
+            .edit:hover {
+                color: $palette-sweet-magenta;
             }
         }
     }

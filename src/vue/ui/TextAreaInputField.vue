@@ -55,8 +55,11 @@
                 this.value = '';
                 this.updateValue();
                 this.$refs.input.style.height = 'auto';
-            }
+            },
 
+            setContent(str) {
+                this.value = str;
+            }
         }
     };
 
