@@ -48,12 +48,18 @@
             </div>
         </editor-menu-bar>
 
-        <editor-content :editor="editor" class="editor blog-content"></editor-content>
+        <editor-content ref="editor"
+                        :editor="editor"
+                        class="editor blog-content"></editor-content>
 
+        <base64-image-drop-area @drop="insertImage"></base64-image-drop-area>
     </div>
 </template>
 
 <script>
+
+    // Custom stuff
+    import Base64ImageDropArea from './Base64ImageDropArea';
 
     // TipTap editor
     import {Editor, EditorContent, EditorMenuBar, EditorMenuBubble} from 'tiptap';
@@ -72,6 +78,7 @@
         Code,
         Italic,
         Link,
+        Image,
         Strike,
         Underline,
         History
@@ -80,6 +87,7 @@
     export default {
 
         components: {
+            Base64ImageDropArea,
             EditorMenuBar,
             EditorContent,
             EditorMenuBubble
@@ -112,7 +120,8 @@
                     new History(),
                     new Strike(),
                     new Underline(),
-                    new Link()
+                    new Link(),
+                    new Image()
                 ]
             });
         },
@@ -137,6 +146,31 @@
                 command({href: url});
                 this.hideLinkMenu();
                 this.editor.focus();
+            },
+
+            insertImage({base64, file}) {
+
+                if (window.getSelection) {
+                    const sel = window.getSelection();
+                    const path = this.utils.bubbleElementsTree(sel.anchorNode);
+
+                    if (path.includes(this.$refs.editor.$el) && sel.getRangeAt && sel.rangeCount) {
+                        const range = sel.getRangeAt(0);
+                        range.deleteContents();
+
+                        const img = document.createElement('img');
+                        img.src = base64;
+
+                        range.insertNode(img);
+                        return;
+                    }
+
+                } else if (document.selection && document.selection.createRange) {
+                    document.selection.createRange().text = `<img src="${base64}">`;
+                    return;
+                }
+
+                this.editor.setContent(this.html + `<img src="${base64}">`);
             },
 
             setHTML(html) {

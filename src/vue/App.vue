@@ -141,7 +141,7 @@
 
             > h1 {
                 position: relative;
-                @include font(500, 1.15em);
+                @include font(500, 1.25em);
                 margin-bottom: 3em;
                 flex-shrink: 0;
                 opacity: 0.85;

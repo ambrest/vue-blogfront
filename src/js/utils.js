@@ -6,13 +6,24 @@
 export function eventPath(evt) {
     let path = evt.path || (evt.composedPath && evt.composedPath());
     if (path) return path;
+    return bubbleElementsTree(evt.target);
+}
 
-    let el = evt.target.parentElement;
-    path = [evt.target, el];
-    while (el = el.parentElement) path.push(el);
+export function bubbleElementsTree(baseElement) {
+
+    if (!baseElement) {
+        return [];
+    }
+
+    const path = [baseElement];
+
+    for (let el = baseElement; (el = el.parentElement);) {
+        path.push(el);
+    }
 
     path.push(document, window);
     return path;
+
 }
 
 /**

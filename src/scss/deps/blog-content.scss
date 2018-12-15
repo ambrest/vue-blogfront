@@ -1,6 +1,8 @@
 .blog-content {
     color: $palette-slate-gray;
     line-height: 1.5em;
+    font-size: 1.2em;
+    font-family: "Avenir LT Std 55 Roman";
 
     blockquote {
         border-left: .25em solid #dfe2e5;
@@ -55,5 +57,13 @@
     a {
         color: $palette-sweet-red;
         cursor: pointer;
+    }
+
+    img {
+        display: block;
+        object-fit: contain;
+        margin: 2em auto;
+        border-radius: 0.25em;
+        max-width: 100%;
     }
 }

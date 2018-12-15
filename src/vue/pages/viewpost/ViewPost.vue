@@ -128,7 +128,6 @@
         }
 
         article {
-            font-size: 0.9em;
             flex-shrink: 1;
             width: 100%;
         }
