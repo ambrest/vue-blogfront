@@ -37,10 +37,18 @@
 
                     <!-- Action buttons -->
                     <div class="buttons">
+
                         <router-link :to="`post/${post.id}`">
                             <button class="button-primary icon"><i class="fas fa-fw fa-book"></i>Read more</button>
                         </router-link>
-                        <button class="button-secondary icon"><i class="fas fa-fw fa-link"></i>Share</button>
+
+                        <router-link :to="`edit/${post.id}`">
+                            <button v-if="auth.user && post.user.id === auth.user.id"
+                                    class="button-secondary icon">
+                                <i class="fas fa-fw fa-pen"></i>EDIT
+                            </button>
+                        </router-link>
+
                     </div>
                 </div>
             </div>
@@ -55,6 +63,9 @@
 </template>
 
 <script>
+
+    // Vuex stuff
+    import {mapState} from 'vuex';
 
     export default {
 
@@ -72,7 +83,9 @@
 
                     return v;
                 }).sort((a, b) => a.timestamp > b.timestamp ? -1 : 1);
-            }
+            },
+
+            ...mapState(['auth'])
         },
 
         mounted() {

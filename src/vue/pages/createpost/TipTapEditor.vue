@@ -90,6 +90,7 @@
 
                 // Editor stuff
                 editor: null,
+                html: '',
                 linkUrl: null,
                 linkMenuIsActive: false
             };
@@ -98,7 +99,7 @@
         mounted() {
             this.editor = new Editor({
                 content: '',
-                onUpdate: ({getHTML}) => this.$emit('change', getHTML()),
+                onUpdate: ({getHTML}) => this.html = getHTML(),
                 extensions: [
                     new Blockquote(),
                     new Heading({levels: [1, 2, 3]}),
@@ -126,14 +127,21 @@
                 this.linkMenuIsActive = true;
                 this.$nextTick(() => this.$refs.linkInput.focus());
             },
+
             hideLinkMenu() {
                 this.linkUrl = null;
                 this.linkMenuIsActive = false;
             },
+
             setLinkUrl(command, url) {
                 command({href: url});
                 this.hideLinkMenu();
                 this.editor.focus();
+            },
+
+            setHTML(html) {
+                this.html = html;
+                this.editor.setContent(html);
             }
         }
     };
@@ -189,27 +197,30 @@
             font-size: 0.9em;
         }
 
-        .menububble form {
+        .menububble {
             position: absolute;
-            @include flex(row, center);
-            background: $palette-snow-white;
-            box-shadow: 0 3px 10px 0 rgba(black, 0.07);
-            padding: 0.5em 0.75em;
-            border-radius: 0.15em;
 
-            i {
-                font-size: 1.05em;
-                color: $palette-decent-blue;
-                transition: all 0.3s;
-                cursor: pointer;
+            form {
+                @include flex(row, center);
+                background: $palette-snow-white;
+                box-shadow: 0 3px 10px 0 rgba(black, 0.07);
+                padding: 0.5em 0.75em;
+                border-radius: 0.15em;
 
-                &:hover {
-                    color: $palette-sweet-red;
+                i {
+                    font-size: 1.05em;
+                    color: $palette-decent-blue;
+                    transition: all 0.3s;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: $palette-sweet-red;
+                    }
                 }
-            }
 
-            input::placeholder {
-                color: $palette-decent-blue;
+                input::placeholder {
+                    color: $palette-decent-blue;
+                }
             }
         }
     }

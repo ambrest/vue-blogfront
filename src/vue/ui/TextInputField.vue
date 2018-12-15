@@ -55,6 +55,10 @@
             clear() {
                 this.value = '';
                 this.updateValue();
+            },
+
+            setContent(str) {
+                this.value = str;
             }
 
         }

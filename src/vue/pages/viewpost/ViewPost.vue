@@ -69,28 +69,10 @@
             fetch() {
                 const {id} = this.$route.params;
 
-                // Try to fetch from store
-                let post = this.$store.state.posts.find(post => post.id === id);
+                // Find post by id
+                this.$store.dispatch('posts/findPostById', {id}).then(post => {
 
-                new Promise(resolve => {
-
-                    if (!post) {
-                        return this.$store.dispatch('posts/update').then(() => {
-                            const post = this.$store.state.posts.find(post => post.id === id);
-
-                            // Redirect to homepage if not found
-                            if (!post) {
-                                this.$router.replace('/');
-                            } else {
-                                resolve(this.post = post);
-                            }
-                        });
-                    } else {
-                        resolve(this.post = post);
-                    }
-
-                }).then(post => {
-
+                    this.post = post;
                     // Sort comments
                     post.comments.sort((a, b) => a.timestamp > b.timestamp ? -1 : 1);
 
@@ -114,6 +96,8 @@
                         {property: 'og:description', content: description},
                         {property: 'og:site_name:', content: 'Site name:, i.e. Moz'}
                     ]);
+                }).catch(() => {
+                    this.$router.replace('/');
                 });
             }
 

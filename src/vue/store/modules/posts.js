@@ -69,6 +69,24 @@ export const posts = {
             });
         },
 
+        async updatePost({rootState}, {id, title, body}) {
+            const {apikey} = rootState.auth;
+
+            return this.dispatch('graphql', {
+                operation: 'updatePost',
+                vars: {apikey, id, title, body},
+                fields: ['id']
+            }).then(({errors}) => {
+
+                if (errors && errors.length) {
+                    return Promise.reject(errors[0].message);
+                } else {
+                    return this.dispatch('posts/update');
+                }
+
+            });
+        },
+
         async newComment({rootState}, {postid, body}) {
             const {apikey} = rootState.auth;
 
@@ -80,6 +98,28 @@ export const posts = {
                 if (errors && errors.length) {
                     return Promise.reject(errors[0].message);
                 }
+            });
+        },
+
+        async findPostById({state}, {id}) {
+            const post = state.find(post => post.id === id);
+            return new Promise((resolve, reject) => {
+
+                if (!post) {
+                    return this.dispatch('posts/update').then(() => {
+                        const post = state.find(post => post.id === id);
+
+                        // Redirect to homepage if not found
+                        if (!post) {
+                            reject();
+                        } else {
+                            resolve(post);
+                        }
+                    });
+                } else {
+                    resolve(post);
+                }
+
             });
         }
     }

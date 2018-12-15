@@ -105,6 +105,10 @@ export default [
         path: '/post/:id',
         component: ViewPost
     },
+    {
+        path: '/edit/:id',
+        component: CreatePost
+    },
 
     // 404 catcher
     {path: '*', redirect: '/'}
