@@ -2,6 +2,8 @@
     <div class="header">
 
         <div class="bar">
+
+            <!-- Page title grabbed from the config file -->
             <router-link class="h1" to="/">{{ config.pageTitle }}</router-link>
 
             <div class="links">

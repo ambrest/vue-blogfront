@@ -55,9 +55,7 @@
                     this.errorMsg = reason;
                 });
             }
-
         }
-
     };
 
 </script>

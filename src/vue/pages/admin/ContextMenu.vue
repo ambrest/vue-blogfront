@@ -80,9 +80,7 @@
                 this.user = {};
                 this.$emit('close');
             }
-
         }
-
     };
 
 </script>

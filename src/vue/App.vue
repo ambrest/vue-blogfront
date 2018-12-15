@@ -9,7 +9,7 @@
         <loading-screen class="loader"></loading-screen>
 
         <!-- Footer -->
-        <page-footer class="footer"></page-footer>
+        <page-footer :class="{footer: 1, inactive: $store.state.requestActive}"></page-footer>
 
     </div>
 </template>
@@ -19,7 +19,7 @@
     // Font-awesome styles
     import '@fortawesome/fontawesome-free/css/all.css';
 
-    // Normalize
+    // Normalize css to look (almost) equal on all browsers
     import 'normalize.css';
 
     // Components
@@ -120,6 +120,15 @@
 
     .header {
         width: 100%;
+    }
+
+    .footer {
+        transition: all 0.3s;
+        opacity: 1;
+
+        &.inactive {
+            opacity: 0;
+        }
     }
 
     .router {

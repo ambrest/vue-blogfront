@@ -77,9 +77,7 @@
                     this.errorMsg = reason;
                 });
             }
-
         }
-
     };
 
 </script>

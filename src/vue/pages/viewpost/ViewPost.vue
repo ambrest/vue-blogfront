@@ -101,9 +101,7 @@
                     this.$router.replace('/');
                 });
             }
-
         }
-
     };
 
 </script>

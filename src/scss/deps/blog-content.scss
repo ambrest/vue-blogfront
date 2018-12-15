@@ -61,12 +61,13 @@
         font-weight: 500;
     }
 
-    li, ol {
-        list-style-position: inside;
-        margin-left: 0.25em;
 
-        p {
-            display: inline-block;
+    ol, ul {
+        list-style-position: outside;
+        margin-left: 1.4em;
+
+        li {
+            margin: 0.25em 0;
         }
     }
 
@@ -81,5 +82,15 @@
         margin: 2.5em auto;
         border-radius: 0.25em;
         max-width: 100%;
+    }
+
+    /**
+     * Empty elements don't consume height - so use a pseudo element which
+     * is not selectable but consumes height.
+     */
+    p:empty::after {
+        content: ' ';
+        background: transparent;
+        user-select: none;
     }
 }

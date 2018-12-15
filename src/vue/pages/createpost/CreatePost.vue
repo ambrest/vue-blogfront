@@ -99,6 +99,7 @@
             removePost() {
                 this.errorMsg = '';
 
+                // Warn user about deleting this post
                 if (!this.proceedDelete) {
                     this.proceedDelete = true;
                 } else {
@@ -111,9 +112,7 @@
                     });
                 }
             }
-
         }
-
     };
 
 </script>
