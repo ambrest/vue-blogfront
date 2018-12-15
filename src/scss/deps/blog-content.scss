@@ -1,8 +1,8 @@
 .blog-content {
     color: $palette-slate-gray;
-    line-height: 1.5em;
-    font-size: 1.2em;
-    font-family: "Avenir LT Std 55 Roman";
+    font-family: "Open Sans", serif;
+    font-size: 1.05em;
+    line-height: 1.58em;
 
     blockquote {
         border-left: .25em solid #dfe2e5;
@@ -11,19 +11,35 @@
         font-weight: 400;
     }
 
+    code,
+    pre {
+        background: rgba(0, 0, 0, 0.025);
+        border-radius: 0.15em;
+        font-size: 0.9em;
+    }
+
     code {
-        background-color: rgba(27, 31, 35, 0.05);
-        border-radius: 3px;
-        margin: 0;
-        padding: .2em .4em;
+        padding: 0.2em 0.4em;
+    }
+
+    pre {
+        padding: 1.25em;
+        line-height: 1.35em;
+        margin: 1.75em 0;
+        white-space: pre-wrap;
+
+        code {
+            background: transparent;
+            padding: 0;
+        }
     }
 
     h1, h2, h3 {
         font-weight: 500;
-        margin-top: 1em;
 
         &:not(:first-child) {
-            margin-top: 0.5em;
+            margin-top: 1em;
+            margin-bottom: 0.25em;
         }
     }
 
@@ -62,7 +78,7 @@
     img {
         display: block;
         object-fit: contain;
-        margin: 2em auto;
+        margin: 2.5em auto;
         border-radius: 0.25em;
         max-width: 100%;
     }

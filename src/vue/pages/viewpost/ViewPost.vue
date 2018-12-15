@@ -123,6 +123,7 @@
             color: $palette-slate-gray;
 
             b {
+                font-weight: 500;
                 color: $palette-sweet-red;
             }
         }

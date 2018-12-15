@@ -115,8 +115,8 @@
 
         .post {
             @include flex(row);
+            @include fixed-width(70%);
             margin-bottom: 9em;
-            width: 70%;
 
             .date {
                 position: relative;
@@ -164,7 +164,9 @@
             .content {
                 @include flex(column, flex-start);
                 padding-left: 2em;
+                word-break: break-all;
                 word-break: break-word;
+                flex-shrink: 1;
 
                 h2 {
                     @include font(400);
@@ -180,7 +182,7 @@
                 .preview {
                     position: relative;
                     flex-grow: 0;
-                    @include font(500, 0.9em);
+                    @include font(400, 0.9em);
                     white-space: pre-line;
                     text-overflow: ellipsis;
                     overflow: hidden;

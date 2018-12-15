@@ -34,6 +34,7 @@
                 <button :class="{'active': isActive.underline() }" @click="commands.underline"><i class="fas fa-fw fa-underline"></i></button>
                 <button :class="{'active': isActive.blockquote() }" @click="commands.blockquote"><i class="fas fa-fw fa-quote-left"></i></button>
                 <button :class="{'active': isActive.code() }" @click="commands.code"><i class="fas fa-fw fa-code"></i></button>
+                <button :class="{'active': isActive.code_block() }" @click="commands.code_block"><i class="fas fa-fw fa-file-code"></i></button>
                 <button :class="{'active': isActive.link && isActive.link() }" @click="showLinkMenu(getMarkAttrs('link'))"><i class="fas fa-fw fa-link"></i>
                 </button>
 
@@ -122,6 +123,7 @@
                     new ListItem(),
                     new Bold(),
                     new Code(),
+                    new CodeBlock(),
                     new Italic(),
                     new History(),
                     new Strike(),
@@ -210,7 +212,6 @@
             border: 1px solid $palette-decent-blue;
             margin-top: 0.5em;
             padding: 0.5em;
-            font-size: 0.9em;
         }
 
         .menububble {

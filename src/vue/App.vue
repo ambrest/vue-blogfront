@@ -19,6 +19,9 @@
     // Font-awesome styles
     import '@fortawesome/fontawesome-free/css/all.css';
 
+    // Normalize
+    import 'normalize.css';
+
     // Components
     import PageHeader    from './Header';
     import PageFooter    from './Footer';
@@ -172,4 +175,5 @@
         line-height: 1;
         flex-shrink: 0;
     }
+
 </style>
