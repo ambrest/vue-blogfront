@@ -87,6 +87,24 @@ export const posts = {
             });
         },
 
+        async removePost({rootState}, {id}) {
+            const {apikey} = rootState.auth;
+
+            return this.dispatch('graphql', {
+                operation: 'removePost',
+                vars: {apikey, id},
+                fields: ['id']
+            }).then(({errors}) => {
+
+                if (errors && errors.length) {
+                    return Promise.reject(errors[0].message);
+                } else {
+                    return this.dispatch('posts/update');
+                }
+
+            });
+        },
+
         async newComment({rootState}, {postid, body}) {
             const {apikey} = rootState.auth;
 

@@ -10,9 +10,20 @@
 
         <p class="error">{{ errorMsg }}</p>
 
-        <button class="post-btn button-primary icon" @click="originalPost ? update() : post()">
-            <i class="fas fa-fw fa-upload"></i>{{ originalPost ? 'Save changes' : 'Post' }}
-        </button>
+        <div class="actions">
+
+            <button v-if="originalPost"
+                    class="button-secondary icon"
+                    @click="removePost">
+                <i class="fas fa-fw fa-trash"></i> {{ proceedDelete ? 'Are you sure?' : 'delete' }}
+            </button>
+
+            <button class="post-btn button-primary icon" @click="originalPost ? update() : post()">
+                <i class="fas fa-fw fa-upload"></i>{{ originalPost ? 'Save changes' : 'Post' }}
+            </button>
+
+        </div>
+
 
     </div>
 </template>
@@ -35,6 +46,8 @@
         data() {
             return {
                 errorMsg: '',
+
+                proceedDelete: false,
                 originalPost: null
             };
         },
@@ -81,6 +94,22 @@
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });
+            },
+
+            removePost() {
+                this.errorMsg = '';
+
+                if (!this.proceedDelete) {
+                    this.proceedDelete = true;
+                } else {
+                    this.$store.dispatch('posts/removePost', {
+                        id: this.originalPost.id
+                    }).then(() => {
+                        this.$router.push('/');
+                    }).catch(reason => {
+                        this.errorMsg = reason;
+                    });
+                }
             }
 
         }
@@ -110,9 +139,14 @@
         margin: 1em;
     }
 
-    .post-btn {
+    .actions {
+        @include flex(row, center, flex-end);
+        width: 100%;
         flex-shrink: 0;
-        align-self: flex-end;
+
+        button {
+            margin-left: 0.5em;
+        }
     }
 
 </style>
