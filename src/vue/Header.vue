@@ -2,7 +2,7 @@
     <div class="header">
 
         <div class="bar">
-            <router-link class="h1" to="/">Vue Blogfront</router-link>
+            <router-link class="h1" to="/">{{ config.pageTitle }}</router-link>
 
             <div class="links">
 

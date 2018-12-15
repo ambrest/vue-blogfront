@@ -1,4 +1,5 @@
 {
+    "pageTitle": "Vue Blogfront",
     "themeColor": "#C62642",
     "apiEndPoint": "http://localhost:4000/api",
     "wordsPerMinute": 250,

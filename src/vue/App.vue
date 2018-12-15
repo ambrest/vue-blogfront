@@ -1,12 +1,15 @@
 <template>
     <div id="app">
 
-        <!-- Actual app -->
+        <!-- Header -->
         <page-header class="header"></page-header>
 
         <!-- Router and loading screen -->
         <router-view :class="{router: 1, inactive: $store.state.requestActive}"></router-view>
         <loading-screen class="loader"></loading-screen>
+
+        <!-- Footer -->
+        <page-footer class="footer"></page-footer>
 
     </div>
 </template>
@@ -17,12 +20,13 @@
     import '@fortawesome/fontawesome-free/css/all.css';
 
     // Components
-    import PageHeader    from './pages/PageHeader';
+    import PageHeader    from './Header';
+    import PageFooter    from './Footer';
     import LoadingScreen from './screens/LoadingScreen';
 
     export default {
 
-        components: {PageHeader, LoadingScreen},
+        components: {PageHeader, PageFooter, LoadingScreen},
 
         data() {
             return {};
