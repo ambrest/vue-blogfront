@@ -25,7 +25,8 @@
                 <div>
                     <h1>Responses</h1>
                     <comment v-for="comment of post.comments"
-                             :comment="comment"></comment>
+                             :comment="comment"
+                             :post="post"></comment>
                 </div>
 
                 <!-- Placeholder -->

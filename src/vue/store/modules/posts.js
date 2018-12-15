@@ -26,6 +26,7 @@ export const posts = {
                            body,
                            timestamp,
                            user {
+                               id,
                                fullname,
                                username
                            }
@@ -87,7 +88,7 @@ export const posts = {
             });
         },
 
-        async removePost({rootState}, {id}) {
+        async removePost({state, rootState}, {id}) {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
@@ -99,7 +100,8 @@ export const posts = {
                 if (errors && errors.length) {
                     return Promise.reject(errors[0].message);
                 } else {
-                    return this.dispatch('posts/update');
+                    const postIndex = state.findIndex(post => post.id === id);
+                    state.splice(postIndex, 1);
                 }
 
             });
@@ -115,6 +117,23 @@ export const posts = {
             }).then(({errors}) => {
                 if (errors && errors.length) {
                     return Promise.reject(errors[0].message);
+                } else {
+                    return this.dispatch('posts/update');
+                }
+            });
+        },
+
+        async removeComment({state, rootState}, {postid, id}) {
+            const {apikey} = rootState.auth;
+
+            return this.dispatch('graphql', {
+                operation: 'removeComment',
+                vars: {postid, id, apikey},
+                fields: ['id']
+            }).then(({errors}) => {
+                if (!errors) {
+                    const post = state.find(post => post.id === postid);
+                    post.comments = post.comments.filter(cmd => cmd.id !== id);
                 }
             });
         },

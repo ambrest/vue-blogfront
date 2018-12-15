@@ -51,8 +51,6 @@
                     postid: this.postid
                 }).then(() => {
                     this.$refs.input.clear();
-                    return this.$store.dispatch('posts/update');
-                }).then(() => {
                     this.$emit('submitted');
                 }).catch(reason => {
                     this.errorMsg = reason;
