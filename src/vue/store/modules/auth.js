@@ -2,6 +2,9 @@ export const auth = {
 
     namespaced: true,
 
+    /**
+     * Holds user and a apikey which is used as sessionkey
+     */
     state: {
         user: null,
         apikey: null
@@ -9,6 +12,10 @@ export const auth = {
 
     actions: {
 
+        /**
+         * Reset's the module state and removes
+         * the sessionkey from localStorage
+         */
         async logout({state}) {
             state.user = null;
             state.apikey = null;
@@ -17,6 +24,15 @@ export const auth = {
             localStorage.removeItem('apikey');
         },
 
+        /**
+         * Basic login, receives an api-key and general
+         * user informations such as email, id etc. and saves
+         * these to the module state.
+         *
+         * @param state
+         * @param username Username (email is currently as alternative not available)
+         * @param password Password
+         */
         async login({state}, {username, password}) {
             return this.dispatch('graphql', {
                 operation: 'login',
@@ -24,10 +40,12 @@ export const auth = {
                 fields: ['apikey', 'email', 'permissions', 'id', 'fullname']
             }).then(({errors, data}) => {
 
+                // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
-                    return Promise.reject(errors[0].message);
+                    throw errors[0].message;
                 } else {
                     const {apikey, id, email, fullname, permissions} = data.login;
+
                     state.apikey = apikey;
                     state.user = {
                         email,
@@ -37,13 +55,19 @@ export const auth = {
                         fullname
                     };
 
-                    // Save api-key
+                    // Save apikey and return loaded user
                     localStorage.setItem('apikey', apikey);
                     return state.user;
                 }
             });
         },
 
+        /**
+         * Login via exising session- / apikey
+         *
+         * @param state
+         * @param apikey
+         */
         async key({state}, {apikey}) {
             return this.dispatch('graphql', {
                 operation: 'login',
@@ -51,10 +75,15 @@ export const auth = {
                 fields: ['email', 'permissions', 'id', 'fullname', 'username']
             }).then(({errors, data}) => {
 
+                // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
+
+                    // Invalid apikey, logout
                     this.dispatch('auth/logout');
-                    return Promise.reject(errors[0].message);
+                    throw errors[0].message;
                 } else {
+
+                    // Save to current state
                     const {id, email, fullname, username, permissions} = data.login;
                     state.apikey = apikey;
                     state.user = {
@@ -70,6 +99,14 @@ export const auth = {
             });
         },
 
+        /**
+         * Registers an new user
+         *
+         * @param email E-Mail Address
+         * @param username Username, need to be unique
+         * @param fullname Fullname
+         * @param password Password
+         */
         async register({state}, {email, username, fullname, password}) {
             return this.dispatch('graphql', {
                 operation: 'register',
@@ -77,9 +114,12 @@ export const auth = {
                 fields: ['apikey', 'id', 'permissions']
             }).then(({errors, data}) => {
 
+                // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
-                    return Promise.reject(errors[0].message);
+                    throw errors[0].message;
                 } else {
+
+                    // Save to current state
                     const {id, apikey, permissions} = data.register;
                     state.apikey = apikey;
                     state.user = {
@@ -90,13 +130,21 @@ export const auth = {
                         fullname
                     };
 
-                    // Save api-key
+                    // Save apikey
                     localStorage.setItem('apikey', apikey);
                     return state.user;
                 }
             });
         },
 
+        /**
+         * Updates the credentials of the currently
+         * logged in user.
+         *
+         * @param email New E-Mail
+         * @param fullname New Fullname
+         * @param password New Password
+         */
         async updateCredentials({state}, {email, fullname, password}) {
             return this.dispatch('graphql', {
                 operation: 'updateUser',
@@ -107,9 +155,13 @@ export const auth = {
                 },
                 fields: ['email', 'fullname', 'permissions']
             }).then(({errors, data}) => {
+
+                // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
-                    return Promise.reject(errors[0].message);
+                    throw errors[0].message;
                 } else {
+
+                    // Update changes in current state
                     const {email, fullname, permissions} = data.updateUser;
                     state.user = {
                         ...state.user,

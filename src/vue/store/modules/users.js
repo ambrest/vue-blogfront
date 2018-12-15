@@ -6,6 +6,10 @@ export const users = {
 
     actions: {
 
+        /**
+         * Loads all currently exising users
+         * into the current store module
+         */
         async update({state, rootState}) {
             const {apikey} = rootState.auth;
 
@@ -24,20 +28,26 @@ export const users = {
             });
         },
 
+        /**
+         * Updates the permissions of a specific user
+         *
+         * @param user User object
+         * @param type Type, can be 'add' or 'remove'
+         * @param permission Permission which should be added or removed from this user
+         */
         async setPermission({rootState}, {user, type, permission}) {
             const {apikey} = rootState.auth;
-            const {id} = user;
+            const {id, permissions} = user;
 
             if (type === 'add') {
-                user.permissions.push(permission);
+                permissions.push(permission);
             } else if (type === 'remove') {
-                const idx = user.permissions.indexOf(permission);
-                ~idx && user.permissions.splice(idx, 1);
+                const idx = permissions.indexOf(permission);
+                ~idx && permissions.splice(idx, 1);
             } else {
                 return Promise.reject();
             }
 
-            const {permissions} = user;
             return this.dispatch('graphql', {
                 operation: 'updateUser',
                 vars: {apikey, permissions, id},
@@ -47,11 +57,17 @@ export const users = {
                 if (errors && errors.length) {
                     // TODO: Log?
                 } else {
-                    return this.dispatch('users/update');
+                    return Promise.resolve();
                 }
             });
         },
 
+        /**
+         * Deactivates or re-activates a user.
+         *
+         * @param user User object
+         * @param deactivated Deactivation state
+         */
         async setDeactivated({rootState}, {user, deactivated}) {
             const {apikey} = rootState.auth;
             const {id} = user;
@@ -65,9 +81,14 @@ export const users = {
                 if (errors && errors.length) {
                     // TODO: Log?
                 } else {
-                    return this.dispatch('users/update');
-                }
 
+                    /**
+                     * Request was successful, update user locally to
+                     * prevent unnecessary api calls.
+                     */
+                    user.deactivated = deactivated;
+                    return Promise.resolve();
+                }
             });
         }
     }
