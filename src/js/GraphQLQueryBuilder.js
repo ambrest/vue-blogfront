@@ -27,7 +27,7 @@ function cfl(str) {
 
 function queryTypeList(data, types) {
     return Object.entries(data)
-        .filter(v => v[1])
+        .filter(v => v[1] !== null && v[1] !== undefined)
         .map(([k, v]) =>
             `$${k}:${Array.isArray(v) ? `[${cfl(v.length ? typeof v[0] : types[k])}]` : cfl(typeof v)}!`
         );
@@ -35,6 +35,6 @@ function queryTypeList(data, types) {
 
 function queryVarList(data) {
     return Object.entries(data)
-        .filter(v => v[1])
+        .filter(v => v[1] !== null && v[1] !== undefined)
         .map(([k]) => `${k}:$${k}`);
 }

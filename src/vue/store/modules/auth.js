@@ -52,7 +52,7 @@ export const auth = {
             }).then(({errors, data}) => {
 
                 if (errors && errors.length) {
-                    this.dispatch('/auth/logout');
+                    this.dispatch('auth/logout');
                     return Promise.reject(errors[0].message);
                 } else {
                     const {id, email, fullname, username, permissions} = data.login;
