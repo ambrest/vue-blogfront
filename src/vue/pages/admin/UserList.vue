@@ -31,7 +31,7 @@
 
                     <!-- Permission tags -->
                     <div class="permissions">
-                        <span v-for="per of config.availableUserPermissions"
+                        <span v-for="per of ['administrate', 'post','comment']"
                               :class="{active: user.permissions.includes(per)}"
                               @click="setPermission(user, per)">{{ per }}</span>
                     </div>
