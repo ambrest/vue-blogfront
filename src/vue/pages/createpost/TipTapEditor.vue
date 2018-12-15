@@ -45,6 +45,14 @@
                 <button :class="{'active': isActive.heading({level: 1}) }" @click="commands.heading({level: 1})"><span>H1</span></button>
                 <button :class="{'active': isActive.heading({level: 2}) }" @click="commands.heading({level: 2})"><span>H2</span></button>
                 <button :class="{'active': isActive.heading({level: 3}) }" @click="commands.heading({level: 3})"><span>H3</span></button>
+
+                <!-- Alignment -->
+                <button :class="{'active': isActive.align({alignment: 'left'}) }" @click="commands.align({align: 'left'})"><i
+                    class="fas fa-fw fa-align-left"></i></button>
+                <button :class="{'active': isActive.align({alignment: 'center'}) }" @click="commands.align({align: 'center'})"><i
+                    class="fas fa-fw fa-align-center"></i></button>
+                <button :class="{'active': isActive.align({alignment: 'right'}) }" @click="commands.align({align: 'right'})"><i
+                    class="fas fa-fw fa-align-right"></i></button>
             </div>
         </editor-menu-bar>
 
@@ -52,14 +60,10 @@
                         :editor="editor"
                         class="editor blog-content"></editor-content>
 
-        <base64-image-drop-area @drop="insertImage"></base64-image-drop-area>
     </div>
 </template>
 
 <script>
-
-    // Custom stuff
-    import Base64ImageDropArea from './Base64ImageDropArea';
 
     // TipTap editor
     import {Editor, EditorContent, EditorMenuBar, EditorMenuBubble} from 'tiptap';
@@ -78,16 +82,18 @@
         Code,
         Italic,
         Link,
-        Image,
         Strike,
         Underline,
         History
     }                                                               from 'tiptap-extensions';
 
+    // Custom tip-tap extensions
+    import Image     from '../../../js/tip-tap-extensions/Image';
+    import TextAlign from '../../../js/tip-tap-extensions/TextAlign';
+
     export default {
 
         components: {
-            Base64ImageDropArea,
             EditorMenuBar,
             EditorContent,
             EditorMenuBubble
@@ -121,7 +127,8 @@
                     new Strike(),
                     new Underline(),
                     new Link(),
-                    new Image()
+                    new Image(),
+                    new TextAlign()
                 ]
             });
         },
@@ -146,31 +153,6 @@
                 command({href: url});
                 this.hideLinkMenu();
                 this.editor.focus();
-            },
-
-            insertImage({base64, file}) {
-
-                if (window.getSelection) {
-                    const sel = window.getSelection();
-                    const path = this.utils.bubbleElementsTree(sel.anchorNode);
-
-                    if (path.includes(this.$refs.editor.$el) && sel.getRangeAt && sel.rangeCount) {
-                        const range = sel.getRangeAt(0);
-                        range.deleteContents();
-
-                        const img = document.createElement('img');
-                        img.src = base64;
-
-                        range.insertNode(img);
-                        return;
-                    }
-
-                } else if (document.selection && document.selection.createRange) {
-                    document.selection.createRange().text = `<img src="${base64}">`;
-                    return;
-                }
-
-                this.editor.setContent(this.html + `<img src="${base64}">`);
             },
 
             setHTML(html) {

@@ -18,7 +18,8 @@
         "tiptap-extensions": "^1.4.0",
         "vue": "^2.5.17",
         "vue-router": "^3.0.2",
-        "vuex": "^3.0.1"
+        "vuex": "^3.0.1",
+        "tiptap-commands": "latest"
     },
     "devDependencies": {
         "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
