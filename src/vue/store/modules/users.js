@@ -20,7 +20,7 @@ export const users = {
             }).then(({errors, data: {getAllUsers}}) => {
 
                 if (errors && errors.length) {
-                    // TODO: Log?
+                    throw errors[0].message;
                 } else if (Array.isArray(getAllUsers)) {
                     state.splice(0, state.length, ...getAllUsers);
                 }
@@ -37,28 +37,40 @@ export const users = {
          */
         async setPermission({rootState}, {user, type, permission}) {
             const {apikey} = rootState.auth;
-            const {id, permissions} = user;
+            const {id} = user;
 
-            if (type === 'add') {
-                permissions.push(permission);
-            } else if (type === 'remove') {
-                const idx = permissions.indexOf(permission);
-                ~idx && permissions.splice(idx, 1);
-            } else {
-                return Promise.reject();
-            }
+            const editArray = (type, array, item) => {
+                if (type === 'add') {
+                    array.push(item);
+                } else if (type === 'remove') {
+                    const idx = array.indexOf(item);
+                    ~idx && array.splice(idx, 1);
+                }
+                return array;
+            };
 
             return this.dispatch('graphql', {
                 operation: 'updateUser',
-                vars: {apikey, permissions, id},
+                vars: {
+                    apikey, id,
+                    permissions: editArray(type, [...user.permissions], permission)
+                },
                 types: {permissions: 'String'},
                 fields: ['id']
             }).then(({errors}) => {
+
                 if (errors && errors.length) {
-                    // TODO: Log?
+                    throw errors[0].message;
                 } else {
+
+                    /**
+                     * Request was successful, update user locally to
+                     * prevent unnecessary api calls.
+                     */
+                    user.permissions = editArray(type, [...user.permissions], permission);
                     return Promise.resolve();
                 }
+
             });
         },
 
@@ -79,7 +91,7 @@ export const users = {
             }).then(({errors}) => {
 
                 if (errors && errors.length) {
-                    // TODO: Log?
+                    throw errors[0].message;
                 } else {
 
                     /**
@@ -89,6 +101,7 @@ export const users = {
                     user.deactivated = deactivated;
                     return Promise.resolve();
                 }
+
             });
         }
     }

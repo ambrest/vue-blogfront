@@ -55,9 +55,7 @@
             </div>
 
             <!-- Placeholder -->
-            <div v-if="!posts.length" class="placeholder">Nothing posted yet...</div>
-
-            <!-- TODO: Error or new badge? -->
+            <div v-if="!posts.length" class="placeholder">{{ errorMsg || 'Nothing posted yet...' }}</div>
         </div>
 
     </section>
@@ -71,7 +69,9 @@
     export default {
 
         data() {
-            return {};
+            return {
+                errorMsg: null
+            };
         },
 
         computed: {
@@ -97,7 +97,9 @@
         mounted() {
 
             // Update posts
-            this.$store.dispatch('posts/update');
+            this.$store.dispatch('posts/update').catch(error => {
+                this.errorMsg = error;
+            });
         }
     };
 

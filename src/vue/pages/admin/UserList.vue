@@ -15,32 +15,32 @@
             <div class="permissions">Permissions</div>
         </div>
 
-        <div class="scroll-wrapper">
-            <div class="users">
+        <div class="users">
 
-                <!-- Actual user list -->
-                <div v-for="(user, index) of users"
-                     :class="{user: 1, deactivated: user.deactivated, selected: user === selectedUser}"
-                     @click.right="openMenu($event, user)">
+            <!-- Actual user list -->
+            <div v-for="(user, index) of users"
+                 :class="{user: 1, deactivated: user.deactivated, selected: user === selectedUser}"
+                 @click.right="openMenu($event, user)">
 
-                    <!-- General info -->
-                    <span class="index">#{{ String(index).padStart(3, '0') }}</span>
-                    <span class="fullname">{{ user.fullname }}</span>
-                    <span class="username">{{ user.username }}</span>
-                    <span class="email">{{ user.email }}</span>
+                <!-- General info -->
+                <span class="index">#{{ String(index).padStart(3, '0') }}</span>
+                <span class="fullname">{{ user.fullname }}</span>
+                <span class="username">{{ user.username }}</span>
+                <span class="email">{{ user.email }}</span>
 
-                    <!-- Permission tags -->
-                    <div class="permissions">
-                        <span v-for="per of ['administrate', 'post','comment']"
-                              :class="{active: user.permissions.includes(per)}"
-                              @click="setPermission(user, per)">{{ per }}</span>
-                    </div>
+                <!-- Permission tags -->
+                <div class="permissions">
+                    <span v-for="per of ['administrate', 'post','comment']"
+                          :class="{active: user.permissions.includes(per)}"
+                          @click="setPermission(user, per)">{{ per }}</span>
                 </div>
-
-                <!-- Nothing here message if search failed -->
-                <p v-if="!users.length" class="empty-msg">Nothing found</p>
             </div>
+
+            <!-- Nothing here message if search failed -->
+            <p v-if="!users.length" class="empty-msg">Nothing found</p>
         </div>
+
+        <p class="error">{{ errorMsg }}</p>
 
         <button class="download-btn button-primary icon" @click="downloadAsCSV">
             <i class="fas fa-fw fa-download"></i>
@@ -68,7 +68,8 @@
             return {
                 searchQuery: '',
                 selectedUser: null,
-                selectedUserIndex: -1
+                selectedUserIndex: -1,
+                errorMsg: ''
             };
         },
 
@@ -94,7 +95,10 @@
         },
 
         mounted() {
-            this.$store.dispatch('users/update');
+            this.errorMsg = '';
+            this.$store.dispatch('users/update').catch(error => {
+                this.errorMsg = error;
+            });
         },
 
         methods: {
@@ -109,10 +113,13 @@
             },
 
             setPermission(user, permission) {
+                this.errorMsg = '';
                 this.$store.dispatch('users/setPermission', {
                     user,
                     permission,
                     type: user.permissions.includes(permission) ? 'remove' : 'add'
+                }).catch(error => {
+                    this.errorMsg = error;
                 });
             },
 
@@ -144,10 +151,6 @@
         margin-bottom: 1em;
     }
 
-    .scroll-wrapper {
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
 
     .users {
         @include flex(column, center);
@@ -159,6 +162,7 @@
             color: $palette-slate-gray;
             font-size: 1em;
             margin-top: 1em;
+            flex-shrink: 0;
 
             i {
                 font-size: 1.2em;
@@ -167,7 +171,6 @@
             }
         }
     }
-
 
     .user {
         @include flex(row, center);

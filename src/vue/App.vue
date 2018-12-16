@@ -38,6 +38,8 @@
         },
 
         mounted() {
+
+            // Scroll to top on route change
             this.$router.afterEach(() => window.scrollTo(0, 0));
         }
     };

@@ -42,7 +42,7 @@ export const posts = {
                 `
             }).then(({errors, data: {getAllPosts}}) => {
                 if (errors && errors.length) {
-                    // TODO: Log?
+                    throw 'Please go online.';
                 } else if (Array.isArray(getAllPosts)) {
                     state.splice(0, state.length, ...getAllPosts);
                 }
@@ -193,7 +193,9 @@ export const posts = {
                 vars: {postid, id, body, apikey},
                 fields: ['id']
             }).then(({errors}) => {
-                if (!errors) {
+                if (errors && errors.length) {
+                    throw errors[0].message;
+                } else {
 
                     /**
                      * Request was successful, update comment locally to
@@ -219,7 +221,9 @@ export const posts = {
                 vars: {postid, id, apikey},
                 fields: ['id']
             }).then(({errors}) => {
-                if (!errors) {
+                if (errors && errors.length) {
+                    throw errors[0].message;
+                } else {
 
                     /**
                      * Request was successful, remove comment locally to
@@ -275,9 +279,11 @@ export const posts = {
                       }
                 `
             }).then(({errors, data: {getPost}}) => {
+
                 if (errors && errors.length) {
-                    throw '';
+                    throw 'Cannot fetch post';
                 }
+
                 return getPost;
             });
 

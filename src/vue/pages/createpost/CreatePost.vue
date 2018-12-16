@@ -135,7 +135,7 @@
     }
 
     .error {
-        margin: 1em;
+        margin: 1em 0;
     }
 
     .actions {

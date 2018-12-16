@@ -30,6 +30,8 @@
                   @click="cancelUpdateComment">Cancel</span>
 
             <span class="delete" @click="removeComment">Delete comment</span>
+
+            <span v-if="errorMsg" class="error"> - {{ errorMsg }}</span>
         </div>
 
     </div>
@@ -59,7 +61,8 @@
 
         data() {
             return {
-                edit: false
+                edit: false,
+                errorMsg: ''
             };
         },
 
@@ -75,19 +78,25 @@
             },
 
             removeComment() {
+                this.errorMsg = '';
                 const postid = this.post.id;
                 const {id} = this.comment;
 
-                this.$store.dispatch('posts/removeComment', {postid, id});
+                this.$store.dispatch('posts/removeComment', {postid, id}).catch(error => {
+                    this.errorMsg = error;
+                });
             },
 
             updateComment() {
+                this.errorMsg = '';
                 const postid = this.post.id;
                 const {id} = this.comment;
 
                 this.$store.dispatch('posts/updateComment', {
                     postid, id,
                     body: this.$refs.textArea.value
+                }).catch(error => {
+                    this.errorMsg = error;
                 });
 
                 this.edit = false;
@@ -136,6 +145,10 @@
                 transition: all 0.3s;
                 cursor: pointer;
                 text-decoration: underline;
+
+                &.error {
+                    text-decoration: none;
+                }
             }
 
             .delete:hover {
