@@ -15,7 +15,7 @@
                                ref="textArea"
                                placeholder="Edit comment"></text-area-input-field>
 
-        <div v-if="auth.user && (auth.user.id === comment.user.id) || auth.user.permissions.includes('administrate')" class="actions">
+        <div v-if="auth.user && ((auth.user.id === comment.user.id) || auth.user.permissions.includes('administrate'))" class="actions">
 
             <!-- Editor actions -->
             <span v-show="!edit"

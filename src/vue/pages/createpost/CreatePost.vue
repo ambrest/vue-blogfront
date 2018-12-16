@@ -75,8 +75,8 @@
                 this.$store.dispatch('posts/newPost', {
                     title: this.$refs.title.value,
                     body: this.$refs.editor.html
-                }).then(() => {
-                    this.$router.push('/');
+                }).then(post => {
+                    this.$router.push(`/post/${post.id}`);
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });
@@ -89,8 +89,8 @@
                     id: this.originalPost.id,
                     title: this.$refs.title.value,
                     body: this.$refs.editor.html
-                }).then(() => {
-                    this.$router.push('/');
+                }).then(post => {
+                    this.$router.push(`/post/${post.id}`);
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });

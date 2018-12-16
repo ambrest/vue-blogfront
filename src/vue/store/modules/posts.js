@@ -69,12 +69,7 @@ export const posts = {
                     throw errors[0].message;
                 } else {
                     const {id, timestamp} = data.post;
-
-                    /**
-                     * Request was successful, save post locally to
-                     * prevent unnecessary api calls.
-                     */
-                    state.unshift({
+                    const post = {
                         id,
                         timestamp,
                         title,
@@ -82,7 +77,14 @@ export const posts = {
                         user: {
                             ...rootState.auth.user
                         }
-                    });
+                    };
+
+                    /**
+                     * Request was successful, save post locally to
+                     * prevent unnecessary api calls.
+                     */
+                    state.unshift();
+                    return post;
                 }
 
             });
@@ -116,6 +118,8 @@ export const posts = {
                     const post = state.find(post => post.id = id);
                     post.title = title;
                     post.body = body;
+
+                    return post;
                 }
 
             });

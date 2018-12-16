@@ -43,7 +43,7 @@
                         </router-link>
 
                         <router-link :to="`edit/${post.id}`">
-                            <button v-if="auth.user && (auth.user.id === post.user.id) || auth.user.permissions.includes('administrate')"
+                            <button v-if="auth.user && ((auth.user.id === post.user.id) || auth.user.permissions.includes('administrate'))"
                                     class="button-secondary icon">
                                 <i class="fas fa-fw fa-pen"></i>EDIT
                             </button>
