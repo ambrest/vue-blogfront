@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'loader': 1, open: $store.state.requestActive}">
+    <div :class="{'loader': 1, open: $store.state.requestsActive}">
 
         <div class="box-grid">
             <div></div>

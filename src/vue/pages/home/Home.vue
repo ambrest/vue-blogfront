@@ -223,7 +223,7 @@
             width: 100%;
 
             .post {
-                @include fixed-width(90%)
+                @include fixed-width(90%);
             }
         }
     }
@@ -233,7 +233,7 @@
             .post {
                 position: relative;
                 @include fixed-width(95%);
-                padding: 3.5em 0;
+                padding: 3.5em 0 3em;
                 margin: 0;
 
                 > .date {

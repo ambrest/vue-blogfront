@@ -118,6 +118,7 @@
             @include font(400, 0.9em);
             margin: -1.5em 0 1.5em;
             color: $palette-slate-gray;
+            flex-shrink: 0;
 
             b {
                 font-weight: 500;
@@ -174,6 +175,10 @@
     @include mobile {
         .post {
             font-size: 0.9em;
+
+            .by {
+                margin-top: 0;
+            }
         }
     }
 

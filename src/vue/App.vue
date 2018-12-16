@@ -1,15 +1,17 @@
 <template>
     <div id="app">
 
+        <!-- Loading screen -->
+        <loading-screen class="loader"></loading-screen>
+
         <!-- Header -->
         <page-header class="header"></page-header>
 
         <!-- Router and loading screen -->
-        <router-view :class="{router: 1, inactive: $store.state.requestActive}"></router-view>
-        <loading-screen class="loader"></loading-screen>
+        <router-view :class="{router: 1, inactive: $store.state.requestsActive}"></router-view>
 
         <!-- Footer -->
-        <page-footer :class="{footer: 1, inactive: $store.state.requestActive}"></page-footer>
+        <page-footer :class="{footer: 1, inactive: $store.state.requestsActive}"></page-footer>
 
     </div>
 </template>
@@ -215,7 +217,7 @@
                 padding-right: 0.75em;
 
                 > h1 {
-                    margin-bottom: 1.5em;
+                    margin-bottom: 1.75em;
                 }
             }
         }

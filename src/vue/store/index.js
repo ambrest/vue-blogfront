@@ -25,8 +25,8 @@ export default new Vuex.Store({
 
     state: {
 
-        // Is true whenever a request is in progress
-        requestActive: false
+        // Amount of how many requests are currently active
+        requestsActive: 0
     },
 
     actions: {
@@ -41,8 +41,8 @@ export default new Vuex.Store({
          */
         async graphql({state}, ops) {
 
-            // Indicates whenever a request is currently in progress
-            state.requestActive = true;
+            // Increase active requests count
+            state.requestsActive++;
 
             // Make graphql request
             return fetch(config.apiEndPoint, {
@@ -57,7 +57,7 @@ export default new Vuex.Store({
 
                 /* eslint-disable no-console */
             }).then(v => {
-                state.requestActive = false;
+                state.requestsActive--;
                 return v.json();
             }).catch(console.error); // TODO: Server is not reachable, error message?
         }
