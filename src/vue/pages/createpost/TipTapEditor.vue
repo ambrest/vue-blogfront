@@ -174,12 +174,10 @@
         font-size: 0.9em;
 
         .editor-bar {
-            border: 1px solid $palette-decent-blue;
             @include flex(row, flex-start);
             flex-wrap: wrap;
 
             button {
-                border-left: 1px solid $palette-decent-blue;
                 color: $palette-decent-blue;
                 padding: 0.25em 0.5em;
                 transition: all 0.3s;
@@ -199,10 +197,6 @@
 
                 &.active {
                     color: $palette-sweet-magenta;
-                }
-
-                &:first-child {
-                    border-left: none;
                 }
             }
         }

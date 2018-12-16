@@ -11,13 +11,13 @@
             <!-- List -->
             <div v-for="post of posts" class="post">
 
-                <!-- Date info -->
+                <!-- Date info, not visible on mobile devices -->
                 <div class="date">
-                    <span class="day">{{ String(post.timestamp.getDate()).padStart(2, '0') }}</span>
+                    <span class="day">{{ post.date.day }}</span>
                     <div>
-                        <span class="month">{{ post.timestamp.toLocaleString('en-us', {month: 'short'}) }}</span>
+                        <span class="month">{{ post.date.month }}</span>
                         <span class="diff">-</span>
-                        <span class="year">{{ post.timestamp.getFullYear() }}</span>
+                        <span class="year">{{ post.date.year }}</span>
                     </div>
                 </div>
 
@@ -28,7 +28,8 @@
                     <h2>{{ post.title }}</h2>
 
                     <div class="info">
-                        <span class="name">By {{ post.user.fullname }}</span>
+                        <span class="date">{{ post.date.day }} {{ post.date.month }} - {{ post.date.year }}</span>
+                        <span class="name"> / By {{ post.user.fullname }}</span>
                         <span class="name"> / {{ post.body | HTMLToTimeToReadString }}</span>
                     </div>
 
@@ -79,7 +80,12 @@
                 return this.$store.state.posts.map(v => {
 
                     // Convert timestamp to date
-                    v.timestamp = new Date(v.timestamp);
+                    const date = new Date(v.timestamp);
+                    v.date = {
+                        day: String(date.getDate()).padStart(2, '0'),
+                        month: date.toLocaleString('en-us', {month: 'short'}),
+                        year: date.getFullYear()
+                    };
 
                     return v;
                 }).sort((a, b) => a.timestamp > b.timestamp ? -1 : 1);
@@ -118,7 +124,7 @@
             @include fixed-width(70%);
             margin-bottom: 9em;
 
-            .date {
+            > .date {
                 position: relative;
                 @include flex(column, center);
                 padding-right: 2em;
@@ -164,7 +170,7 @@
             .content {
                 @include flex(column, flex-start);
                 padding-left: 2em;
-                word-break: break-all;
+                word-break: break-all; // Edge fallback
                 word-break: break-word;
                 flex-shrink: 1;
 
@@ -177,6 +183,10 @@
                 .info {
                     @include font(500, 0.8em);
                     color: rgba(black, 0.3);
+
+                    .date {
+                        visibility: hidden;
+                    }
                 }
 
                 .preview {
@@ -203,6 +213,52 @@
                     button {
                         margin-right: 0.3em;
                     }
+                }
+            }
+        }
+    }
+
+    @include tablet {
+        .posts {
+            width: 100%;
+
+            .post {
+                @include fixed-width(90%)
+            }
+        }
+    }
+
+    @include mobile {
+        .posts {
+            .post {
+                position: relative;
+                @include fixed-width(95%);
+                padding: 3.5em 0;
+                margin: 0;
+
+                > .date {
+                    display: none;
+                }
+
+                .content {
+                    padding: 0;
+
+                    .info {
+                        width: 100%;
+
+                        .date {
+                            visibility: visible;
+                        }
+                    }
+                }
+
+                &::after {
+                    @include pseudo();
+                    @include position(auto, 0, 0, 0);
+                    @include size(60%, 1px);
+                    background: $palette-decent-blue;
+                    margin: auto;
+                    opacity: 0.5;
                 }
             }
         }

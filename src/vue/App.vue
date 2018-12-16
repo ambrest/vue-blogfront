@@ -33,6 +33,10 @@
 
         data() {
             return {};
+        },
+
+        mounted() {
+            this.$router.afterEach(() => window.scrollTo(0, 0));
         }
     };
 </script>
@@ -183,6 +187,38 @@
         font-size: 20px;
         line-height: 1;
         flex-shrink: 0;
+    }
+
+    @include tablet {
+        .router {
+            &.divided .tab,
+            &:not(.divided) {
+                max-width: 100vw;
+            }
+
+            &:not(.small) {
+                padding-left: 2em;
+                padding-right: 2em;
+            }
+        }
+    }
+
+    @include mobile {
+        .router {
+            &.divided .tab {
+                width: 100vw;
+            }
+
+            &.divided .tab,
+            &:not(.small) {
+                padding-left: 0.75em;
+                padding-right: 0.75em;
+
+                > h1 {
+                    margin-bottom: 1.5em;
+                }
+            }
+        }
     }
 
 </style>

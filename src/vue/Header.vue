@@ -6,21 +6,40 @@
             <!-- Page title grabbed from the config file -->
             <router-link class="h1" to="/">{{ config.pageTitle }}</router-link>
 
-            <div class="links">
+            <!-- Menu button on mobile devices -->
+            <i class="menu fas fa-fw fa-bars" @click="menuOpen = true"></i>
+
+            <!-- Menu -->
+            <div :class="{links: 1, open: menuOpen}">
 
                 <!-- Visible as not-logged-in user -->
-                <router-link to="/">Home</router-link>
-                <router-link v-if="!user" to="/login">Login</router-link>
-                <router-link v-if="!user" to="/register">Register</router-link>
+                <router-link to="/" @click.native="menuOpen = false">Home</router-link>
+                <router-link v-if="!user"
+                             to="/login"
+                             @click.native="menuOpen = false">Login
+                </router-link>
+                <router-link v-if="!user"
+                             to="/register"
+                             @click.native="menuOpen = false">Register
+                </router-link>
 
                 <!-- Only visible with permission 'admin' -->
-                <router-link v-if="user && user.permissions.includes('administrate')" to="/admin">Admin</router-link>
+                <router-link v-if="user && user.permissions.includes('administrate')"
+                             to="/admin"
+                             @click.native="menuOpen = false">Admin
+                </router-link>
 
                 <!-- Only visible with permission 'post' -->
-                <router-link v-if="user && user.permissions.includes('post')" to="/new">New post</router-link>
+                <router-link v-if="user && user.permissions.includes('post')"
+                             to="/new"
+                             @click.native="menuOpen = false">New post
+                </router-link>
 
                 <!-- Visible if logged in -->
-                <router-link v-if="user" to="/settings">Settings</router-link>
+                <router-link v-if="user"
+                             to="/settings"
+                             @click.native="menuOpen = false">Settings
+                </router-link>
                 <router-link v-if="user"
                              to="/login"
                              @click.native="logout">Logout
@@ -37,7 +56,9 @@
     export default {
 
         data() {
-            return {};
+            return {
+                menuOpen: false
+            };
         },
 
         computed: {
@@ -48,6 +69,7 @@
 
         methods: {
             logout() {
+                this.menuOpen = false;
 
                 // Remove credentials and go to login
                 this.$store.dispatch('auth/logout').then(() => {
@@ -79,6 +101,11 @@
             @include font(300, 1.75em);
         }
 
+        .menu {
+            display: none;
+            margin-left: auto;
+        }
+
         .links {
             margin-left: auto;
             text-transform: uppercase;
@@ -105,6 +132,59 @@
 
                 &.router-link-exact-active {
                     font-weight: 500;
+                }
+            }
+        }
+    }
+
+    @include tablet {
+        .bar {
+            width: 95vw;
+        }
+    }
+
+    @include mobile {
+        .bar {
+
+            .h1 {
+                @include font(300, 1.75em);
+            }
+
+            .menu {
+                display: block;
+            }
+
+            .links {
+                position: fixed;
+                @include position(0, 0, 0, 0);
+                @include flex(column, center, center);
+                background: rgba(black, 0.75);
+                opacity: 0;
+                transform: translateY(-0.5em);
+                pointer-events: none;
+                transition: all 0.3s;
+
+                &.open {
+                    opacity: 1;
+                    transform: none;
+                    pointer-events: all;
+                }
+
+                a {
+                    transition: all 0.3s;
+                    margin: 1em 0;
+                    background: $palette-sweet-red;
+                    padding: 1.5em 0;
+                    width: 50%;
+                    text-align: center;
+
+                    &::before {
+                        content: none;
+                    }
+
+                    &.router-link-exact-active {
+                        font-weight: 500;
+                    }
                 }
             }
         }

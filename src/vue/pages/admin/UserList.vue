@@ -257,4 +257,15 @@
         font-size: 0.7em;
     }
 
+    @include mobile {
+        .user {
+
+            .index,
+            .fullname {
+                display: none;
+            }
+
+        }
+    }
+
 </style>

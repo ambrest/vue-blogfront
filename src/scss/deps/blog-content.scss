@@ -3,6 +3,8 @@
     font-family: "Open Sans", serif;
     font-size: 1.05em;
     line-height: 1.58em;
+    word-break: break-all; // Edge fallback
+    word-break: break-word;
 
     blockquote {
         border-left: .25em solid #dfe2e5;

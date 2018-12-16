@@ -1,5 +1,5 @@
 <template>
-    <section class="login">
+    <section class="login small">
 
         <h1>Welcome back!</h1>
 

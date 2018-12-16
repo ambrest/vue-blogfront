@@ -114,7 +114,6 @@
     }
 
     .post {
-
         .by {
             @include font(400, 0.9em);
             margin: -1.5em 0 1.5em;
@@ -169,6 +168,12 @@
         .placeholder {
             @include font(500, 0.9em);
             text-align: center;
+        }
+    }
+
+    @include mobile {
+        .post {
+            font-size: 0.9em;
         }
     }
 

@@ -2,7 +2,7 @@
     <div class="text-input-field">
 
         <!-- Placeholder, will be moved if input contains text -->
-        <span :class="{placeholder: 1, error, moved: value}">{{ placeholder }}</span>
+        <span :class="{placeholder: 1, error, moved: value || focused}">{{ placeholder }}</span>
 
         <div class="field">
             <input ref="input"
