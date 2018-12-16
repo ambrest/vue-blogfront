@@ -235,28 +235,52 @@ export const posts = {
          * Tries to find a specific post by id,
          * first from the current state, and if this wasn't successfull
          * it tries to fetch all from the server and resolves it by this action.
-         * TODO: Get post by id server-side?
          *
          * @param id Post id
          */
         async findPostById({state}, {id}) {
-            const post = state.find(post => post.id === id);
-            return new Promise((resolve, reject) => {
-                if (!post) {
-                    return this.dispatch('posts/update').then(() => {
-                        const post = state.find(post => post.id === id);
 
-                        // Redirect to homepage if not found
-                        if (!post) {
-                            reject();
-                        } else {
-                            resolve(post);
-                        }
-                    });
-                } else {
-                    resolve(post);
+            // First try to fetch post from cache
+            const post = state.find(post => post.id === id);
+
+            if (post) {
+                return post;
+            }
+
+            // Make specific request for this post by his id
+            return this.dispatch('graphql', {
+                operation: 'getPost',
+                vars: {id},
+                fields: `
+                      id,
+                      title,
+                      body,
+                      timestamp,
+                      
+                      user {
+                          id,
+                          username,
+                          fullname                                 
+                      },
+                      
+                      comments {
+                          id,
+                          body,
+                          timestamp,
+                          user {
+                              id,
+                              fullname,
+                              username
+                          }
+                      }
+                `
+            }).then(({errors, data: {getPost}}) => {
+                if (errors && errors.length) {
+                    throw '';
                 }
+                return getPost;
             });
+
         }
     }
 };

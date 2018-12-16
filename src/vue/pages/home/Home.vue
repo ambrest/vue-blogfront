@@ -28,8 +28,8 @@
                     <h2>{{ post.title }}</h2>
 
                     <div class="info">
-                        <span class="date">{{ post.date.day }} {{ post.date.month }} - {{ post.date.year }}</span>
-                        <span class="name"> / By {{ post.user.fullname }}</span>
+                        <span class="date">{{ post.date.day }} {{ post.date.month }} - {{ post.date.year }} / </span>
+                        <span class="name">By {{ post.user.fullname }}</span>
                         <span class="name"> / {{ post.body | HTMLToTimeToReadString }}</span>
                     </div>
 
@@ -185,7 +185,7 @@
                     color: rgba(black, 0.3);
 
                     .date {
-                        visibility: hidden;
+                        display: none;
                     }
                 }
 
@@ -247,7 +247,7 @@
                         width: 100%;
 
                         .date {
-                            visibility: visible;
+                            display: inline;
                         }
                     }
                 }
@@ -259,6 +259,10 @@
                     background: $palette-decent-blue;
                     margin: auto;
                     opacity: 0.5;
+                }
+
+                &:last-child::after {
+                    content: none;
                 }
             }
         }
