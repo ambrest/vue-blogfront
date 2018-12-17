@@ -1,6 +1,6 @@
 import Vue    from 'vue';
 import App    from './vue/App.vue';
-import store  from './vue/store/index';
+import store  from './store/index';
 import router from './router/index';
 import * as _ from './js/utils';
 import config from '../config/config';

@@ -34,7 +34,8 @@
                     <h1>Responses</h1>
                     <comment v-for="comment of post.comments"
                              :comment="comment"
-                             :post="post"></comment>
+                             :post="post"
+                             :key="comment.id"></comment>
                 </div>
 
                 <!-- Placeholder -->
@@ -77,6 +78,12 @@
             this.fetch();
         },
 
+        destroyed() {
+
+            // Reset page title
+            document.title = this.config.pageTitle;
+        },
+
         methods: {
 
             fetch() {
@@ -96,6 +103,7 @@
                     const description = tmpBody.innerText.substring(0, 150) + '...';
                     const {title, user: {fullname}} = this.post;
 
+                    // Set meta tags
                     this.utils.setMetaTags([
                         {name: 'twitter:card', content: 'product'},
                         {name: 'twitter:site', content: '@publisher_handle'},
@@ -109,6 +117,9 @@
                         {property: 'og:description', content: description},
                         {property: 'og:site_name:', content: 'Site name:, i.e. Moz'}
                     ]);
+
+                    // Update page title
+                    document.title = `${this.config.pageTitle} - ${post.title}`;
                 }).catch(() => {
                     this.$router.replace('/');
                 });

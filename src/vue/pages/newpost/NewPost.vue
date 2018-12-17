@@ -61,10 +61,19 @@
                     this.$refs.editor.setHTML(post.body);
                     this.$refs.title.setContent(post.title);
                     this.originalPost = post;
+
+                    // Update page title
+                    document.title = `${this.config.pageTitle} - Edit: ${post.title}`;
                 }).catch(() => {
                     this.$router.replace('/');
                 });
             }
+        },
+
+        destroyed() {
+
+            // Reset page title
+            document.title = this.config.pageTitle;
         },
 
         methods: {

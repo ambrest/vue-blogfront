@@ -7,7 +7,7 @@
         <!-- Header -->
         <page-header class="header"></page-header>
 
-        <!-- Router and loading screen -->
+        <!-- Router -->
         <router-view :class="{router: 1, inactive: $store.state.requestsActive}"></router-view>
 
         <!-- Footer -->
@@ -27,7 +27,7 @@
     // Components
     import PageHeader    from './Header';
     import PageFooter    from './Footer';
-    import LoadingScreen from './screens/LoadingScreen';
+    import LoadingScreen from './overlays/LoadingScreen';
 
     export default {
 

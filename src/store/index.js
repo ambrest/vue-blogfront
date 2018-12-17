@@ -2,11 +2,11 @@ import Vue  from 'vue';
 import Vuex from 'vuex';
 
 // Config
-import config from '../../../config/config';
+import config from '../../config/config';
 
 // Utils
-import queryBuilder from '../../js/GraphQLQueryBuilder';
-import {sha256}     from '../../js/utils';
+import queryBuilder from '../js/GraphQLQueryBuilder';
+import {sha256}     from '../js/utils';
 
 // Modules
 import {posts} from './modules/posts';
