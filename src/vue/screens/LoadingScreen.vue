@@ -52,12 +52,21 @@
                 animation-play-state: running;
             }
         }
+
+        // To prevent actions if a request / operation is pending
+        &::after {
+            @include pseudo(fixed);
+            @include position(0, 0, 0, 0);
+            background: transparent;
+            z-index: 1;
+        }
     }
 
     .box-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 2px;
+        z-index: 2;
 
         > div {
             @include size(7px);

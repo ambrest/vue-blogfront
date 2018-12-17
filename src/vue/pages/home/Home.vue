@@ -43,9 +43,9 @@
                             <button class="button-primary icon"><i class="fas fa-fw fa-book"></i>Read more</button>
                         </router-link>
 
-                        <router-link :to="`edit/${post.id}`">
-                            <button v-if="auth.user && ((auth.user.id === post.user.id) || auth.user.permissions.includes('administrate'))"
-                                    class="button-secondary icon">
+                        <router-link v-if="auth.user && ((auth.user.id === post.user.id) || auth.user.permissions.includes('administrate'))"
+                                     :to="`edit/${post.id}`">
+                            <button class="button-secondary icon">
                                 <i class="fas fa-fw fa-pen"></i>EDIT
                             </button>
                         </router-link>

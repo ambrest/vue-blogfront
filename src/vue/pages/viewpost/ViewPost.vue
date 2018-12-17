@@ -2,7 +2,15 @@
     <div v-if="post" class="post divided">
 
         <div class="tab">
-            <h1>{{ post.title }}</h1>
+            <h1>
+                <span>{{ post.title }}</span>
+
+                <router-link v-if="auth.user && ((auth.user.id === post.user.id) || auth.user.permissions.includes('administrate'))"
+                             :to="`/edit/${post.id}`">
+                    <i class="fas fa-fw fa-pen"></i>
+                </router-link>
+            </h1>
+
 
             <!-- Author and user description -->
             <p class="by">By <b>{{ post.user.fullname }}</b> aka. <b>{{ post.user.username }}</b></p>
@@ -43,6 +51,9 @@
     import CreateComment from './CreateComment';
     import Comment       from './Comment';
 
+    // Vuex
+    import {mapState} from 'vuex';
+
     export default {
         components: {CreateComment, Comment},
 
@@ -57,8 +68,9 @@
             canComment() {
                 const {user} = this.$store.state.auth;
                 return user && user.permissions.includes('comment');
-            }
+            },
 
+            ...mapState(['auth'])
         },
 
         beforeMount() {
@@ -129,6 +141,19 @@
         article {
             flex-shrink: 1;
             width: 100%;
+        }
+
+        h1 {
+            a {
+                position: relative;
+                margin-left: 0.25em;
+                top: -0.08em;
+
+                i {
+                    color: $palette-sweet-red;
+                    font-size: 0.6em;
+                }
+            }
         }
     }
 

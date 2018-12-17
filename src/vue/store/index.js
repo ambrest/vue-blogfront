@@ -42,12 +42,6 @@ export default new Vuex.Store({
          * @param ops Operations, see queryBuilder.
          */
         async graphql({state}, ops) {
-            const netWorkNotAwailable = Promise.resolve({errors: [{message: 'Please go online to perform this action.'}], data: {}});
-
-            // Check if internet is available
-            if (!navigator.onLine) {
-                return netWorkNotAwailable;
-            }
 
             // Increase active requests count
             state.requestsActive++;
@@ -68,12 +62,13 @@ export default new Vuex.Store({
                 state.requestsActive--;
                 return v.json();
             }).catch(() => {
+                state.requestsActive--;
 
                 /**
                  *  The user seems like to not have a internet connection so return
                  *  the prepared no-etherent-connection error.
                  */
-                return netWorkNotAwailable;
+                return Promise.resolve({errors: [{message: 'Please go online to perform this action.'}], data: {}});
             });
         }
     }

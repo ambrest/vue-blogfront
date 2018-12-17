@@ -200,7 +200,7 @@
                 max-width: 100vw;
             }
 
-            &:not(.small) {
+            &:not(.small):not(.divided) {
                 padding-left: 2em;
                 padding-right: 2em;
             }
@@ -214,7 +214,7 @@
             }
 
             &.divided .tab,
-            &:not(.small) {
+            &:not(.small):not(.divided) {
                 padding-left: 0.75em;
                 padding-right: 0.75em;
 
