@@ -16,9 +16,12 @@ new Vue({
     store, router
 }).$mount('#app');
 
-// Set theme colors
+// Set Meta tags
 _.setMetaTags([
     {name: 'theme-color', content: config.themeColor},
     {name: 'msapplication-navbutton-color', content: config.themeColor},
-    {name: 'apple-mobile-web-app-status-bar-style', content: config.themeColor}
+    {name: 'apple-mobile-web-app-status-bar-style', content: config.themeColor},
+    {name: 'description', content: config.meta.description},
+    {name: 'keywords', content: config.meta.keywords},
+    {name: 'author', content: config.meta.author}
 ]);
