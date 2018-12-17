@@ -6,6 +6,7 @@ import config from '../../../config/config';
 
 // Utils
 import queryBuilder from '../../js/GraphQLQueryBuilder';
+import {sha256}     from '../../js/utils';
 
 // Modules
 import {posts} from './modules/posts';
@@ -42,6 +43,8 @@ export default new Vuex.Store({
          * @param ops Operations, see queryBuilder.
          */
         async graphql({state}, ops) {
+            const json = JSON.stringify(queryBuilder(ops));
+            const hash = await sha256(json);
 
             // Increase active requests count
             state.requestsActive++;
@@ -55,14 +58,22 @@ export default new Vuex.Store({
                     'Accept': 'application/json'
                 },
 
-                body: JSON.stringify(queryBuilder(ops))
-
-                /* eslint-disable no-console */
-            }).then(v => {
+                body: json
+            }).then(async v => {
+                const json = await v.json();
                 state.requestsActive--;
-                return v.json();
+
+                // Cache
+                localStorage.setItem(hash, JSON.stringify(json));
+                return json;
             }).catch(() => {
                 state.requestsActive--;
+
+                // Try to fetch from cache
+                const cached = localStorage.getItem(hash);
+                if (cached) {
+                    return Promise.resolve(JSON.parse(cached));
+                }
 
                 /**
                  *  The user seems like to not have a internet connection so return

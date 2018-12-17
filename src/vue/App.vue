@@ -89,12 +89,6 @@
     }
 
     // Actual app layout
-    html,
-    body {
-        height: 100%;
-        width: 100%;
-    }
-
     body {
         background: $palette-snow-white;
         font-family: $font-family;
