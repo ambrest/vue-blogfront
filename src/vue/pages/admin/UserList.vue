@@ -6,7 +6,7 @@
                           @update="updateSearchQuery"></text-input-field>
 
         <!-- Table header -->
-        <div v-if="users.length" class="user header">
+        <div v-if="filteredUsers.length" class="user header">
             <span class="index">Nr</span>
             <span class="fullname">Full Name</span>
             <span class="username">Username</span>
@@ -18,12 +18,12 @@
         <div class="users">
 
             <!-- Actual user list -->
-            <div v-for="(user, index) of users"
+            <div v-for="user of filteredUsers"
                  :class="{user: 1, deactivated: user.deactivated, selected: user === selectedUser}"
                  @click.right="openMenu($event, user)">
 
                 <!-- General info -->
-                <span class="index">#{{ String(index).padStart(3, '0') }}</span>
+                <span class="index">#{{ String(users.indexOf(user)).padStart(3, '0') }}</span>
                 <span class="fullname">{{ user.fullname }}</span>
                 <span class="username">{{ user.username }}</span>
                 <span class="email">{{ user.email }}</span>
@@ -37,7 +37,7 @@
             </div>
 
             <!-- Nothing here message if search failed -->
-            <p v-if="!users.length" class="empty-msg">Nothing found</p>
+            <p v-if="!filteredUsers.length" class="empty-msg">Nothing found</p>
         </div>
 
         <p class="error">{{ errorMsg }}</p>
@@ -60,6 +60,9 @@
     // UI Components
     import TextInputField from '../../ui/TextInputField';
 
+    // Vuex stuff
+    import {mapState} from 'vuex';
+
     export default {
 
         components: {TextInputField, ContextMenu},
@@ -75,7 +78,7 @@
 
         computed: {
 
-            users() {
+            filteredUsers() {
                 const {searchQuery} = this;
                 const {users} = this.$store.state;
 
@@ -90,7 +93,9 @@
                 } else {
                     return users;
                 }
-            }
+            },
+
+            ...mapState(['users'])
 
         },
 
@@ -126,7 +131,7 @@
             downloadAsCSV() {
                 let content = [];
 
-                this.users.forEach((usr, index) => {
+                this.filteredUsers.forEach((usr, index) => {
                     const line = `${index};${usr.fullname};${usr.username};${usr.email};${usr.permissions.join('.')}`;
                     content.push(!index ? 'data:text/csv;charset=utf-8,' + line : line);
                 });
