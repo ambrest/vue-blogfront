@@ -14,9 +14,12 @@ export const users = {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
-                operation: 'getAllUsers',
-                vars: {apikey},
-                fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email']
+                cache: true,
+                query: {
+                    operation: 'getAllUsers',
+                    vars: {apikey},
+                    fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email']
+                }
             }).then(({errors, data: {getAllUsers}}) => {
 
                 if (errors && errors.length) {
@@ -50,13 +53,15 @@ export const users = {
             };
 
             return this.dispatch('graphql', {
-                operation: 'updateUser',
-                vars: {
-                    apikey, id,
-                    permissions: editArray(type, [...user.permissions], permission)
-                },
-                types: {permissions: 'String'},
-                fields: ['id']
+                query: {
+                    operation: 'updateUser',
+                    vars: {
+                        apikey, id,
+                        permissions: editArray(type, [...user.permissions], permission)
+                    },
+                    types: {permissions: 'String'},
+                    fields: ['id']
+                }
             }).then(({errors}) => {
 
                 if (errors && errors.length) {
@@ -85,9 +90,11 @@ export const users = {
             const {id} = user;
 
             return this.dispatch('graphql', {
-                operation: 'updateUser',
-                vars: {apikey, deactivated, id},
-                fields: ['id']
+                query: {
+                    operation: 'updateUser',
+                    vars: {apikey, deactivated, id},
+                    fields: ['id']
+                }
             }).then(({errors}) => {
 
                 if (errors && errors.length) {
@@ -101,7 +108,6 @@ export const users = {
                     user.deactivated = deactivated;
                     return Promise.resolve();
                 }
-
             });
         }
     }

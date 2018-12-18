@@ -16,8 +16,10 @@ export const posts = {
          */
         async update({state}) {
             return this.dispatch('graphql', {
-                operation: 'getAllPosts',
-                fields: `
+                cache: true,
+                query: {
+                    operation: 'getAllPosts',
+                    fields: `
                        id,
                        title,
                        body,
@@ -40,6 +42,7 @@ export const posts = {
                            }
                        }
                 `
+                }
             }).then(({errors, data: {getAllPosts}}) => {
                 if (errors && errors.length) {
                     throw 'Please go online.';
@@ -59,9 +62,11 @@ export const posts = {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
-                operation: 'post',
-                vars: {apikey, title, body},
-                fields: ['id', 'timestamp']
+                query: {
+                    operation: 'post',
+                    vars: {apikey, title, body},
+                    fields: ['id', 'timestamp']
+                }
             }).then(({errors, data}) => {
 
                 // Check for errors and, if presend, return the message of the first one
@@ -101,9 +106,11 @@ export const posts = {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
-                operation: 'updatePost',
-                vars: {apikey, id, title, body},
-                fields: ['id']
+                query: {
+                    operation: 'updatePost',
+                    vars: {apikey, id, title, body},
+                    fields: ['id']
+                }
             }).then(({errors}) => {
 
                 // Check for errors and, if presend, return the message of the first one
@@ -134,9 +141,11 @@ export const posts = {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
-                operation: 'removePost',
-                vars: {apikey, id},
-                fields: ['id']
+                query: {
+                    operation: 'removePost',
+                    vars: {apikey, id},
+                    fields: ['id']
+                }
             }).then(({errors}) => {
 
                 // Check for errors and, if presend, return the message of the first one
@@ -164,9 +173,11 @@ export const posts = {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
-                operation: 'comment',
-                vars: {postid, body, apikey},
-                fields: ['id', 'timestamp']
+                query: {
+                    operation: 'comment',
+                    vars: {postid, body, apikey},
+                    fields: ['id', 'timestamp']
+                }
             }).then(({errors}) => {
 
                 // Check for errors and, if presend, return the message of the first one
@@ -189,9 +200,11 @@ export const posts = {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
-                operation: 'updateComment',
-                vars: {postid, id, body, apikey},
-                fields: ['id']
+                query: {
+                    operation: 'updateComment',
+                    vars: {postid, id, body, apikey},
+                    fields: ['id']
+                }
             }).then(({errors}) => {
                 if (errors && errors.length) {
                     throw errors[0].message;
@@ -217,9 +230,11 @@ export const posts = {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
-                operation: 'removeComment',
-                vars: {postid, id, apikey},
-                fields: ['id']
+                query: {
+                    operation: 'removeComment',
+                    vars: {postid, id, apikey},
+                    fields: ['id']
+                }
             }).then(({errors}) => {
                 if (errors && errors.length) {
                     throw errors[0].message;
@@ -253,9 +268,11 @@ export const posts = {
 
             // Make specific request for this post by his id
             return this.dispatch('graphql', {
-                operation: 'getPost',
-                vars: {id},
-                fields: `
+                cache: true,
+                query: {
+                    operation: 'getPost',
+                    vars: {id},
+                    fields: `
                       id,
                       title,
                       body,
@@ -278,6 +295,7 @@ export const posts = {
                           }
                       }
                 `
+                }
             }).then(({errors, data: {getPost}}) => {
 
                 if (errors && errors.length) {

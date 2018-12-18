@@ -20,8 +20,8 @@ export const auth = {
             state.user = null;
             state.apikey = null;
 
-            // Clear session
-            localStorage.removeItem('apikey');
+            // Clear cache
+            localStorage.clear();
         },
 
         /**
@@ -35,9 +35,12 @@ export const auth = {
          */
         async login({state}, {username, password}) {
             return this.dispatch('graphql', {
-                operation: 'login',
-                vars: {username, password},
-                fields: ['apikey', 'email', 'permissions', 'id', 'fullname']
+                cache: true,
+                query: {
+                    operation: 'login',
+                    vars: {username, password},
+                    fields: ['apikey', 'email', 'permissions', 'id', 'fullname']
+                }
             }).then(({errors, data}) => {
 
                 // Check for errors and, if presend, return the message of the first one
@@ -63,16 +66,19 @@ export const auth = {
         },
 
         /**
-         * Login via exising session- / apikey
+         * Login via exising apikey
          *
          * @param state
          * @param apikey
          */
         async key({state}, {apikey}) {
             return this.dispatch('graphql', {
-                operation: 'login',
-                vars: {apikey},
-                fields: ['email', 'permissions', 'id', 'fullname', 'username']
+                cache: true,
+                query: {
+                    operation: 'login',
+                    vars: {apikey},
+                    fields: ['email', 'permissions', 'id', 'fullname', 'username']
+                }
             }).then(({errors, data}) => {
 
                 // Check for errors and, if presend, return the message of the first one
@@ -109,9 +115,11 @@ export const auth = {
          */
         async register({state}, {email, username, fullname, password}) {
             return this.dispatch('graphql', {
-                operation: 'register',
-                vars: {email, username, fullname, password},
-                fields: ['apikey', 'id', 'permissions']
+                query: {
+                    operation: 'register',
+                    vars: {email, username, fullname, password},
+                    fields: ['apikey', 'id', 'permissions']
+                }
             }).then(({errors, data}) => {
 
                 // Check for errors and, if presend, return the message of the first one
@@ -147,13 +155,15 @@ export const auth = {
          */
         async updateCredentials({state}, {email, fullname, password}) {
             return this.dispatch('graphql', {
-                operation: 'updateUser',
-                vars: {
-                    email, fullname, password,
-                    id: state.user.id,
-                    apikey: state.apikey
-                },
-                fields: ['email', 'fullname', 'permissions']
+                query: {
+                    operation: 'updateUser',
+                    vars: {
+                        email, fullname, password,
+                        id: state.user.id,
+                        apikey: state.apikey
+                    },
+                    fields: ['email', 'fullname', 'permissions']
+                }
             }).then(({errors, data}) => {
 
                 // Check for errors and, if presend, return the message of the first one
