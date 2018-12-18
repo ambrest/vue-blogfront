@@ -4,19 +4,18 @@
         <h1>Settings</h1>
 
         <text-input-field ref="inFullName"
-                          :placeholder="$store.state.auth.user.fullname"
-                          :error="errorFullname"
+                          placeholder="Change full name"
                           @submit="submit"></text-input-field>
 
         <text-input-field ref="inEmail"
-                          :placeholder="$store.state.auth.user.email"
                           :error="errorEmail"
+                          placeholder="Change E-Mail"
                           @submit="submit"></text-input-field>
 
         <text-input-field ref="inPassword"
                           :error="errorPassword"
                           :password="true"
-                          placeholder="New password"
+                          placeholder="Change password"
                           @submit="submit"></text-input-field>
 
         <text-input-field ref="inPasswordRepeat"
@@ -37,29 +36,42 @@
     // UI Components
     import TextInputField from '../../ui/TextInputField';
 
+    // Vuex stuff
+    import {mapState} from 'vuex';
+
     export default {
         components: {TextInputField},
 
         data() {
             return {
-                errorFullname: false,
                 errorPassword: false,
                 errorEmail: false,
                 errorMsg: ''
             };
         },
 
+        computed: {
+            ...mapState(['auth'])
+        },
+
         methods: {
 
             submit() {
                 const {inFullName, inEmail, inPassword, inPasswordRepeat} = this.$refs;
-                this.errorFullname = this.errorEmail = this.errorPassword = false;
+                this.errorEmail = this.errorPassword = false;
                 this.errorMsg = '';
 
                 // Validate passwords
                 if (inPassword.value !== inPasswordRepeat.value) {
                     this.errorPassword = true;
                     this.errorMsg = 'Password\'s are not indentical.';
+                    return;
+                }
+
+                // Validate Email
+                if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(inEmail.value)) {
+                    this.errorEmail = true;
+                    this.errorMsg = 'Invalid Email.';
                     return;
                 }
 
