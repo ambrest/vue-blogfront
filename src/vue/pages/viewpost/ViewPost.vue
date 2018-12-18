@@ -25,7 +25,7 @@
 
             <create-comment v-if="canComment"
                             :postid="post.id"
-                            @submitted="fetch"></create-comment>
+                            @submitted="fetch"/>
 
             <!-- Comment list -->
             <div class="comments">
@@ -35,7 +35,7 @@
                     <comment v-for="comment of post.comments"
                              :comment="comment"
                              :post="post"
-                             :key="comment.id"></comment>
+                             :key="comment.id"/>
                 </div>
 
                 <!-- Placeholder -->

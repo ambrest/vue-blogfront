@@ -13,8 +13,7 @@
                   @blur="focused = false"
                   @focus="focused = true"
                   @input="updateValue"
-                  @keyup.enter="$emit('submit')">
-        </textarea>
+                  @keyup.enter="$emit('submit')"></textarea>
 
         <!-- Colored border to show focus -->
         <span :class="{border: 1, active: focused}"></span>

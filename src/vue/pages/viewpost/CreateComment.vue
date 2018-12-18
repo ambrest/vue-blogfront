@@ -1,7 +1,7 @@
 <template>
     <div class="create-comment">
 
-        <text-area-input-field ref="input" placeholder="Write a response"></text-area-input-field>
+        <text-area-input-field ref="input" placeholder="Write a response"/>
 
         <p class="error">{{ errorMsg }}</p>
 

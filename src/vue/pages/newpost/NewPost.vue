@@ -3,10 +3,10 @@
 
         <text-input-field ref="title"
                           class="title"
-                          placeholder="Title"></text-input-field>
+                          placeholder="Title"/>
 
         <tip-tap-editor ref="editor"
-                        class="editor"></tip-tap-editor>
+                        class="editor"/>
 
         <p class="error">{{ errorMsg }}</p>
 

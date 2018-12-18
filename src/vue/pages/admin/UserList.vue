@@ -3,7 +3,7 @@
 
         <text-input-field class="search-bar"
                           placeholder="Search users"
-                          @update="updateSearchQuery"></text-input-field>
+                          @update="updateSearchQuery"/>
 
         <!-- Table header -->
         <div v-if="filteredUsers.length" class="user header">
@@ -47,7 +47,7 @@
             <span>Download as CSV</span>
         </button>
 
-        <context-menu ref="contextMenu" @close="selectedUser = null"></context-menu>
+        <context-menu ref="contextMenu" @close="selectedUser = null"/>
 
     </div>
 </template>

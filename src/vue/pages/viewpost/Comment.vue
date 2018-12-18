@@ -13,7 +13,7 @@
         <!-- Only available for the creator of the comment -->
         <text-area-input-field v-show="edit"
                                ref="textArea"
-                               placeholder="Edit comment"></text-area-input-field>
+                               placeholder="Edit comment"/>
 
         <div v-if="auth.user && ((auth.user.id === comment.user.id) || auth.user.permissions.includes('administrate'))" class="actions">
 

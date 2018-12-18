@@ -8,12 +8,12 @@
             <!-- Text fields -->
             <text-input-field ref="inUsername"
                               placeholder="Username"
-                              @submit="submit"></text-input-field>
+                              @submit="submit"/>
 
             <text-input-field ref="inPassword"
                               :password="true"
                               placeholder="Password"
-                              @submit="submit"></text-input-field>
+                              @submit="submit"/>
 
             <!-- Error message -->
             <p class="error">{{ errorMsg }}</p>

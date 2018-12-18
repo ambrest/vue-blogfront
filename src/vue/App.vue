@@ -2,16 +2,16 @@
     <div id="app">
 
         <!-- Loading screen -->
-        <loading-screen class="loader"></loading-screen>
+        <loading-screen class="loader"/>
 
         <!-- Header -->
-        <page-header class="header"></page-header>
+        <page-header class="header"/>
 
         <!-- Router -->
-        <router-view :class="{router: 1, inactive: $store.state.requestsActive}"></router-view>
+        <router-view :class="{router: 1, inactive: $store.state.requestsActive}"/>
 
         <!-- Footer -->
-        <page-footer :class="{footer: 1, inactive: $store.state.requestsActive}"></page-footer>
+        <page-footer :class="{footer: 1, inactive: $store.state.requestsActive}"/>
 
     </div>
 </template>

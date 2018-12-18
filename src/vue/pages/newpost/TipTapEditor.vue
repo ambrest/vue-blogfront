@@ -59,7 +59,7 @@
 
         <editor-content ref="editor"
                         :editor="editor"
-                        class="editor blog-content"></editor-content>
+                        class="editor blog-content"/>
 
     </div>
 </template>

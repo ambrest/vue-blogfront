@@ -9,28 +9,28 @@
             <text-input-field ref="inEmail"
                               :error="errorEmail"
                               placeholder="Your email"
-                              @submit="submit"></text-input-field>
+                              @submit="submit"/>
 
             <text-input-field ref="inFullName"
                               placeholder="Fullname"
-                              @submit="submit"></text-input-field>
+                              @submit="submit"/>
 
             <text-input-field ref="inUsername"
                               :error="errorUsername"
                               placeholder="Username"
-                              @submit="submit"></text-input-field>
+                              @submit="submit"/>
 
             <text-input-field ref="inPassword"
                               :error="errorPassword"
                               :password="true"
                               placeholder="Password"
-                              @submit="submit"></text-input-field>
+                              @submit="submit"/>
 
             <text-input-field ref="inPasswordRepeat"
                               :error="errorPassword"
                               :password="true"
                               placeholder="Repeat Password"
-                              @submit="submit"></text-input-field>
+                              @submit="submit"/>
 
             <!-- Error message -->
             <p class="error">{{ errorMsg }}</p>

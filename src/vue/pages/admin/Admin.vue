@@ -2,7 +2,7 @@
     <section class="admin">
         <h1>Admin panel</h1>
 
-        <user-list class="userlist"></user-list>
+        <user-list class="userlist"/>
 
     </section>
 </template>
