@@ -1,53 +1,66 @@
+import config from '../../../config/config';
+
 export const posts = {
 
     namespaced: true,
 
     // Holds a list of loaded posts
-    state: [],
+    state: {
+        list: [],
+        offset: 0
+    },
 
     actions: {
 
         /**
-         * Loads and overrides all currently
-         * available posts into this store module.
-         * TODO: Load part-wise
-         *
-         * @param state
+         * Load posts section wise.
+         * @param reset Clear posts
          */
-        async update({state}) {
+        async fetchNext({state}, {reset = false} = {}) {
+
+            if (reset) {
+                state.list.splice(0, state.list.length);
+                state.offset = 0;
+            }
+
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
-                    operation: 'getAllPosts',
+                    operation: 'getPostCountRange',
+                    vars: {
+                        start: state.offset,
+                        end: state.offset + config.postsPreloadAmount
+                    },
                     fields: `
-                       id,
-                       title,
-                       body,
-                       timestamp,
-                       
-                       user {
-                           id,
-                           username,
-                           fullname                                 
-                       },
-                       
-                       comments {
-                           id,
-                           body,
-                           timestamp,
-                           user {
-                               id,
-                               fullname,
-                               username
-                           }
-                       }
-                `
+                        id,
+                        title,
+                        body,
+                        timestamp,
+
+                        user {
+                            id,
+                            username,
+                            fullname                                 
+                        },
+
+                        comments {
+                            id,
+                            body,
+                            timestamp,
+                            user {
+                                id,
+                                fullname,
+                                username
+                            }
+                        }
+                    `
                 }
-            }).then(({errors, data: {getAllPosts}}) => {
+            }).then(({errors, data: {getPostCountRange}}) => {
                 if (errors && errors.length) {
                     throw 'Please go online.';
-                } else if (Array.isArray(getAllPosts)) {
-                    state.splice(0, state.length, ...getAllPosts);
+                } else if (Array.isArray(getPostCountRange)) {
+                    state.offset += getPostCountRange.length;
+                    state.list.push(...getPostCountRange);
                 }
             });
         },
@@ -88,7 +101,7 @@ export const posts = {
                      * Request was successful, save post locally to
                      * prevent unnecessary api calls.
                      */
-                    state.unshift();
+                    state.list.unshift(post);
                     return post;
                 }
 
@@ -117,18 +130,13 @@ export const posts = {
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
-
-                    /**
-                     * Request was successful, update post locally to
-                     * prevent unnecessary api calls.
-                     */
-                    const post = state.find(post => post.id = id);
-                    post.title = title;
-                    post.body = body;
-
-                    return post;
+                    return this.dispatch('posts/findPostById', {id});
                 }
+            }).then(post => {
 
+                // Replace post
+                const index = state.list.findIndex(post => post.id === id);
+                state.list.splice(index, 1, post);
             });
         },
 
@@ -157,9 +165,8 @@ export const posts = {
                      * Request was successful, remove post locally to
                      * prevent unnecessary api calls.
                      */
-                    state.splice(state.findIndex(post => post.id === id), 1);
+                    state.list.splice(state.list.findIndex(post => post.id === id), 1);
                 }
-
             });
         },
 
@@ -169,14 +176,14 @@ export const posts = {
          * @param postid Post id
          * @param body Comment content
          */
-        async newComment({rootState}, {postid, body}) {
+        async newComment({state, rootState}, {postid, body}) {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
                 query: {
                     operation: 'comment',
                     vars: {postid, body, apikey},
-                    fields: ['id', 'timestamp']
+                    fields: ['id']
                 }
             }).then(({errors}) => {
 
@@ -184,8 +191,15 @@ export const posts = {
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
-                    return this.dispatch('posts/update');
+
+                    // Reload post
+                    return this.dispatch('posts/findPostById', {id: postid});
                 }
+            }).then(post => {
+
+                // Replace post
+                const index = state.list.findIndex(post => post.id === postid);
+                state.list.splice(index, 1, post);
             });
         },
 
@@ -209,14 +223,13 @@ export const posts = {
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
-
-                    /**
-                     * Request was successful, update comment locally to
-                     * prevent unnecessary api calls.
-                     */
-                    const post = state.find(post => post.id === postid);
-                    post.comments.find(cmd => cmd.id === id && (cmd.body = body));
+                    return this.dispatch('posts/findPostById', {id: postid});
                 }
+            }).then(post => {
+
+                // Replace post
+                const index = state.list.findIndex(post => post.id === postid);
+                state.list.splice(index, 1, post);
             });
         },
 
@@ -239,14 +252,13 @@ export const posts = {
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
-
-                    /**
-                     * Request was successful, remove comment locally to
-                     * prevent unnecessary api calls.
-                     */
-                    const post = state.find(post => post.id === postid);
-                    post.comments = post.comments.filter(cmd => cmd.id !== id);
+                    return this.dispatch('posts/findPostById', {id: postid});
                 }
+            }).then(post => {
+
+                // Replace post
+                const index = state.list.findIndex(post => post.id === postid);
+                state.list.splice(index, 1, post);
             });
         },
 
@@ -260,7 +272,7 @@ export const posts = {
         async findPostById({state}, {id}) {
 
             // First try to fetch post from cache
-            const post = state.find(post => post.id === id);
+            const post = state.list.find(post => post.id === id);
 
             if (post) {
                 return post;
@@ -273,28 +285,28 @@ export const posts = {
                     operation: 'getPost',
                     vars: {id},
                     fields: `
-                      id,
-                      title,
-                      body,
-                      timestamp,
-                      
-                      user {
-                          id,
-                          username,
-                          fullname                                 
-                      },
-                      
-                      comments {
-                          id,
-                          body,
-                          timestamp,
-                          user {
-                              id,
-                              fullname,
-                              username
-                          }
-                      }
-                `
+                        id,
+                        title,
+                        body,
+                        timestamp,
+                        
+                        user {
+                            id,
+                            username,
+                            fullname                                 
+                        },
+                        
+                        comments {
+                            id,
+                            body,
+                            timestamp,
+                            user {
+                                id,
+                                fullname,
+                                username
+                            }
+                        }
+                    `
                 }
             }).then(({errors, data: {getPost}}) => {
 

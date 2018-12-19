@@ -21,15 +21,11 @@ export default function ({type = 'query', operation, vars = {}, types = {}, fiel
     };
 }
 
-function cfl(str) {
-    return str[0].toUpperCase() + str.substring(1);
-}
-
 function queryTypeList(data, types) {
     return Object.entries(data)
         .filter(v => v[1] !== null && v[1] !== undefined)
         .map(([k, v]) =>
-            `$${k}:${Array.isArray(v) ? `[${cfl(v.length ? typeof v[0] : types[k])}]` : cfl(typeof v)}!`
+            `$${k}:${Array.isArray(v) ? `[${cfl(v.length ? getType(v[0]) : types[k])}]` : cfl(getType(v))}!`
         );
 }
 
@@ -37,4 +33,17 @@ function queryVarList(data) {
     return Object.entries(data)
         .filter(v => v[1] !== null && v[1] !== undefined)
         .map(([k]) => `${k}:$${k}`);
+}
+
+function cfl(str) {
+    return str[0].toUpperCase() + str.substring(1);
+}
+
+function getType(v) {
+    switch (typeof v) {
+        case 'string':
+            return 'String';
+        case 'number':
+            return 'Int';
+    }
 }

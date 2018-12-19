@@ -77,7 +77,7 @@
         computed: {
 
             posts() {
-                return this.$store.state.posts.map(v => {
+                return this.$store.state.posts.list.map(v => {
 
                     // Convert timestamp to date
                     const date = new Date(v.timestamp);
@@ -96,10 +96,19 @@
 
         mounted() {
 
-            // Update posts
-            this.$store.dispatch('posts/update').catch(error => {
-                this.errorMsg = error;
+            window.addEventListener('scroll', () => {
+
+                // Check if the user has reached to bottom of the page
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                    this.$store.dispatch('posts/fetchNext').then(() => {
+                        this.errorMsg = '';
+                    }).catch(err => {
+                        this.errorMsg = err;
+                    });
+                }
+
             });
+
         }
     };
 
