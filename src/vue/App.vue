@@ -156,14 +156,19 @@
             box-shadow: 0 5px 30px rgba(black, 0.075);
             padding: 3em 5em;
 
-            > h1 {
+            /**
+             * H1 is for a single header text,
+             * a header container is to add additional content like icons etc.
+             */
+            > h1,
+            > .header {
+                @include font(400, 1.25em);
                 position: relative;
-                @include font(500, 1.25em);
                 margin-bottom: 3em;
                 flex-shrink: 0;
                 opacity: 0.85;
-                width: 100%;
                 text-align: center;
+                width: 100%;
 
                 &::after {
                     @include pseudo();
@@ -171,6 +176,17 @@
                     @include size(3em, 1px);
                     margin: 0 auto;
                     background: $palette-decent-blue;
+                }
+            }
+
+            > .header {
+                @include flex(row, center, center);
+
+                .icon {
+                    cursor: pointer;
+                    color: $palette-sweet-red;
+                    font-size: 0.7em;
+                    margin-left: 0.5em;
                 }
             }
         }

@@ -2,7 +2,12 @@
     <section class="home">
 
         <!-- Header -->
-        <h1>Latest Posts</h1>
+        <div class="header">
+            <span>Latest Posts</span>
+            <i class="icon fas fa-fw fa-sync-alt" @click="refresh"></i>
+        </div>
+
+
         <div class="divider"></div>
 
         <!-- Posts listing -->
@@ -108,6 +113,17 @@
                 }
 
             });
+        },
+
+        methods: {
+
+            refresh() {
+
+                // Reloads posts and resets offset
+                this.$store.dispatch('posts/fetchNext', {reset: true}).catch(err => {
+                    this.errorMsg = err;
+                });
+            }
 
         }
     };

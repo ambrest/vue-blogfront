@@ -2,14 +2,13 @@
     <div v-if="post" class="post divided">
 
         <div class="tab">
-            <h1>
+            <div class="header">
                 <span>{{ post.title }}</span>
 
                 <router-link v-if="auth.user && ((auth.user.id === post.user.id) || auth.user.permissions.includes('administrate'))"
-                             :to="`/edit/${post.id}`">
-                    <i class="fas fa-fw fa-pen"></i>
-                </router-link>
-            </h1>
+                             :to="`/edit/${post.id}`"
+                             class="icon fas fa-fw fa-pen"/>
+            </div>
 
 
             <!-- Author and user description -->
@@ -152,19 +151,6 @@
         article {
             flex-shrink: 1;
             width: 100%;
-        }
-
-        h1 {
-            a {
-                position: relative;
-                margin-left: 0.25em;
-                top: -0.08em;
-
-                i {
-                    color: $palette-sweet-red;
-                    font-size: 0.6em;
-                }
-            }
         }
     }
 
