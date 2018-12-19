@@ -62,14 +62,14 @@
                 this.errorMsg = '';
 
                 // Validate passwords
-                if (inPassword.value !== inPasswordRepeat.value) {
+                if ((inPassword.value.length || inPasswordRepeat.value.length) && inPassword.value !== inPasswordRepeat.value) {
                     this.errorPassword = true;
                     this.errorMsg = 'Password\'s are not indentical.';
                     return;
                 }
 
                 // Validate Email
-                if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(inEmail.value)) {
+                if (inEmail.value.length > 0 && !/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(inEmail.value)) {
                     this.errorEmail = true;
                     this.errorMsg = 'Invalid Email.';
                     return;
@@ -77,9 +77,9 @@
 
                 // Fire auth
                 this.$store.dispatch('auth/updateCredentials', {
-                    fullname: inFullName.value,
-                    email: inEmail.value,
-                    password: inPassword.value
+                    fullname: inFullName.value || null,
+                    email: inEmail.value || null,
+                    password: inPassword.value || null
                 }).then(() => {
                     inFullName.clear();
                     inEmail.clear();
