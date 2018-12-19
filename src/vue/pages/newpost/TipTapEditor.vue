@@ -69,16 +69,12 @@
     // TipTap editor
     import {Editor, EditorContent, EditorMenuBar, EditorMenuBubble} from 'tiptap';
     import {
-        /* eslint-disable no-unused-vars */
         Blockquote,
         CodeBlock,
-        HardBreak,
         Heading,
         OrderedList,
         BulletList,
         ListItem,
-        TodoItem,
-        TodoList,
         Bold,
         Code,
         Italic,

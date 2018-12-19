@@ -1,7 +1,8 @@
 .error {
     @include font(500, 0.7em);
     color: $palette-sweet-red;
-    height: 1.5em;
+    min-height: 1.5em;
+    margin: 0.25em 0;
     width: 100%;
     text-align: left;
 }

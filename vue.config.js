@@ -1,3 +1,5 @@
+const args = process.argv;
+
 module.exports = {
 
     css: {
@@ -19,6 +21,7 @@ module.exports = {
 
     pluginOptions: {
         webpackBundleAnalyzer: {
+            analyzerMode: args.includes('--analyze-bundle') ? 'static' : 'disabled',
             openAnalyzer: false
         }
     },

@@ -8,6 +8,7 @@
     "main": "app.js",
     "scripts": {
         "build": "vue-cli-service build",
+        "build:analyze": "vue-cli-service build --analyze-bundle",
         "lint": "vue-cli-service lint ./src",
         "dev": "vue-cli-service serve"
     },
