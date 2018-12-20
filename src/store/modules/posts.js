@@ -92,6 +92,7 @@ export const posts = {
                         timestamp,
                         title,
                         body,
+                        comments: [],
                         user: {
                             ...rootState.auth.user
                         }

@@ -35,7 +35,6 @@ export const auth = {
          */
         async login({state}, {username, password}) {
             return this.dispatch('graphql', {
-                cache: true,
                 query: {
                     operation: 'login',
                     vars: {username, password},
@@ -121,7 +120,7 @@ export const auth = {
                 query: {
                     operation: 'register',
                     vars: {email, username, fullname, password},
-                    fields: ['apikey', 'id', 'permissions']
+                    fields: ['id', 'permissions']
                 }
             }).then(({errors, data}) => {
 
@@ -131,8 +130,7 @@ export const auth = {
                 } else {
 
                     // Save to current state
-                    const {id, apikey, permissions} = data.register;
-                    state.apikey = apikey;
+                    const {id, permissions} = data.register;
                     state.user = {
                         email,
                         id,
@@ -141,8 +139,6 @@ export const auth = {
                         fullname
                     };
 
-                    // Save apikey
-                    localStorage.setItem('apikey', apikey);
                     return state.user;
                 }
             });

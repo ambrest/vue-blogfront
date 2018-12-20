@@ -157,6 +157,7 @@
 
                 a {
                     color: $palette-sweet-red;
+                    text-decoration: underline;
                 }
 
                 .date {

@@ -12,7 +12,11 @@
 
 
             <!-- Author and user description -->
-            <p class="by">By <b>{{ post.user.fullname }}</b> aka. <b>{{ post.user.username }}</b></p>
+            <p class="by">
+                By
+                <router-link :to="`/user/${post.user.id}`" class="name">{{ post.user.fullname }}</router-link>
+                aka. <b>{{ post.user.username }}</b>
+            </p>
 
             <!-- Comment body as HTML -->
             <article ref="postBodyElement"
@@ -145,6 +149,12 @@
             b {
                 font-weight: 500;
                 color: $palette-sweet-red;
+            }
+
+            a {
+                font-weight: 500;
+                color: $palette-sweet-red;
+                text-decoration: underline;
             }
         }
 
