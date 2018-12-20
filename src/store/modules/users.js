@@ -32,6 +32,37 @@ export const users = {
         },
 
         /**
+         * Fetches a specific user by his id
+         * @param id The userid
+         */
+        async findUserById({state, rootState}, {id}) {
+            const {apikey} = rootState.auth;
+
+            // Check if user has been already loaded
+            const user = state.find(user => user.id === id);
+            if (user) {
+                return Promise.resolve(user);
+            }
+
+            return this.dispatch('graphql', {
+                query: {
+                    operation: 'user',
+                    vars: {id, apikey},
+                    fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email']
+                }
+            }).then(({errors, data: {user}}) => {
+
+                if (errors && errors.length) {
+                    throw errors[0].message;
+                } else {
+                    state.push(user);
+                    return Promise.resolve(user);
+                }
+
+            });
+        },
+
+        /**
          * Updates the permissions of a specific user
          *
          * @param user User object
@@ -111,4 +142,5 @@ export const users = {
             });
         }
     }
+
 };

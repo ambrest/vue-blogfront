@@ -41,9 +41,6 @@
 
             // Scroll to top on route change
             this.$router.afterEach(() => window.scrollTo(0, 0));
-
-            // Load first x posts
-            this.$store.dispatch('posts/fetchNext');
         }
     };
 </script>

@@ -45,6 +45,12 @@
         },
 
         mounted() {
+
+            // Load first x posts
+            this.$store.dispatch('posts/fetchNext').catch(err => {
+                this.errorMsg = err;
+            });
+
             window.addEventListener('scroll', this.onScroll);
         },
 

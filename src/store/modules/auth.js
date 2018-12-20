@@ -72,6 +72,10 @@ export const auth = {
          * @param apikey
          */
         async key({state}, {apikey}) {
+
+            // Apply api if other request are getting feed forward
+            state.apikey = apikey;
+
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
@@ -91,7 +95,6 @@ export const auth = {
 
                     // Save to current state
                     const {id, email, fullname, username, permissions} = data.login;
-                    state.apikey = apikey;
                     state.user = {
                         email,
                         id,

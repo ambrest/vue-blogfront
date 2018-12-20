@@ -316,7 +316,45 @@ export const posts = {
 
                 return getPost;
             });
+        },
 
+        /**
+         * Fetches all posts from a specific user
+         * @param id User id
+         */
+        async getPostsFromUser(_, {id}) {
+
+            // Fetch posts from this user in particular
+            return this.dispatch('graphql', {
+                cache: true,
+                query: {
+                    operation: 'getPostsBy',
+                    vars: {userid: id},
+                    fields: `
+                        id,
+                        title,
+                        body,
+                        timestamp,
+                        
+                        comments {
+                            id,
+                            body,
+                            timestamp,
+                            user {
+                                id,
+                                fullname,
+                                username
+                            }
+                        }
+                    `
+                }
+            }).then(({errors, data: {getPostsBy}}) => {
+                if (errors && errors.length) {
+                    throw errors[0].message;
+                } else {
+                    return getPostsBy;
+                }
+            });
         }
     }
 };

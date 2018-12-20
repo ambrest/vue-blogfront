@@ -7,8 +7,9 @@ import Login    from '../vue/pages/login/Login';
 import Register from '../vue/pages/register/Register';
 import Admin    from '../vue/pages/admin/Admin';
 import NewPost  from '../vue/pages/newpost/NewPost';
-import ViewPost from '../vue/pages/viewpost/ViewPost';
 import Settings from '../vue/pages/settings/Settings';
+import ViewPost from '../vue/pages/viewpost/ViewPost';
+import ViewUser from '../vue/pages/viewuser/ViewUser';
 
 /**
  * Responsible for trying to authenticate the user via a existing api-key.
@@ -117,6 +118,10 @@ export default [
     {
         path: '/post/:id',
         component: ViewPost
+    },
+    {
+        path: '/user/:id',
+        component: ViewUser
     },
     {
         path: '/edit/:id',
