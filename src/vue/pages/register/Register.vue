@@ -1,9 +1,9 @@
 <template>
     <section class="login small">
 
-        <h1>Join our community!</h1>
+        <h1 v-if="!send">Join our community!</h1>
 
-        <div class="input">
+        <div v-if="!send" class="input">
 
             <!-- Text fields -->
             <text-input-field ref="inEmail"
@@ -39,24 +39,31 @@
             <button class="button-primary" @click="submit()">Sign Up!</button>
         </div>
 
+        <confirmation v-if="send" 
+                      msg="You're in!" 
+                      sub="Please check your E-Mails"/>
+
     </section>
 </template>
 
 <script>
 
+    // Confirmation
+    import Confirmation from '../../components/Confirmation';
+
     // UI Components
     import TextInputField from '../../ui/TextInputField';
 
     export default {
-
-        components: {TextInputField},
+        components: {TextInputField, Confirmation},
 
         data() {
             return {
                 errorMsg: '',
                 errorPassword: false,
                 errorEmail: false,
-                errorUsername: false
+                errorUsername: false,
+                send: false
             };
         },
 
@@ -88,7 +95,7 @@
                     username: inUsername.value,
                     password: inPassword.value
                 }).then(() => {
-                    this.$router.push('/');
+                    this.send = true;
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });
