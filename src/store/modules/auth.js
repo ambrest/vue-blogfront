@@ -182,6 +182,26 @@ export const auth = {
                     return state.user;
                 }
             });
+        },
+
+        /**
+         * Requests an E-Mail to reset the password
+         *
+         * @param email E-Mail address
+         */
+        async resetPassword(_, {email}) {
+            return this.dispatch('graphql', {
+                query: {
+                    operation: 'recoverPassword',
+                    vars: {email}
+                }
+            }).then(({errors}) => {
+
+                // Check for errors and, if presend, return the message of the first one
+                if (errors && errors.length) {
+                    throw errors[0].message;
+                }
+            });
         }
     }
 };

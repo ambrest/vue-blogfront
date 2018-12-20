@@ -15,6 +15,8 @@
                               placeholder="Password"
                               @submit="submit"/>
 
+            <router-link class="forgotpassword" to="/forgotpassword">Forgot password?</router-link>
+
             <!-- Error message -->
             <p class="error">{{ errorMsg }}</p>
 
@@ -68,6 +70,17 @@
 
             .text-input-field {
                 margin: 0.75em 0 0.25em;
+            }
+
+            .forgotpassword {
+                @include font(500, 0.75em);
+                color: $palette-grayish-blue;
+                margin-top: 0.25em;
+                transition: all 0.3s;
+
+                &:hover {
+                    color: $palette-sweet-magenta;
+                }
             }
 
             .error {

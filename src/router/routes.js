@@ -2,14 +2,15 @@ import store  from '../store/index';
 import config from '../../config/config';
 
 // Route components
-import Home     from '../vue/pages/home/Home';
-import Login    from '../vue/pages/login/Login';
-import Register from '../vue/pages/register/Register';
-import Admin    from '../vue/pages/admin/Admin';
-import NewPost  from '../vue/pages/newpost/NewPost';
-import Settings from '../vue/pages/settings/Settings';
-import ViewPost from '../vue/pages/viewpost/ViewPost';
-import ViewUser from '../vue/pages/viewuser/ViewUser';
+import Home          from '../vue/pages/home/Home';
+import Login         from '../vue/pages/login/Login';
+import Register      from '../vue/pages/register/Register';
+import Admin         from '../vue/pages/admin/Admin';
+import NewPost       from '../vue/pages/newpost/NewPost';
+import Settings      from '../vue/pages/settings/Settings';
+import PasswordReset from '../vue/pages/forgotpassword/ForgotPassword';
+import ViewPost      from '../vue/pages/viewpost/ViewPost';
+import ViewUser      from '../vue/pages/viewuser/ViewUser';
 
 /**
  * Responsible for trying to authenticate the user via a existing api-key.
@@ -126,6 +127,27 @@ export default [
     {
         path: '/edit/:id',
         component: NewPost
+    },
+    {
+        path: '/forgotpassword',
+        component: PasswordReset
+    },
+    {
+        path: '/recover/:apikey',
+        beforeEnter(to, from, next) {
+            const {apikey} = to.params;
+
+            // Check if apikey is present
+            if (apikey) {
+                return store.dispatch('auth/key', {apikey}).then(() => {
+                    next('/settings');
+                }).catch(() => {
+                    next('/');
+                });
+            }
+
+            next('/');
+        }
     },
 
     // 404 catcher

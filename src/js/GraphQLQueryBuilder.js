@@ -12,9 +12,8 @@ export default function ({type = 'query', operation, vars = {}, types = {}, fiel
     return {
         query: `
             ${type} ${noVars ? `${cfl(operation)}(${queryTypeList(vars, types)})` : ''} {
-                ${operation}${noVars ? `(${queryVarList(vars)})` : ''} {
-                   ${Array.isArray(fields) ? fields.join(', ') : fields}
-                }
+                ${operation}${noVars ? `(${queryVarList(vars)})` : ''} 
+                ${fields.length ? `{${Array.isArray(fields) ? fields.join(', ') : fields}}` : ''}
             }
         `,
         variables: vars
