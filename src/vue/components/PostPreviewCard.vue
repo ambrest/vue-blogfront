@@ -194,13 +194,13 @@
     }
 
     @include tablet {
-        .post {
+        .post-preview-card {
             @include fixed-width(90%);
         }
     }
 
     @include mobile {
-        .post {
+        .post-preview-card {
             position: relative;
             @include fixed-width(95%);
             padding: 3.5em 0 3em;
