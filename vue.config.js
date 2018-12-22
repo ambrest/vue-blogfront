@@ -1,3 +1,4 @@
+const manifestJSON = require('./public/manifest');
 const args = process.argv;
 
 module.exports = {
@@ -27,8 +28,8 @@ module.exports = {
     },
 
     pwa: {
-        themeColor: '#673AB7',
-        msTileColor: '#F5F6FA',
+        themeColor: manifestJSON.theme_color,
+        msTileColor: manifestJSON.background_color,
         manifestPath: 'manifest.json',
         workboxPluginMode: 'GenerateSW'
     }
