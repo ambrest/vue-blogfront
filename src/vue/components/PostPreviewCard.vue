@@ -144,6 +144,7 @@
             word-break: break-all; // Edge fallback
             word-break: break-word;
             flex-shrink: 1;
+            min-width: 0;
 
             h2 {
                 @include font(400);
@@ -175,6 +176,8 @@
                 margin: 1.5em 0;
                 opacity: 0.9;
                 max-height: 16em;
+                min-width: 0;
+                max-width: 100%;
 
                 &::after {
                     @include pseudo();

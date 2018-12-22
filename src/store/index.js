@@ -52,7 +52,7 @@ export default new Vuex.Store({
             state.requestsActive++;
 
             // Make graphql request
-            const request = fetch(config.apiEndPoint, {
+            const doRequest = () => fetch(config.apiEndPoint, {
                 method: 'POST',
 
                 headers: {
@@ -65,7 +65,7 @@ export default new Vuex.Store({
 
             if (cache) {
                 const hash = await md5(json);
-                return request.then(async v => {
+                return doRequest().then(async v => {
                     state.requestsActive--;
 
                     // Save to cache
@@ -88,7 +88,7 @@ export default new Vuex.Store({
                     return offline;
                 });
             } else {
-                return request.then(v => {
+                return doRequest().then(v => {
                     state.requestsActive--;
                     return v.json();
                 }).catch(() => {
