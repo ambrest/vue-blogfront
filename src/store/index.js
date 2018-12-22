@@ -1,3 +1,4 @@
+import md5  from 'md5';
 import Vue  from 'vue';
 import Vuex from 'vuex';
 
@@ -6,7 +7,6 @@ import config from '../../config/config';
 
 // Utils
 import queryBuilder from '../js/GraphQLQueryBuilder';
-import {sha256}     from '../js/utils';
 
 // Modules
 import {posts} from './modules/posts';
@@ -64,7 +64,7 @@ export default new Vuex.Store({
             });
 
             if (cache) {
-                const hash = await sha256(json);
+                const hash = await md5(json);
                 return request.then(async v => {
                     state.requestsActive--;
 
