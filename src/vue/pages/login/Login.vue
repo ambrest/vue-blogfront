@@ -73,9 +73,9 @@
             }
 
             .forgotpassword {
-                @include font(500, 0.75em);
-                color: $palette-grayish-blue;
-                margin-top: 0.25em;
+                @include font(400, 0.75em);
+                color: $palette-decent-blue;
+                margin-top: 0.4em;
                 transition: all 0.3s;
 
                 &:hover {

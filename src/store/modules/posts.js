@@ -133,11 +133,13 @@ export const posts = {
                 } else {
                     return this.dispatch('posts/findPostById', {id});
                 }
+
             }).then(post => {
 
                 // Replace post
                 const index = state.list.findIndex(post => post.id === id);
                 state.list.splice(index, 1, post);
+                return post;
             });
         },
 

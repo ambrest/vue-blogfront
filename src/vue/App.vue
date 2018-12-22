@@ -174,6 +174,17 @@
                     margin: 0 auto;
                     background: $palette-decent-blue;
                 }
+
+                @include animate('0.5s ease-in-out') {
+                    from {
+                        transform: translateY(-0.35em);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: none;
+                        opacity: 1;
+                    }
+                }
             }
 
             > .header {

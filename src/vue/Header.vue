@@ -4,7 +4,7 @@
         <div class="bar">
 
             <!-- Page title grabbed from the config file -->
-            <router-link class="h1" to="/">{{ config.pageTitle }}</router-link>
+            <router-link class="title" to="/">{{ config.pageTitle }}</router-link>
 
             <!-- Menu button on mobile devices -->
             <i class="menu fas fa-fw fa-bars" @click="menuOpen = true"></i>
@@ -97,8 +97,18 @@
         margin: 1.5em auto;
         color: white;
 
-        .h1 {
+        .title {
             @include font(300, 1.75em);
+            @include animate('0.75s ease-in-out') {
+                from {
+                    transform: translateX(-0.25em);
+                    opacity: 0;
+                }
+                to {
+                    transform: none;
+                    opacity: 1;
+                }
+            }
         }
 
         .menu {
@@ -112,8 +122,19 @@
             @include font(400, 0.8em);
 
             a {
+                display: inline-block;
                 position: relative;
                 margin-left: 1em;
+                transform: translateY(-0.25em);
+                opacity: 0;
+
+                @include sequentialAnimationDelay(10, 0.15s);
+                @include animate('0.3s ease-in-out forwards') {
+                    to {
+                        transform: none;
+                        opacity: 1;
+                    }
+                }
 
                 &::before {
                     @include pseudo();
@@ -146,7 +167,7 @@
     @include mobile {
         .bar {
 
-            .h1 {
+            .title {
                 @include font(300, 1.75em);
             }
 
@@ -168,6 +189,16 @@
                     opacity: 1;
                     transform: none;
                     pointer-events: all;
+
+                    a {
+                        @include sequentialAnimationDelay(10, 0.075s);
+                        @include animate('0.3s ease-in-out forwards') {
+                            to {
+                                transform: none;
+                                opacity: 1;
+                            }
+                        }
+                    }
                 }
 
                 a {
@@ -177,6 +208,7 @@
                     padding: 1.5em 0;
                     width: 50%;
                     text-align: center;
+                    animation: none;
 
                     &::before {
                         content: none;

@@ -95,6 +95,17 @@
         @include fixed-width(70%);
         margin-bottom: 9em;
 
+        @include animate('0.5s ease-in-out') {
+            from {
+                transform: translateY(-0.5em) scale(0.97);
+                opacity: 0;
+            }
+            to {
+                transform: none;
+                opacity: 1;
+            }
+        }
+
         > .date {
             position: relative;
             @include flex(column, center);
@@ -102,6 +113,17 @@
             padding-bottom: 4em;
             margin-bottom: 3em;
             width: 5em;
+
+            @include animate('0.5s ease-in-out') {
+                from {
+                    transform: translateX(0.75em);
+                    opacity: 0;
+                }
+                to {
+                    transform: none;
+                    opacity: 1;
+                }
+            }
 
             .day {
                 @include font(300, 3.5em, 0.04em);
