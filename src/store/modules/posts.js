@@ -131,15 +131,14 @@ export const posts = {
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
-                    return this.dispatch('posts/findPostById', {id});
+
+                    // Update post in place
+                    const post = state.list.find(post => post.id === id);
+                    post.title = title;
+                    post.body = body;
+
+                    return post;
                 }
-
-            }).then(post => {
-
-                // Replace post
-                const index = state.list.findIndex(post => post.id === id);
-                state.list.splice(index, 1, post);
-                return post;
             });
         },
 
@@ -186,23 +185,29 @@ export const posts = {
                 query: {
                     operation: 'comment',
                     vars: {postid, body, apikey},
-                    fields: ['id']
+                    fields: `
+                        id,
+                        body,
+                        timestamp,
+
+                        user {
+                            id,
+                            username,
+                            fullname                                 
+                        }
+                    `
                 }
-            }).then(({errors}) => {
+            }).then(({errors, data: {comment}}) => {
 
                 // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
 
-                    // Reload post
-                    return this.dispatch('posts/findPostById', {id: postid});
+                    // Update comment in place
+                    const post = state.list.find(post => post.id === postid);
+                    post.comments.push(comment);
                 }
-            }).then(post => {
-
-                // Replace post
-                const index = state.list.findIndex(post => post.id === postid);
-                state.list.splice(index, 1, post);
             });
         },
 
@@ -226,13 +231,12 @@ export const posts = {
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
-                    return this.dispatch('posts/findPostById', {id: postid});
-                }
-            }).then(post => {
 
-                // Replace post
-                const index = state.list.findIndex(post => post.id === postid);
-                state.list.splice(index, 1, post);
+                    // Update comment in place
+                    const post = state.list.find(post => post.id === postid);
+                    const comment = post.comments.find(v => v.id === id);
+                    comment.body = body;
+                }
             });
         },
 
@@ -315,6 +319,10 @@ export const posts = {
 
                 if (errors && errors.length) {
                     throw 'Cannot fetch post';
+                }
+
+                if (!state.list.find(v => v.id === getPost.id)) {
+                    state.list.push(getPost);
                 }
 
                 return getPost;
