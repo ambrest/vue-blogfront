@@ -35,6 +35,7 @@ export const auth = {
          */
         async login({state}, {username, password}) {
             return this.dispatch('graphql', {
+                cache: true,
                 query: {
                     operation: 'login',
                     vars: {username, password},
