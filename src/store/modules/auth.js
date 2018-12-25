@@ -128,19 +128,6 @@ export const auth = {
                 // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
-                } else {
-
-                    // Save to current state
-                    const {id, permissions} = data.register;
-                    state.user = {
-                        email,
-                        id,
-                        permissions,
-                        username,
-                        fullname
-                    };
-
-                    return state.user;
                 }
             });
         },
