@@ -3,11 +3,5 @@
     "themeColor": "#C62642",
     "apiEndPoint": "http://192.168.178.156:4000/api",
     "wordsPerMinute": 250,
-    "postsPreloadAmount": 3,
-
-    "meta": {
-        "description": "Vue blogfront - PWA for blogs. 100% Offline.",
-        "keywords": "Blog,Blog-engine,Vue-app,Vue,Vue2,PWA,SPA,WebApp",
-        "author": "Ambrest Designs"
-    }
+    "postsPreloadAmount": 3
 }
