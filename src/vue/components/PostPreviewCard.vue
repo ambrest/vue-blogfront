@@ -206,7 +206,7 @@
                     @include position(0, 0, 0, 0);
 
                     // See https://stackoverflow.com/questions/11829410/css3-gradient-rendering-issues-from-transparent-to-white
-                    background: linear-gradient(to top, $palette-snow-white, rgba(0, 0, 0, 0.000001) 15%);
+                    background: linear-gradient(to top, $palette-snow-white, rgba(255, 255, 255, 0.000001) 15%);
                 }
             }
 
