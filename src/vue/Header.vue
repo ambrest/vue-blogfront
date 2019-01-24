@@ -10,35 +10,30 @@
             <i class="menu fas fa-fw fa-bars" @click="menuOpen = true"></i>
 
             <!-- Menu -->
-            <div :class="{links: 1, open: menuOpen}">
+            <div :class="{links: 1, open: menuOpen}" @click="menuOpen = false">
 
                 <!-- Visible as not-logged-in user -->
-                <router-link to="/" @click.native="menuOpen = false">Home</router-link>
+                <router-link to="/">Home</router-link>
                 <router-link v-if="!user"
-                             to="/login"
-                             @click.native="menuOpen = false">Login
+                             to="/login">Login
                 </router-link>
                 <router-link v-if="!user"
-                             to="/register"
-                             @click.native="menuOpen = false">Register
+                             to="/register">Register
                 </router-link>
 
                 <!-- Only visible with permission 'admin' -->
                 <router-link v-if="user && user.permissions.includes('administrate')"
-                             to="/admin"
-                             @click.native="menuOpen = false">Admin
+                             to="/admin">Admin
                 </router-link>
 
                 <!-- Only visible with permission 'post' -->
                 <router-link v-if="user && user.permissions.includes('post')"
-                             to="/new"
-                             @click.native="menuOpen = false">New post
+                             to="/new">New post
                 </router-link>
 
                 <!-- Visible if logged in -->
                 <router-link v-if="user"
-                             to="/settings"
-                             @click.native="menuOpen = false">Settings
+                             to="/settings">Settings
                 </router-link>
                 <router-link v-if="user"
                              to="/login"
@@ -69,7 +64,6 @@
 
         methods: {
             logout() {
-                this.menuOpen = false;
 
                 // Remove credentials and go to login
                 this.$store.dispatch('auth/logout').then(() => {
@@ -160,7 +154,7 @@
 
     @include tablet {
         .bar {
-            width: 95vw;
+            width: 90vw;
         }
     }
 
