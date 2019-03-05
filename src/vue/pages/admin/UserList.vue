@@ -181,9 +181,7 @@
         @include flex(row, center);
         @include font(400, 13px);
         width: 100%;
-        margin-bottom: 0.3em;
-        padding-bottom: 0.3em;
-        border-bottom: 1px solid rgba($palette-slate-gray, 0.05);
+        padding: 0.35em 0;
         flex-shrink: 0;
 
         & > span {
@@ -192,6 +190,7 @@
             text-overflow: ellipsis;
             margin-right: 0.75em;
             transition: all 0.3s;
+            padding-bottom: 0.25em;
         }
 
         .index {
@@ -225,12 +224,13 @@
                 @include font(500, 0.85em);
                 border: 1px solid $palette-decent-blue;
                 border-radius: 0.15em;
-                padding: 0.15em 0.35em 0.15em 0.35em;
+                padding: 0.25em 0.35em 0.15em 0.35em;
                 margin-left: 0.25em;
                 margin-right: 0;
                 color: $palette-decent-blue;
                 cursor: pointer;
                 transition: all 0.3s;
+                text-transform: capitalize;
 
                 &.active {
                     color: white;
@@ -248,8 +248,8 @@
             color: $palette-cloud-blue;
         }
 
-        &:nth-last-child(1) {
-            border-bottom: none;
+        &:nth-child(even):not(.header) {
+            background: rgba($palette-slate-gray, 0.025);
         }
 
         &.header {
@@ -269,10 +269,14 @@
         .user {
 
             .index,
-            .fullname {
+            .fullname,
+            .email {
                 display: none;
             }
 
+            .username {
+                flex-grow: 1;
+            }
         }
     }
 

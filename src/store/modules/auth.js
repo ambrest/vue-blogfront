@@ -117,7 +117,7 @@ export const auth = {
          * @param fullname Fullname
          * @param password Password
          */
-        async register({state}, {email, username, fullname, password}) {
+        async register(_, {email, username, fullname, password}) {
             return this.dispatch('graphql', {
                 query: {
                     operation: 'register',
