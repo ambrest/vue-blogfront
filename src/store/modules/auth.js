@@ -111,6 +111,7 @@ export const auth = {
         /**
          * Registers an new user
          *
+         * @param state
          * @param email E-Mail Address
          * @param username Username, need to be unique
          * @param fullname Fullname
@@ -123,7 +124,7 @@ export const auth = {
                     vars: {email, username, fullname, password},
                     fields: ['id', 'permissions']
                 }
-            }).then(({errors, data}) => {
+            }).then(({errors}) => {
 
                 // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
@@ -136,6 +137,7 @@ export const auth = {
          * Updates the credentials of the currently
          * logged in user.
          *
+         * @param state
          * @param email New E-Mail
          * @param fullname New Fullname
          * @param password New Password
