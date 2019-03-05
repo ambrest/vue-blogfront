@@ -2,23 +2,24 @@
     <div class="text-input-field">
 
         <!-- Placeholder, will be moved if input contains text -->
-        <span :class="{placeholder: 1, error, moved: value || focused}">{{ placeholder }}</span>
+        <label :for="labelId" :class="{placeholder: 1, moved: value || focused}">{{ placeholder }}</label>
 
         <div class="field">
             <input ref="input"
-                   :autofocus="autofocus"
+                   :id="labelId"
+                   :autofocus="autofocus ? 'autofocus' : ''"
                    :class="{empty: !value}"
                    :type="password ? 'password' : 'text'"
                    v-model="value"
                    spellcheck="false"
                    @blur="focused = false"
                    @focus="focused = true"
-                   @input="updateValue"
+                   @input="$emit('update', value)"
                    @keyup.enter="$emit('submit')">
 
             <!-- Clear input -->
             <i :class="{'fas fa-fw fa-times': 1, visible: value}"
-               @click="clear()"></i>
+               @click="value = ''"></i>
         </div>
 
         <!-- Colored border to show focus -->
@@ -33,34 +34,26 @@
         props: {
             placeholder: {type: String, required: true},
             password: {type: Boolean, default: false},
-            autofocus: {type: Boolean, default: false},
-            error: {type: Boolean, default: false}
+            autofocus: {type: Boolean, default: false}
         },
 
         data() {
             return {
                 value: '',
-                focused: false
+                focused: false,
+                labelId: `label-${(Date.now() + Math.floor(Math.random() * 1e15)).toString(36)}`
             };
         },
 
         methods: {
 
-            updateValue() {
-
-                // Emit event
-                this.$emit('update', this.value);
-            },
-
             clear() {
                 this.value = '';
-                this.updateValue();
             },
 
             setContent(str) {
                 this.value = str;
             }
-
         }
     };
 
@@ -74,8 +67,8 @@
         @include inline-flex(row, center);
         border-radius: 0.15em;
         transition: all 0.3s;
-        padding-top: 0.5em;
-        font-size: 1.1em;
+        padding-top: 0.6em;
+        font-size: 1.05em;
     }
 
     .border {
@@ -106,14 +99,10 @@
         position: absolute;
         color: $palette-decent-blue;
         transition: all 0.3s;
-        @include font(400, 0.8em);
-
-        &.error {
-            color: $palette-sweet-red;
-        }
+        @include font(400, 0.85em);
 
         &.moved {
-            transform: translateY(-115%) scale(0.85);
+            transform: translateY(-120%) scale(0.85);
             transform-origin: left;
             opacity: 0.9;
         }

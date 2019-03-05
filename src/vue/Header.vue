@@ -132,7 +132,7 @@
 
                 &::before {
                     @include pseudo();
-                    @include position(auto, auto, -2px, 0);
+                    @include position(auto, auto, -5px, 0);
                     @include size(100%, 2px);
                     transition: all 0.3s;
                     background: $palette-snow-white;

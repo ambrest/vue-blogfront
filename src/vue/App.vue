@@ -137,6 +137,7 @@
         @include inline-flex(column, center);
         margin-top: 10vh;
         transition: all 0.3s;
+        transform-origin: center top;
 
         &.inactive {
             pointer-events: none;
@@ -201,7 +202,7 @@
 
         @include animate('0.4s ease-in-out') {
             from {
-                transform: translateY(-0.5em);
+                transform: translateY(-0.75em) scale(0.985);
                 opacity: 0;
             }
         }

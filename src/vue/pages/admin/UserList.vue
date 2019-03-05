@@ -224,7 +224,7 @@
                 @include font(500, 0.85em);
                 border: 1px solid $palette-decent-blue;
                 border-radius: 0.15em;
-                padding: 0.25em 0.35em 0.15em 0.35em;
+                padding: 0.3em 0.35em 0.15em;
                 margin-left: 0.25em;
                 margin-right: 0;
                 color: $palette-decent-blue;

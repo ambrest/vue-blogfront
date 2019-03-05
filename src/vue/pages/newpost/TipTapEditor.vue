@@ -172,6 +172,7 @@
         .editor-bar {
             @include flex(row, flex-start);
             flex-wrap: wrap;
+            margin: 0 -0.25em;
 
             button {
                 color: $palette-decent-blue;
@@ -198,10 +199,13 @@
         }
 
         .editor {
+            position: relative;
             width: 100%;
-            border: 1px solid $palette-decent-blue;
+            border: 1px solid rgba($palette-decent-blue, 0.5);
+            border-radius: 0.25em;
             margin-top: 0.5em;
             padding: 0.5em;
+            min-height: 8em;
         }
 
         .menububble {
