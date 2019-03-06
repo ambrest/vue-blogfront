@@ -154,6 +154,10 @@
             box-shadow: 0 5px 30px rgba(black, 0.075);
             padding: 3em 5em;
 
+            &.small {
+                padding: 3em 4em;
+            }
+
             /**
              * H1 is for a single header text,
              * a header container is to add additional content like icons etc.

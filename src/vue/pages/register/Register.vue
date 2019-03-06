@@ -101,9 +101,7 @@
                     this.errorMsg = reason;
                 });
             }
-
         }
-
     };
 
 </script>
@@ -116,6 +114,7 @@
 
             .text-input-field {
                 margin: 0.75em 0 0.25em;
+                @include width(13em, 0, 100vw)
             }
 
             .error {

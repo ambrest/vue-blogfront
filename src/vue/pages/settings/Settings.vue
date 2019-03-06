@@ -109,8 +109,8 @@
 
         .text-input-field {
             margin-top: 0.75em;
+            @include width(13em, 0, 100vw)
         }
-
     }
 
 </style>

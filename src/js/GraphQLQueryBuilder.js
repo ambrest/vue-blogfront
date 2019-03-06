@@ -44,5 +44,7 @@ function getType(v) {
             return 'String';
         case 'number':
             return 'Int';
+        case 'boolean':
+            return 'Boolean';
     }
 }

@@ -112,6 +112,7 @@
             padding-right: 2em;
             padding-bottom: 4em;
             margin-bottom: 3em;
+            color: $palette-slate-gray;
             width: 5em;
 
             @include animate('0.5s ease-in-out') {

@@ -8,8 +8,8 @@
         </div>
 
         <div class="sub-header">
-            <span>aka. {{ user.username }}</span>
-            <span v-if="user.email"> / {{ user.email }} </span>
+            <span>aka. <b>{{ user.username }}</b></span>
+            <span v-if="user.email"> / <b>{{ user.email }}</b> </span>
         </div>
 
         <!-- Posts listing -->
