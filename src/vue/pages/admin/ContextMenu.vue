@@ -94,7 +94,7 @@
         pointer-events: none;
         background: white;
         padding: 0.5em 0.25em;
-        box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.1);
+        box-shadow: 0 3px 15px 0 rgba(black, 0.1);
         border-radius: 0.15em;
 
         &:empty {

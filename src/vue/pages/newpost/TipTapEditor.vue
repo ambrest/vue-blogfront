@@ -209,7 +209,6 @@
             border-radius: 0.25em;
             margin-top: 0.5em;
             padding: 0.5em;
-            min-height: 8em;
         }
 
         .menububble {

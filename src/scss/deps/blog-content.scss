@@ -3,6 +3,7 @@
     font-family: "Open Sans", serif;
     font-size: 1.05em;
     line-height: 1.58em;
+    letter-spacing: -0.003em;
     word-break: break-all; // Edge fallback
     word-break: break-word;
 
@@ -15,9 +16,10 @@
 
     code,
     pre {
-        background: rgba(0, 0, 0, 0.025);
+        background: rgba(black, 0.025);
         border-radius: 0.15em;
         font-size: 0.9em;
+        font-family: Menlo, Monaco, "Courier New", Courier, monospace;
     }
 
     code {
@@ -66,16 +68,16 @@
 
     ol, ul {
         list-style-position: outside;
-        margin-left: 1.4em;
-
-        li {
-            margin: 0.25em 0;
-        }
+        margin: 0.25em 0 0 1.4em;
     }
 
     a {
-        color: $palette-sweet-red;
+        text-decoration: underline;
         cursor: pointer;
+    }
+
+    > p {
+        margin-top: 0.75em;
     }
 
     img {
@@ -84,6 +86,7 @@
         margin: 2.5em auto;
         border-radius: 0.25em;
         max-width: 100%;
+        max-height: 35vh;
     }
 
     /**

@@ -5,15 +5,11 @@
 
         <p class="date">{{ toDateString(comment.timestamp) }} • {{ comment.body | HTMLToTimeToReadString }}</p>
 
-        <p v-if="!edit"
+        <p ref="body"
+           :contenteditable="edit"
            class="body">
             {{ comment.body }}
         </p>
-
-        <!-- Only available for the creator of the comment -->
-        <text-area-input-field v-show="edit"
-                               ref="textArea"
-                               placeholder="Edit comment"/>
 
         <div v-if="auth.user && ((auth.user.id === comment.user.id) || auth.user.permissions.includes('administrate'))" class="actions">
 
@@ -70,6 +66,15 @@
             ...mapState(['auth'])
         },
 
+        mounted() {
+
+            // Prevent pasting with formatted content
+            this.$refs.body.addEventListener('paste', e => {
+                e.preventDefault();
+                document.execCommand('insertHTML', false, (e.originalEvent || e).clipboardData.getData('text/plain'));
+            });
+        },
+
         methods: {
 
             toDateString(timestamp) {
@@ -94,7 +99,7 @@
 
                 this.$store.dispatch('posts/updateComment', {
                     postid, id,
-                    body: this.$refs.textArea.value
+                    body: this.$refs.body.innerText
                 }).catch(error => {
                     this.errorMsg = error;
                 });
@@ -104,7 +109,7 @@
 
             editComment() {
                 this.edit = true;
-                this.$refs.textArea.setContent(this.comment.body);
+                this.$refs.body.click();
             },
 
             cancelUpdateComment() {
@@ -127,27 +132,33 @@
 
         .date {
             @include font(400, 0.75em);
+            color: rgba(black, 0.5);
+            margin-top: 0.5em;
             opacity: 0.8;
-            color: rgba(0, 0, 0, 0.5);
         }
 
         .body {
             @include font(400, 0.95em);
-            margin-top: 0.5em;
+            margin: 1.25em 0 0.5em 0;
+            line-height: 1.65em;
         }
 
         .actions {
 
             span {
-                @include font(500, 0.75em);
+                @include font(400, 0.8em);
                 margin-top: 0.25em;
                 margin-right: 0.25em;
                 transition: all 0.3s;
                 cursor: pointer;
-                text-decoration: underline;
+                color: rgba($palette-slate-gray, 0.45);
 
                 &.error {
                     text-decoration: none;
+                }
+
+                &:not(:last-child)::after {
+                    content: ' •';
                 }
             }
 
