@@ -27,9 +27,7 @@
         },
 
         mounted() {
-
-            // Close via escape key
-            window.addEventListener('keyup', e => e.key === 'Escape' && (this.open = false));
+            this.utils.on(window, ['scroll', 'blur', 'keydown'], () => this.close());
 
             // Function to check, if menu is open, if the user has clicked
             // outside of the menu. Only active is menu is visible.
