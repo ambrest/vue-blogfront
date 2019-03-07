@@ -8,7 +8,7 @@
         <page-header class="header"/>
 
         <!-- Router -->
-        <router-view :class="{router: 1, inactive: $store.state.requestsActive}"/>
+        <router-view :class="{router: 1, inactive: $store.state.requestsActive}" :key="$route.fullPath"/>
 
         <!-- Footer -->
         <page-footer :class="{footer: 1, inactive: $store.state.requestsActive}"/>

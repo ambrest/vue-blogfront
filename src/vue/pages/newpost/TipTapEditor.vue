@@ -110,7 +110,11 @@
         mounted() {
             this.editor = new Editor({
                 content: '',
-                onUpdate: ({getHTML}) => this.html = getHTML(),
+                onUpdate: ({getHTML}) => {
+                    const html = getHTML();
+                    this.$emit('update', html);
+                    this.html = html;
+                },
                 extensions: [
                     new Blockquote(),
                     new Heading({levels: [1, 2, 3]}),

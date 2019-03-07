@@ -3,10 +3,12 @@
 
         <text-input-field ref="title"
                           class="title"
-                          placeholder="Title"/>
+                          placeholder="Title"
+                          @update="saveDraft"/>
 
         <tip-tap-editor ref="editor"
-                        class="editor"/>
+                        class="editor"
+                        @update="saveDraft"/>
 
         <p class="error">{{ errorMsg }}</p>
 
@@ -18,12 +20,17 @@
                 <i class="fas fa-fw fa-trash"></i> {{ proceedDelete ? 'Are you sure?' : 'delete' }}
             </button>
 
+            <button v-if="isDraft"
+                    class="restore-draft button-secondary icon"
+                    @click="clearDraft">
+                <i class="fas fa-fw fa-redo"></i> Reset draft
+            </button>
+
             <button class="post-btn button-primary icon" @click="originalPost ? update() : post()">
                 <i class="fas fa-fw fa-upload"></i>{{ originalPost ? 'Save changes' : 'Post' }}
             </button>
 
         </div>
-
 
     </div>
 </template>
@@ -48,25 +55,21 @@
                 errorMsg: '',
 
                 proceedDelete: false,
-                originalPost: null
+                originalPost: null,
+                isDraft: false,
+                postId: this.$route.params.id
             };
         },
 
-        beforeMount() {
-            const {id} = this.$route.params;
+        mounted() {
 
-            // Check if id was passed, if yes the user wants to edit the post
-            if (id) {
-                this.$store.dispatch('posts/findPostById', {id}).then(post => {
-                    this.$refs.editor.setHTML(post.body);
-                    this.$refs.title.setContent(post.title);
-                    this.originalPost = post;
+            // First check if draft is present, than if an id was used.
+            if (this.loadDraft()) {
+                this.isDraft = true;
+            }
 
-                    // Update page title
-                    document.title = `${this.config.pageTitle} - Edit: ${post.title}`;
-                }).catch(() => {
-                    this.$router.replace('/');
-                });
+            if (!this.loadDraft() && this.postId) {
+                this.loadPost(this.postId);
             }
         },
 
@@ -77,6 +80,55 @@
         },
 
         methods: {
+
+            saveDraft() {
+                this.isDraft = true;
+                localStorage.setItem(`post-draft-${this.$route.params.id || 'new'}`, JSON.stringify({
+                    title: this.$refs.title.value,
+                    body: this.$refs.editor.html
+                }));
+            },
+
+            loadDraft() {
+
+                // Check if there's a local draft
+                const draft = localStorage.getItem(`post-draft-${this.$route.params.id || 'new'}`);
+                if (draft) {
+                    const {body, title} = JSON.parse(draft);
+                    this.$refs.editor.setHTML(body);
+                    this.$refs.title.setContent(title);
+                    return true;
+                }
+
+                return false;
+            },
+
+            clearDraft() {
+                this.isDraft = false;
+
+                if (this.postId) {
+                    this.loadPost(this.postId);
+                } else {
+                    this.$refs.editor.setHTML('');
+                    this.$refs.title.setContent('');
+                }
+
+                // Clear draft
+                localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
+            },
+
+            loadPost(id) {
+                this.$store.dispatch('posts/findPostById', {id}).then(post => {
+                    this.$refs.editor.setHTML(post.body);
+                    this.$refs.title.setContent(post.title);
+                    this.originalPost = post;
+
+                    // Update page title
+                    document.title = `${this.config.pageTitle} - Edit: ${post.title}`;
+                }).catch(() => {
+                    this.$router.replace('/');
+                });
+            },
 
             post() {
                 this.errorMsg = '';
@@ -89,6 +141,9 @@
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });
+
+                // Clear draft
+                localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
             },
 
             update() {
@@ -120,6 +175,9 @@
                         this.errorMsg = reason;
                     });
                 }
+
+                // Clear draft
+                localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
             }
         }
     };
