@@ -258,14 +258,12 @@ export const posts = {
             }).then(({errors}) => {
                 if (errors && errors.length) {
                     throw errors[0].message;
-                } else {
-                    return this.dispatch('posts/findPostById', {id: postid});
                 }
-            }).then(post => {
 
-                // Replace post
-                const index = state.list.findIndex(post => post.id === postid);
-                state.list.splice(index, 1, post);
+                // Remove comment
+                const post = state.list.find(post => post.id === postid);
+                const commentIndex = post.comments.findIndex(cmd => cmd.id === id);
+                post.comments.splice(commentIndex, 1);
             });
         },
 
