@@ -27,9 +27,14 @@ IE support is and will never be in consideration.
 * Simple structure and just a few dependencies.
 * Easy-to-use admin panel which includes full control over your users.
 
-#### Installation
+### Installation
+* [Installing on MacOS](/docs/installation/mac.md)
+* [Installing on Linux](/docs/installation/linux.md)
+* [Installing on Windows](/docs/installation/windows.md)
 
-### Production setup
+Check out our [user-friendly installer](https://github.com/ambrest/vue-blogfront)!
+
+#### Production setup
 We're currently supporting `CentOS` and `Debian 9 stretch`, you can deploy it using this single command:
 ```bash
 sudo bash <(curl -s0 https://get-blog.ambrest.io/)
