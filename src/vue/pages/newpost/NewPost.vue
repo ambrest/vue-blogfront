@@ -6,6 +6,8 @@
                           placeholder="Title"
                           @update="saveDraft"/>
 
+        <tag-editor ref="tags" class="tags"/>
+
         <tip-tap-editor ref="editor"
                         class="editor"
                         @update="saveDraft"/>
@@ -42,12 +44,14 @@
 
     // Tip tap editor
     import TipTapEditor from './TipTapEditor';
+    import TagEditor    from './TagEditor';
 
     export default {
 
         components: {
             TextInputField,
-            TipTapEditor
+            TipTapEditor,
+            TagEditor
         },
 
         data() {
@@ -85,7 +89,8 @@
                 this.isDraft = true;
                 localStorage.setItem(`post-draft-${this.$route.params.id || 'new'}`, JSON.stringify({
                     title: this.$refs.title.value,
-                    body: this.$refs.editor.html
+                    body: this.$refs.editor.html,
+                    tags: this.$refs.tags.tags
                 }));
             },
 
@@ -94,9 +99,10 @@
                 // Check if there's a local draft
                 const draft = localStorage.getItem(`post-draft-${this.$route.params.id || 'new'}`);
                 if (draft) {
-                    const {body, title} = JSON.parse(draft);
+                    const {body, title, tags} = JSON.parse(draft);
                     this.$refs.editor.setHTML(body);
                     this.$refs.title.setContent(title);
+                    this.$refs.tags.setTags(tags || []);
                     return true;
                 }
 
@@ -111,6 +117,7 @@
                 } else {
                     this.$refs.editor.setHTML('');
                     this.$refs.title.setContent('');
+                    this.$refs.tags.setTags([]);
                 }
 
                 // Clear draft
@@ -121,6 +128,7 @@
                 this.$store.dispatch('posts/findPostById', {id}).then(post => {
                     this.$refs.editor.setHTML(post.body);
                     this.$refs.title.setContent(post.title);
+                    this.$refs.tags.setTags(post.tags || []);
                     this.originalPost = post;
 
                     // Update page title
@@ -135,7 +143,8 @@
 
                 this.$store.dispatch('posts/newPost', {
                     title: this.$refs.title.value,
-                    body: this.$refs.editor.html
+                    body: this.$refs.editor.html,
+                    tags: this.$refs.tags.tags
                 }).then(post => {
                     this.$router.push(`/post/${post.id}`);
                 }).catch(reason => {
@@ -152,7 +161,8 @@
                 this.$store.dispatch('posts/updatePost', {
                     id: this.originalPost.id,
                     title: this.$refs.title.value,
-                    body: this.$refs.editor.html
+                    body: this.$refs.editor.html,
+                    tags: this.$refs.tags.tags
                 }).then(post => {
                     this.$router.push(`/post/${post.id}`);
                 }).catch(reason => {
@@ -196,6 +206,10 @@
         flex-shrink: 0;
     }
 
+    .tags {
+        margin: 1em 0 0.25em;
+    }
+
     .editor {
         width: 100%;
         margin-top: 1em;
@@ -214,5 +228,6 @@
             margin-left: 0.5em;
         }
     }
+
 
 </style>

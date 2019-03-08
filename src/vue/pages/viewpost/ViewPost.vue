@@ -22,6 +22,11 @@
             <article ref="postBodyElement"
                      class="blog-content"
                      v-html="post.body"></article>
+
+            <!-- Tags -->
+            <div class="tags">
+                <span v-for="tag of post.tags">#{{ tag }}</span>
+            </div>
         </div>
 
         <div class="tab">
@@ -155,6 +160,26 @@
                 font-weight: 500;
                 color: $palette-sweet-red;
                 text-decoration: underline;
+            }
+        }
+
+        .tags {
+            @include flex(row, center);
+            flex-wrap: wrap;
+            width: 100%;
+
+            &:not(:empty){
+                padding-top: 0.5em;
+            }
+
+            > span {
+                font-size: 0.8em;
+                font-weight: 500;
+                background: $palette-sweet-red;
+                color: white;
+                margin: 0 0.5em 0.5em 0;
+                border-radius: 0.15em;
+                padding: 0.55em 0.85em 0.5em;
             }
         }
 

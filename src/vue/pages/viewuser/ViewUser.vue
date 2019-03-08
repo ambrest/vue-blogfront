@@ -3,7 +3,7 @@
 
         <!-- Header -->
         <div class="header">
-            <span>{{ user.fullname }}</span>
+            <span>This is <b>{{ user.fullname }}</b></span>
             <i class="icon fas fa-fw fa-sync-alt" @click="refresh"></i>
         </div>
 

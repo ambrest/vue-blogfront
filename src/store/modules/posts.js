@@ -35,6 +35,7 @@ export const posts = {
                         id,
                         title,
                         body,
+                        tags,
                         timestamp,
 
                         user {
@@ -68,16 +69,20 @@ export const posts = {
         /**
          * Creates a new post.
          *
+         * @param state
+         * @param rootState
          * @param title Post title
          * @param body Actual post content
+         * @param tags Optional post tags
          */
-        async newPost({state, rootState}, {title, body}) {
+        async newPost({state, rootState}, {title, body, tags}) {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
                 query: {
                     operation: 'post',
-                    vars: {apikey, title, body},
+                    vars: {apikey, title, body, tags},
+                    types: {tags: 'String'},
                     fields: ['id', 'timestamp']
                 }
             }).then(({errors, data}) => {
@@ -92,6 +97,7 @@ export const posts = {
                         timestamp,
                         title,
                         body,
+                        tags,
                         comments: [],
                         user: {
                             ...rootState.auth.user
@@ -112,17 +118,21 @@ export const posts = {
         /**
          * Updates a exising Post
          *
+         * @param state
+         * @param rootState
          * @param id Post id
          * @param title New Title
          * @param body New Content
+         * @param tags Optional post tags
          */
-        async updatePost({state, rootState}, {id, title, body}) {
+        async updatePost({state, rootState}, {id, title, body, tags}) {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
                 query: {
                     operation: 'updatePost',
-                    vars: {apikey, id, title, body},
+                    vars: {apikey, id, title, body, tags},
+                    types: {tags: 'String'},
                     fields: ['id']
                 }
             }).then(({errors}) => {
@@ -293,6 +303,7 @@ export const posts = {
                         id,
                         title,
                         body,
+                        tags,
                         timestamp,
                         
                         user {
@@ -343,6 +354,7 @@ export const posts = {
                         id,
                         title,
                         body,
+                        tags,
                         timestamp,
                         
                         comments {

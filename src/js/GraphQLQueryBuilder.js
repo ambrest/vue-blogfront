@@ -9,6 +9,7 @@
  */
 export default function ({type = 'query', operation, vars = {}, types = {}, fields = []}) {
     const noVars = !!Object.keys(vars).length;
+
     return {
         query: `
             ${type} ${noVars ? `${cfl(operation)}(${queryTypeList(vars, types)})` : ''} {
@@ -21,21 +22,31 @@ export default function ({type = 'query', operation, vars = {}, types = {}, fiel
 }
 
 function queryTypeList(data, types) {
-    return Object.entries(data)
-        .filter(v => v[1] !== null && v[1] !== undefined)
-        .map(([k, v]) =>
-            `$${k}:${Array.isArray(v) ? `[${cfl(v.length ? getType(v[0]) : types[k])}]` : cfl(getType(v))}!`
-        );
+    let typeList = '';
+
+    for (const [k, v] of Object.entries(data)) {
+        if (v !== null && v !== undefined) {
+            typeList += `,$${k}:${Array.isArray(v) ? `[${cfl(v.length ? getType(v[0]) : types[k])}!]` : cfl(getType(v))}!`;
+        }
+    }
+
+    return typeList.substr(1);
 }
 
 function queryVarList(data) {
-    return Object.entries(data)
-        .filter(v => v[1] !== null && v[1] !== undefined)
-        .map(([k]) => `${k}:$${k}`);
+    let varList = '';
+
+    for (const [k, v] of Object.entries(data)) {
+        if (v !== null && v !== undefined) {
+            varList += `,${k}:$${k}`;
+        }
+    }
+
+    return varList.substr(1);
 }
 
 function cfl(str) {
-    return str[0].toUpperCase() + str.substring(1);
+    return str[0].toUpperCase() + str.substr(1);
 }
 
 function getType(v) {
