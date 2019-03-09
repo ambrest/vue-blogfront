@@ -4,78 +4,19 @@ export const posts = {
 
     namespaced: true,
 
-    // Holds a list of loaded posts
-    state: {
-        list: [],
-        offset: 0
-    },
+    state: {},
 
     actions: {
 
         /**
-         * Load posts section wise.
-         * @param reset Clear posts
-         */
-        async fetchNext({state}, {reset = false} = {}) {
-
-            if (reset) {
-                state.list.splice(0, state.list.length);
-                state.offset = 0;
-            }
-
-            return this.dispatch('graphql', {
-                cache: true,
-                query: {
-                    operation: 'getPostCountRange',
-                    vars: {
-                        start: state.offset,
-                        end: state.offset + config.postsPreloadAmount
-                    },
-                    fields: `
-                        id,
-                        title,
-                        body,
-                        tags,
-                        timestamp,
-
-                        user {
-                            id,
-                            username,
-                            fullname                                 
-                        },
-
-                        comments {
-                            id,
-                            body,
-                            timestamp,
-                            user {
-                                id,
-                                fullname,
-                                username
-                            }
-                        }
-                    `
-                }
-            }).then(({errors, data: {getPostCountRange}}) => {
-                if (errors && errors.length) {
-                    throw 'Please go online.';
-                } else if (Array.isArray(getPostCountRange)) {
-                    state.offset += getPostCountRange.length;
-                    state.list.push(...getPostCountRange);
-                }
-            });
-        },
-
-        /**
          * Creates a new post.
          *
-         * @param state
          * @param rootState
          * @param title Post title
          * @param body Actual post content
          * @param tags Optional post tags
          */
-        async newPost({state, rootState}, {title, body, tags}) {
+        async newPost({rootState}, {title, body, tags}) {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
@@ -85,30 +26,12 @@ export const posts = {
                     types: {tags: 'String'},
                     fields: ['id', 'timestamp']
                 }
-            }).then(({errors, data}) => {
+            }).then(({errors, data: {post}}) => {
 
                 // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
-                    const {id, timestamp} = data.post;
-                    const post = {
-                        id,
-                        timestamp,
-                        title,
-                        body,
-                        tags,
-                        comments: [],
-                        user: {
-                            ...rootState.auth.user
-                        }
-                    };
-
-                    /**
-                     * Request was successful, save post locally to
-                     * prevent unnecessary api calls.
-                     */
-                    state.list.unshift(post);
                     return post;
                 }
             });
@@ -117,14 +40,13 @@ export const posts = {
         /**
          * Updates a exising Post
          *
-         * @param state
          * @param rootState
          * @param id Post id
          * @param title New Title
          * @param body New Content
          * @param tags Optional post tags
          */
-        async updatePost({state, rootState}, {id, title, body, tags}) {
+        async updatePost({rootState}, {id, title, body, tags}) {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
@@ -139,14 +61,6 @@ export const posts = {
                 // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
-                } else {
-
-                    // Update post in place
-                    const post = state.list.find(post => post.id === id);
-                    post.title = title;
-                    post.body = body;
-
-                    return post;
                 }
             });
         },
@@ -154,9 +68,10 @@ export const posts = {
         /**
          * Removes a particular post
          *
+         * @param rootState
          * @param id Post id
          */
-        async removePost({state, rootState}, {id}) {
+        async removePost({rootState}, {id}) {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
@@ -170,13 +85,6 @@ export const posts = {
                 // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
-                } else {
-
-                    /**
-                     * Request was successful, remove post locally to
-                     * prevent unnecessary api calls.
-                     */
-                    state.list.splice(state.list.findIndex(post => post.id === id), 1);
                 }
             });
         },
@@ -184,10 +92,11 @@ export const posts = {
         /**
          * Creates a new comment
          *
+         * @param rootState
          * @param postid Post id
          * @param body Comment content
          */
-        async newComment({state, rootState}, {postid, body}) {
+        async newComment({rootState}, {postid, body}) {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
@@ -211,11 +120,6 @@ export const posts = {
                 // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
-                } else {
-
-                    // Update comment in place
-                    const post = state.list.find(post => post.id === postid);
-                    post.comments.push(comment);
                 }
             });
         },
@@ -223,11 +127,12 @@ export const posts = {
         /**
          * Updates a existing comment
          *
+         * @param rootState
          * @param postid Post id
          * @param id Comment id
          * @param body New content
          */
-        async updateComment({state, rootState}, {postid, id, body}) {
+        async updateComment({rootState}, {postid, id, body}) {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
@@ -239,12 +144,6 @@ export const posts = {
             }).then(({errors}) => {
                 if (errors && errors.length) {
                     throw errors[0].message;
-                } else {
-
-                    // Update comment in place
-                    const post = state.list.find(post => post.id === postid);
-                    const comment = post.comments.find(v => v.id === id);
-                    comment.body = body;
                 }
             });
         },
@@ -252,10 +151,11 @@ export const posts = {
         /**
          * Removes a particular comment by id
          *
+         * @param rootState
          * @param postid Post id
          * @param id Comment id
          */
-        async removeComment({state, rootState}, {postid, id}) {
+        async removeComment({rootState}, {postid, id}) {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
@@ -268,11 +168,6 @@ export const posts = {
                 if (errors && errors.length) {
                     throw errors[0].message;
                 }
-
-                // Remove comment
-                const post = state.list.find(post => post.id === postid);
-                const commentIndex = post.comments.findIndex(cmd => cmd.id === id);
-                post.comments.splice(commentIndex, 1);
             });
         },
 
@@ -283,14 +178,7 @@ export const posts = {
          *
          * @param id Post id
          */
-        async findPostById({state}, {id}) {
-
-            // First try to fetch post from cache
-            const post = state.list.find(post => post.id === id);
-
-            if (post) {
-                return post;
-            }
+        async findPostById(_, {id}) {
 
             // Make specific request for this post by his id
             return this.dispatch('graphql', {
@@ -329,26 +217,77 @@ export const posts = {
                     throw 'Cannot fetch post';
                 }
 
-                if (!state.list.find(v => v.id === getPost.id)) {
-                    state.list.push(getPost);
-                }
-
                 return getPost;
             });
         },
 
         /**
-         * Fetches all posts from a specific user
-         * @param id User id
+         * Loads the latest post from a specific offset
+         * @param _
+         * @param offset
+         * @returns {Promise<void>}
          */
-        async getPostsFromUser(_, {id}) {
+        async getPostInRange(_, {offset = 0} = {}) {
+            return this.dispatch('graphql', {
+                cache: true,
+                query: {
+                    operation: 'getPostCountRange',
+                    vars: {
+                        start: offset,
+                        end: offset + config.postsPreloadAmount
+                    },
+                    fields: `
+                        id,
+                        title,
+                        body,
+                        tags,
+                        timestamp,
+
+                        user {
+                            id,
+                            username,
+                            fullname                                 
+                        },
+
+                        comments {
+                            id,
+                            body,
+                            timestamp,
+                            user {
+                                id,
+                                fullname,
+                                username
+                            }
+                        }
+                    `
+                }
+            }).then(({errors, data: {getPostCountRange}}) => {
+                if (errors && errors.length) {
+                    throw 'Please go online.';
+                } else if (Array.isArray(getPostCountRange)) {
+                    return {posts: getPostCountRange, newOffset: getPostCountRange.length + offset};
+                }
+            });
+        },
+
+        /**
+         * Fetches all posts from a specific user
+         * @param _
+         * @param id User id
+         * @param offset
+         */
+        async getPostsFromUser(_, {id, offset = 0}) {
 
             // Fetch posts from this user in particular
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
                     operation: 'getPostsBy',
-                    vars: {userid: id},
+                    vars: {
+                        userid: id,
+                        start: offset,
+                        end: offset + config.postsPreloadAmount
+                    },
                     fields: `
                         id,
                         title,
@@ -372,7 +311,7 @@ export const posts = {
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
-                    return getPostsBy;
+                    return {posts: getPostsBy, newOffset: getPostsBy.length + offset};
                 }
             });
         },
@@ -381,16 +320,21 @@ export const posts = {
          * Searchs all posts with a query
          * @param _
          * @param query
+         * @param offset
          * @returns {Promise<T | never>}
          */
-        async searchPosts(_, {query}) {
+        async searchPosts(_, {query, offset = 0}) {
 
             // Search posts
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
                     operation: 'searchPosts',
-                    vars: {query},
+                    vars: {
+                        query,
+                        start: offset,
+                        end: offset + config.postsPreloadAmount
+                    },
                     fields: `
                         id,
                         title,
@@ -420,7 +364,7 @@ export const posts = {
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
-                    return searchPosts;
+                    return {posts: searchPosts, newOffset: searchPosts.length + offset};
                 }
             });
         }

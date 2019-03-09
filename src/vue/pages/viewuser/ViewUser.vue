@@ -4,7 +4,6 @@
         <!-- Header -->
         <div class="header">
             <span>This is <b>{{ user.fullname }}</b></span>
-            <i class="icon fas fa-fw fa-sync-alt" @click="refresh"></i>
         </div>
 
         <div class="sub-header">
@@ -35,39 +34,56 @@
 
         data() {
             return {
+                errorMsg: '',
                 posts: [],
-                user: {},
-
-                errorMsg: ''
+                offset: 0,
+                user: {}
             };
         },
 
         beforeMount() {
-            this.refresh();
+            const {id} = this.$route.params;
+
+            // Find user
+            this.$store.dispatch('users/findUserById', {id}).then(user => {
+                this.user = user;
+                this.loadNext();
+            }).catch(() => {
+                this.$router.replace('/');
+            });
+
+            this.utils.on(window, 'scroll', this.onScroll);
+        },
+
+        destroyed() {
+            this.utils.off(window, 'scroll', this.onScroll);
         },
 
         methods: {
-            async refresh() {
-                const {id} = this.$route.params;
 
-                // Find user
-                const user = await this.$store.dispatch('users/findUserById', {id});
+            loadNext() {
 
-                // Redirect to home if not found
-                if (!user) {
-                    this.$router.replace('/');
-                }
-
-                // Apply
-                this.user = user;
-                this.posts = await this.$store.dispatch('posts/getPostsFromUser', {id}).then(posts => {
-                    return posts.map(v => {
-                        v.user = user;
+                // Fetch next "page"
+                this.$store.dispatch('posts/getPostsFromUser', {
+                    id: this.user.id,
+                    offset: this.offset
+                }).then(({posts, newOffset}) => {
+                    this.offset = newOffset;
+                    this.posts.push(...posts.map(v => {
+                        v.user = this.user;
                         return v;
-                    });
+                    }));
                 }).catch(error => {
                     this.errorMsg = error;
                 });
+            },
+
+            onScroll() {
+
+                // Check if the user has reached to bottom of the page
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                    this.loadNext();
+                }
             }
         }
     };

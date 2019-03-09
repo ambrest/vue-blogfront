@@ -4,7 +4,7 @@
         <!-- Header -->
         <div class="header">
             <span>Latest Posts</span>
-            <i class="icon fas fa-fw fa-sync-alt" @click="refresh"></i>
+            <i class="icon fas fa-fw fa-sync-alt" @click="reset"></i>
         </div>
 
         <div class="divider"></div>
@@ -32,37 +32,36 @@
 
         data() {
             return {
-                errorMsg: null
+                errorMsg: '',
+                posts: [],
+                offset: 0
             };
         },
 
-        computed: {
-            posts() {
-
-                /* eslint-disable vue/no-side-effects-in-computed-properties */
-                return this.$store.state.posts.list.sort((a, b) => a.timestamp > b.timestamp ? -1 : 1);
-            }
-        },
-
-        mounted() {
-
-            // Load first x posts
-            this.$store.dispatch('posts/fetchNext').catch(err => {
-                this.errorMsg = err;
-            });
-
-            window.addEventListener('scroll', this.onScroll);
+        beforeMount() {
+            this.loadNext();
+            this.utils.on(window, 'scroll', this.onScroll);
         },
 
         destroyed() {
-            window.removeEventListener('scroll', this.onScroll);
+            this.utils.off(window, 'scroll', this.onScroll);
         },
 
         methods: {
-            refresh() {
+            reset() {
+                this.offset = 0;
+                this.loadNext();
+            },
 
-                // Reloads posts and resets offset
-                this.$store.dispatch('posts/fetchNext', {reset: true}).catch(err => {
+            loadNext() {
+
+                // Fetch next "page"
+                this.$store.dispatch('posts/getPostInRange', {
+                    offset: this.offset
+                }).then(({posts, newOffset}) => {
+                    this.posts.push(...posts);
+                    this.offset = newOffset;
+                }).catch(err => {
                     this.errorMsg = err;
                 });
             },
@@ -71,11 +70,7 @@
 
                 // Check if the user has reached to bottom of the page
                 if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                    this.$store.dispatch('posts/fetchNext').then(() => {
-                        this.errorMsg = '';
-                    }).catch(err => {
-                        this.errorMsg = err;
-                    });
+                    this.loadNext();
                 }
             }
         }

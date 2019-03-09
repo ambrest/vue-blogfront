@@ -90,7 +90,8 @@
                 localStorage.setItem(`post-draft-${this.$route.params.id || 'new'}`, JSON.stringify({
                     title: this.$refs.title.value,
                     body: this.$refs.editor.html,
-                    tags: this.$refs.tags.tags
+                    tags: this.$refs.tags.tags,
+                    originalPost: this.originalPost
                 }));
             },
 
@@ -99,10 +100,11 @@
                 // Check if there's a local draft
                 const draft = localStorage.getItem(`post-draft-${this.$route.params.id || 'new'}`);
                 if (draft) {
-                    const {body, title, tags} = JSON.parse(draft);
+                    const {body, title, tags, originalPost} = JSON.parse(draft);
                     this.$refs.editor.setHTML(body);
                     this.$refs.title.setContent(title);
                     this.$refs.tags.setTags(tags || []);
+                    this.originalPost = originalPost;
                     return true;
                 }
 
@@ -163,8 +165,8 @@
                     title: this.$refs.title.value,
                     body: this.$refs.editor.html,
                     tags: this.$refs.tags.tags
-                }).then(post => {
-                    this.$router.push(`/post/${post.id}`);
+                }).then(() => {
+                    this.$router.push(`/post/${this.originalPost.id}`);
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });

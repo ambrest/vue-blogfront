@@ -8,9 +8,9 @@
         </div>
 
         <!-- New tag input -->
-        <input v-model="newTag" 
-               type="text" 
-               placeholder="Add tag..." 
+        <input v-model="newTag"
+               type="text"
+               placeholder="Add tag..."
                @keydown.enter="addTag">
 
     </div>

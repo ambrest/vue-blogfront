@@ -168,7 +168,7 @@
             flex-wrap: wrap;
             width: 100%;
 
-            &:not(:empty){
+            &:not(:empty) {
                 padding-top: 0.5em;
             }
 

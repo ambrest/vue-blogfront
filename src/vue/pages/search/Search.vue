@@ -29,19 +29,44 @@
 
         data() {
             return {
+                errorMsg: '',
                 posts: [],
-                errorMsg: ''
+                offset: 0
             };
         },
 
-        mounted() {
-            const {query} = this.$route.query;
+        beforeMount() {
+            this.loadNext();
+            this.utils.on(window, 'scroll', this.onScroll);
+        },
 
-            this.$store.dispatch('posts/searchPosts', {query}).then(posts => {
-                this.posts.push(...posts);
-            }).catch(error => {
-                this.errorMsg = error;
-            });
+        destroyed() {
+            this.utils.off(window, 'scroll', this.onScroll);
+        },
+
+        methods: {
+
+            loadNext() {
+
+                // Fetch next "page"
+                this.$store.dispatch('posts/searchPosts', {
+                    query: this.$route.query.query,
+                    offset: this.offset
+                }).then(({posts, newOffset}) => {
+                    this.offset = newOffset;
+                    this.posts.push(...posts);
+                }).catch(error => {
+                    this.errorMsg = error;
+                });
+            },
+
+            onScroll() {
+
+                // Check if the user has reached to bottom of the page
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                    this.loadNext();
+                }
+            }
         }
     };
 
