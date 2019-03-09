@@ -25,7 +25,7 @@
 
             <!-- Tags -->
             <div class="tags">
-                <span v-for="tag of post.tags">#{{ tag }}</span>
+                <span v-for="tag of post.tags">{{ tag }}</span>
             </div>
         </div>
 
@@ -140,7 +140,7 @@
 <style lang="scss" scoped>
 
     .tab {
-        width: 100%;
+        width: 100vw;
         margin-bottom: 3em;
     }
 
