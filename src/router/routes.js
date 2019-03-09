@@ -11,6 +11,7 @@ import Settings      from '../vue/pages/settings/Settings';
 import PasswordReset from '../vue/pages/forgotpassword/ForgotPassword';
 import ViewPost      from '../vue/pages/viewpost/ViewPost';
 import ViewUser      from '../vue/pages/viewuser/ViewUser';
+import Search        from '../vue/pages/search/Search';
 
 /**
  * Responsible for trying to authenticate the user via a existing api-key.
@@ -148,6 +149,10 @@ export default [
 
             next('/');
         }
+    },
+    {
+        path: '/search',
+        component: Search
     },
 
     // 404 catcher

@@ -111,7 +111,6 @@ export const posts = {
                     state.list.unshift(post);
                     return post;
                 }
-
             });
         },
 
@@ -374,6 +373,54 @@ export const posts = {
                     throw errors[0].message;
                 } else {
                     return getPostsBy;
+                }
+            });
+        },
+
+        /**
+         * Searchs all posts with a query
+         * @param _
+         * @param query
+         * @returns {Promise<T | never>}
+         */
+        async searchPosts(_, {query}) {
+
+            // Search posts
+            return this.dispatch('graphql', {
+                cache: true,
+                query: {
+                    operation: 'searchPosts',
+                    vars: {query},
+                    fields: `
+                        id,
+                        title,
+                        body,
+                        tags,
+                        timestamp,
+
+                        user {
+                            id,
+                            username,
+                            fullname                                 
+                        },
+
+                        comments {
+                            id,
+                            body,
+                            timestamp,
+                            user {
+                                id,
+                                fullname,
+                                username
+                            }
+                        }
+                    `
+                }
+            }).then(({errors, data: {searchPosts}}) => {
+                if (errors && errors.length) {
+                    throw errors[0].message;
+                } else {
+                    return searchPosts;
                 }
             });
         }

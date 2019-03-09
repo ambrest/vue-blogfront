@@ -4,7 +4,19 @@
         <div class="bar">
 
             <!-- Page title grabbed from the config file -->
-            <router-link class="title" to="/">{{ config.pageTitle }}</router-link>
+            <router-link :class="{'title': 1, 'open-search-bar': showSearchBar}"
+                         to="/">{{ config.pageTitle }}
+            </router-link>
+
+            <div class="search-bar">
+                <i class="fas fa-fw fa-search" @click="toggleSearchBar"></i>
+                <input ref="searchBarInput"
+                       :class="{open: showSearchBar}"
+                       type="text"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       @keyup="search">
+            </div>
 
             <!-- Menu button on mobile devices -->
             <i class="menu fas fa-fw fa-bars" @click="menuOpen = true"></i>
@@ -52,7 +64,8 @@
 
         data() {
             return {
-                menuOpen: false
+                menuOpen: false,
+                showSearchBar: false
             };
         },
 
@@ -69,9 +82,24 @@
                 this.$store.dispatch('auth/logout').then(() => {
                     this.$router.push('/login');
                 });
+            },
+
+            toggleSearchBar() {
+                this.showSearchBar = !this.showSearchBar;
+
+                if (this.showSearchBar) {
+                    this.$refs.searchBarInput.focus();
+                }
+            },
+
+            search(e) {
+                const query = e.target.value;
+
+                if (e.key === 'Enter') {
+                    this.$router.replace(query ? `/search?query=${query}` : '/');
+                }
             }
         }
-
     };
 
 </script>
@@ -105,13 +133,44 @@
             }
         }
 
+        .search-bar {
+            @include flex(row, center);
+            margin-left: auto;
+            border-radius: 0.25em;
+            align-self: stretch;
+            min-height: 2em;
+
+            i {
+                font-size: 0.75em;
+                margin: 0 0.5em;
+                cursor: pointer;
+            }
+
+            input {
+                color: white;
+                width: 0;
+                transition: all 0.3s;
+                font-size: 0.9em;
+                font-weight: 200;
+                opacity: 0;
+
+                &::placeholder {
+                    color: rgba(white, 0.5);
+                }
+
+                &.open {
+                    margin-left: 0.25em;
+                    opacity: 1;
+                    width: 10em;
+                }
+            }
+        }
+
         .menu {
             display: none;
-            margin-left: auto;
         }
 
         .links {
-            margin-left: auto;
             text-transform: uppercase;
             @include font(400, 0.8em);
 
@@ -161,8 +220,37 @@
     @include mobile {
         .bar {
 
+            > i {
+                font-size: 1.1em;
+            }
+
             .title {
                 @include font(300, 1.75em);
+                position: absolute;
+                transition: all 0.3s;
+
+                &.open-search-bar {
+                    pointer-events: none;
+                    opacity: 0;
+                }
+            }
+
+            .search-bar {
+                flex-grow: 1;
+
+                i {
+                    margin: 0 0.75em 0 auto;
+                    font-size: 1.1em;
+                }
+
+                input {
+                    text-align: center;
+                    font-size: 1.05em;
+
+                    &.open {
+                        width: 100%;
+                    }
+                }
             }
 
             .menu {
