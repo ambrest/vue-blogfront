@@ -23,6 +23,16 @@
                      class="blog-content"
                      v-html="post.body"></article>
 
+            <!-- Social stuff -->
+            <div class="share">
+                <a :href="share.telegram"><i class="fab fa-fw fa-telegram" style="color: #269ed2"></i></a>
+                <a :href="share.twitter"><i class="fab fa-fw fa-twitter" style="color: #1da1f2"></i></a>
+                <a :href="share.linkedin"><i class="fab fa-fw fa-linkedin" style="color: #2567b3"></i></a>
+                <a :href="share.facebook"><i class="fab fa-fw fa-facebook" style="color: #3a559f"></i></a>
+                <a :href="share.xing"><i class="fab fa-fw fa-xing" style="color: #007575"></i></a>
+                <a :href="share.whatsapp"><i class="fab fa-fw fa-whatsapp" style="color: #00e676"></i></a>
+            </div>
+
             <!-- Tags -->
             <div class="tags">
                 <span v-for="tag of post.tags">{{ tag }}</span>
@@ -77,6 +87,20 @@
             canComment() {
                 const {user} = this.$store.state.auth;
                 return user && user.permissions.includes('comment');
+            },
+
+            share() {
+                const text = encodeURIComponent(`${this.post.title} by ${this.post.user.fullname} at ${location.href}`);
+                const url = encodeURIComponent(location.href);
+
+                return {
+                    facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+                    twitter: `https://twitter.com/intent/tweet?text=${text}`,
+                    linkedin: `https://www.linkedin.com/shareArticle?url=${url}&title=${encodeURIComponent(this.post.title)}`,
+                    xing: `https://www.xing.com/spi/shares/new?url=${url}`,
+                    whatsapp: `https://wa.me/?text=${text}`,
+                    telegramm: `https://telegram.me/share/url?url=${url}&text=${text}`
+                };
             },
 
             ...mapState(['auth'])
@@ -163,20 +187,36 @@
             }
         }
 
+        .share {
+            margin: 3em 0 1em;
+
+            a i {
+                color: $palette-slate-gray;
+                font-size: 1.85em;
+                margin: 0 0.15em;
+                filter: grayscale(1);
+                transition: all 0.3s;
+
+                &:hover {
+                    filter: none;
+                }
+            }
+        }
+
         .tags {
-            @include flex(row, center);
+            @include flex(row, center, center);
             flex-wrap: wrap;
             width: 100%;
 
             &:not(:empty) {
-                padding-top: 0.5em;
+                padding-top: 0.75em;
             }
 
             > span {
                 font-size: 0.8em;
                 font-weight: 500;
-                background: $palette-sweet-red;
-                color: white;
+                background: rgba($palette-slate-gray, 0.07);
+                color: rgba($palette-slate-gray, 0.75);
                 margin: 0 0.5em 0.5em 0;
                 border-radius: 0.15em;
                 padding: 0.55em 0.85em 0.5em;

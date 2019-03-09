@@ -172,6 +172,7 @@
             h2 {
                 @include font(400);
                 margin-bottom: 0.4em;
+                line-height: 1.37em;
                 opacity: 0.8;
             }
 
