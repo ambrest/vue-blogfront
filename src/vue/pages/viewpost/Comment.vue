@@ -87,7 +87,10 @@
                 const postid = this.post.id;
                 const {id} = this.comment;
 
-                this.$store.dispatch('posts/removeComment', {postid, id}).catch(error => {
+                this.$store.dispatch('posts/removeComment', {postid, id}).then(() => {
+                    const cmdIndex = this.post.comments.findIndex(v => v.id === id);
+                    this.post.comments.splice(cmdIndex, 1);
+                }).catch(error => {
                     this.errorMsg = error;
                 });
             },
@@ -141,6 +144,8 @@
             @include font(400, 0.95em);
             margin: 1.25em 0 0.5em 0;
             line-height: 1.65em;
+            word-break: break-all;
+            word-break: break-word;
         }
 
         .actions {

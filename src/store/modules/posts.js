@@ -103,19 +103,9 @@ export const posts = {
                 query: {
                     operation: 'comment',
                     vars: {postid, body, apikey},
-                    fields: `
-                        id,
-                        body,
-                        timestamp,
-
-                        user {
-                            id,
-                            username,
-                            fullname                                 
-                        }
-                    `
+                    fields: ['id']
                 }
-            }).then(({errors, data: {comment}}) => {
+            }).then(({errors}) => {
 
                 // Check for errors and, if presend, return the message of the first one
                 if (errors && errors.length) {

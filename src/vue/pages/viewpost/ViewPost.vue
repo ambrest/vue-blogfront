@@ -123,8 +123,8 @@
 
                 // Find post by id
                 this.$store.dispatch('posts/findPostById', {id}).then(post => {
-
                     this.post = post;
+
                     // Sort comments
                     post.comments.sort((a, b) => a.timestamp > b.timestamp ? -1 : 1);
 
