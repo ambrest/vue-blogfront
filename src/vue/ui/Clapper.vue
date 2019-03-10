@@ -67,10 +67,8 @@
 
                 // Stop / replay animation if user clicked multiple times
                 if (this.clickActive) {
-                    this.animationFrameSequence([
-                        () => this.clickActive = false,
-                        () => this.clickActive = true
-                    ]);
+                    this.clickActive = false;
+                    requestAnimationFrame(() => this.clickActive = true);
                 } else {
                     this.clickActive = true;
                 }
@@ -97,20 +95,16 @@
                         this.$emit('update', this.claps - this.lastUpdateClaps);
 
                         // Remember last claps
-                        this.lastUpdateClaps  = this.claps;
+                        this.lastUpdateClaps = this.claps;
+
+                        // Clear transform array
+                        this.transforms = [];
                     }, 1000);
                 }
             },
 
             removeTransform(i) {
                 this.transforms.splice(i, 1);
-            },
-
-            async animationFrameSequence(sequence) {
-                const raf = () => new Promise(resolve => requestAnimationFrame(resolve));
-                for (const fn of sequence) {
-                    await raf(fn);
-                }
             }
         }
     };
