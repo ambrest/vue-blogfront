@@ -43,7 +43,7 @@ export const auth = {
                 }
             }).then(({errors, data}) => {
 
-                // Check for errors and, if presend, return the message of the first one
+                // Check for errors and, if present, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
@@ -85,7 +85,7 @@ export const auth = {
                 }
             }).then(({errors, data}) => {
 
-                // Check for errors and, if presend, return the message of the first one
+                // Check for errors and, if present, return the message of the first one
                 if (errors && errors.length) {
 
                     // Invalid apikey, logout
@@ -126,7 +126,7 @@ export const auth = {
                 }
             }).then(({errors}) => {
 
-                // Check for errors and, if presend, return the message of the first one
+                // Check for errors and, if present, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
                 }
@@ -155,7 +155,7 @@ export const auth = {
                 }
             }).then(({errors, data}) => {
 
-                // Check for errors and, if presend, return the message of the first one
+                // Check for errors and, if present, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
@@ -187,7 +187,7 @@ export const auth = {
                 }
             }).then(({errors}) => {
 
-                // Check for errors and, if presend, return the message of the first one
+                // Check for errors and, if present, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
                 }

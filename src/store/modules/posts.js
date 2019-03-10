@@ -28,7 +28,7 @@ export const posts = {
                 }
             }).then(({errors, data: {post}}) => {
 
-                // Check for errors and, if presend, return the message of the first one
+                // Check for errors and, if present, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
@@ -58,10 +58,36 @@ export const posts = {
                 }
             }).then(({errors}) => {
 
-                // Check for errors and, if presend, return the message of the first one
+                // Check for errors and, if present, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
                 }
+            });
+        },
+
+        /**
+         * Increments claps for a specific post
+         * @param rootState
+         * @param newClaps
+         * @returns {Promise<T | never>}
+         */
+        incrementClaps({rootState}, {newClaps, postId}) {
+            const {apikey} = rootState.auth;
+
+            return this.dispatch('graphql', {
+                query: {
+                    operation: 'incrementClaps',
+                    vars: {apikey, postId, newClaps},
+                    fields: ['claps']
+                }
+            }).then(({errors, data: {incrementClaps}}) => {
+
+                // Check for errors and, if present, return the message of the first one
+                if (errors && errors.length) {
+                    throw errors[0].message;
+                }
+
+                return incrementClaps.claps;
             });
         },
 
@@ -82,7 +108,7 @@ export const posts = {
                 }
             }).then(({errors}) => {
 
-                // Check for errors and, if presend, return the message of the first one
+                // Check for errors and, if present, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
                 }
@@ -107,7 +133,7 @@ export const posts = {
                 }
             }).then(({errors}) => {
 
-                // Check for errors and, if presend, return the message of the first one
+                // Check for errors and, if present, return the message of the first one
                 if (errors && errors.length) {
                     throw errors[0].message;
                 }
@@ -181,6 +207,7 @@ export const posts = {
                         title,
                         body,
                         tags,
+                        claps,
                         timestamp,
                         
                         user {
@@ -231,6 +258,7 @@ export const posts = {
                         title,
                         body,
                         tags,
+                        claps,
                         timestamp,
 
                         user {
@@ -283,6 +311,7 @@ export const posts = {
                         title,
                         body,
                         tags,
+                        claps,
                         timestamp,
                         
                         comments {
@@ -330,6 +359,7 @@ export const posts = {
                         title,
                         body,
                         tags,
+                        claps,
                         timestamp,
 
                         user {

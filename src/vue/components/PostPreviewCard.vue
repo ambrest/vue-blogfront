@@ -2,12 +2,18 @@
     <div class="post-preview-card">
 
         <!-- Date info, not visible on mobile devices -->
-        <div class="date">
+        <div class="lefty">
             <span class="day">{{ preparedPost.date.day }}</span>
+
             <div>
                 <span class="month">{{ preparedPost.date.month }}</span>
                 <span class="diff">-</span>
                 <span class="year">{{ preparedPost.date.year }}</span>
+            </div>
+
+            <div class="claps">
+                <clapper :limit="50" @update="clap"/>
+                <span>{{ post.claps || '' }}</span>
             </div>
         </div>
 
@@ -51,7 +57,11 @@
     // Vuex stuff
     import {mapState} from 'vuex';
 
+    import Clapper from '../ui/Clapper';
+
     export default {
+
+        components: {Clapper},
 
         props: {
             post: {
@@ -81,8 +91,19 @@
             },
 
             ...mapState(['auth'])
-        }
+        },
 
+        methods: {
+
+            clap(newClaps) {
+                this.$store.dispatch('posts/incrementClaps', {
+                    newClaps,
+                    postId: this.post.id
+                }).then(claps => {
+                    this.post.claps = claps;
+                });
+            }
+        }
     };
 
 </script>
@@ -106,7 +127,7 @@
             }
         }
 
-        > .date {
+        > .lefty {
             position: relative;
             @include flex(column, center);
             padding-right: 2em;
@@ -140,6 +161,17 @@
             .diff {
                 color: rgba(black, 0.15);
                 margin: 0 0.15em;
+            }
+
+            .claps {
+                @include flex(row, center);
+                margin-top: 1.5em;
+                user-select: none;
+
+                span {
+                    @include font(500, 0.85em);
+                    margin-left: 0.5em;
+                }
             }
 
             &::before,
@@ -235,7 +267,7 @@
             padding: 3.5em 0 3em;
             margin: 0;
 
-            > .date {
+            > .lefty {
                 display: none;
             }
 
