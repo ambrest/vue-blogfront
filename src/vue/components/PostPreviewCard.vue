@@ -12,7 +12,7 @@
             </div>
 
             <div class="claps">
-                <clapper :limit="50" @update="updateClaps"/>
+                <clapper :post="post" :limit="50"/>
                 <span>{{ post.claps || '' }}</span>
             </div>
         </div>
@@ -57,7 +57,7 @@
     // Vuex stuff
     import {mapState} from 'vuex';
 
-    import Clapper from '../ui/Clapper';
+    import Clapper from './Clapper';
 
     export default {
 
@@ -91,18 +91,6 @@
             },
 
             ...mapState(['auth'])
-        },
-
-        methods: {
-
-            updateClaps(newClaps) {
-                this.$store.dispatch('posts/incrementClaps', {
-                    newClaps,
-                    postId: this.post.id
-                }).then(claps => {
-                    this.post.claps = claps;
-                });
-            }
         }
     };
 

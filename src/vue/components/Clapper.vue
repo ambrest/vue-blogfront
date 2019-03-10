@@ -40,9 +40,9 @@
     export default {
 
         props: {
-            startValue: {
-                type: Number,
-                default: 0
+            post: {
+                type: Object,
+                required: true
             },
             limit: {
                 type: Number,
@@ -52,7 +52,7 @@
 
         data() {
             return {
-                claps: this.startValue,
+                claps: 0,
                 lastUpdateClaps: 0,
                 transforms: [],
                 clickActive: false,
@@ -65,6 +65,11 @@
         methods: {
 
             clap() {
+
+                // Check if user is logged in
+                if (!this.$store.state.auth.apikey) {
+                    this.$router.replace('/login');
+                }
 
                 // Stop / replay animation if user clicked multiple times
                 if (this.clickActive) {
@@ -93,7 +98,7 @@
                         this.updateDone = true;
 
                         // Fire update event with clap diff
-                        this.$emit('update', this.claps - this.lastUpdateClaps);
+                        this.updateClaps(this.claps - this.lastUpdateClaps);
 
                         // Remember last claps
                         this.lastUpdateClaps = this.claps;
@@ -108,6 +113,15 @@
 
             removeTransform(i) {
                 this.transforms.splice(i, 1);
+            },
+
+            updateClaps(newClaps) {
+                this.$store.dispatch('posts/incrementClaps', {
+                    newClaps,
+                    postId: this.post.id
+                }).then(claps => {
+                    this.post.claps = claps;
+                });
             }
         }
     };

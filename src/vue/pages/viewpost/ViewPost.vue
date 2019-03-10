@@ -9,7 +9,7 @@
 
                 <div class="divider"></div>
 
-                <clapper :limit="50" @update="updateClaps"/>
+                <clapper :post="post" :limit="50"/>
                 <span class="claps">{{ post.claps }}</span>
             </div>
         </div>
@@ -82,7 +82,7 @@
     // Components
     import CreateComment from './CreateComment';
     import Comment       from './Comment';
-    import Clapper       from '../../ui/Clapper';
+    import Clapper       from '../../components/Clapper';
 
     // Vuex
     import {mapState} from 'vuex';
@@ -168,15 +168,6 @@
                     document.title = `${this.config.pageTitle} - ${post.title}`;
                 }).catch(() => {
                     this.$router.replace('/');
-                });
-            },
-
-            updateClaps(newClaps) {
-                this.$store.dispatch('posts/incrementClaps', {
-                    newClaps,
-                    postId: this.post.id
-                }).then(claps => {
-                    this.post.claps = claps;
                 });
             }
         }
