@@ -1,6 +1,19 @@
 <template>
     <div v-if="post" class="post divided">
 
+        <div class="flow-bar">
+            <div>
+                <a :href="share.twitter"><i class="share-btn fab fa-fw fa-twitter" style="color: #1da1f2"></i></a>
+                <a :href="share.facebook"><i class="share-btn  fab fa-fw fa-facebook" style="color: #3a559f"></i></a>
+                <a :href="share.telegram"><i class="share-btn  fab fa-fw fa-telegram" style="color: #269ed2"></i></a>
+
+                <div class="divider"></div>
+
+                <clapper :limit="50" @update="updateClaps"/>
+                <span class="claps">{{ post.claps }}</span>
+            </div>
+        </div>
+
         <div class="tab">
             <div class="header">
                 <span>{{ post.title }}</span>
@@ -25,12 +38,12 @@
 
             <!-- Social stuff -->
             <div class="share">
-                <a :href="share.telegram"><i class="fab fa-fw fa-telegram" style="color: #269ed2"></i></a>
-                <a :href="share.twitter"><i class="fab fa-fw fa-twitter" style="color: #1da1f2"></i></a>
-                <a :href="share.linkedin"><i class="fab fa-fw fa-linkedin" style="color: #2567b3"></i></a>
-                <a :href="share.facebook"><i class="fab fa-fw fa-facebook" style="color: #3a559f"></i></a>
-                <a :href="share.xing"><i class="fab fa-fw fa-xing" style="color: #007575"></i></a>
-                <a :href="share.whatsapp"><i class="fab fa-fw fa-whatsapp" style="color: #00e676"></i></a>
+                <a :href="share.telegram"><i class="share-btn  fab fa-fw fa-telegram" style="color: #269ed2"></i></a>
+                <a :href="share.twitter"><i class="share-btn  fab fa-fw fa-twitter" style="color: #1da1f2"></i></a>
+                <a :href="share.linkedin"><i class="share-btn  fab fa-fw fa-linkedin" style="color: #2567b3"></i></a>
+                <a :href="share.facebook"><i class="share-btn  fab fa-fw fa-facebook" style="color: #3a559f"></i></a>
+                <a :href="share.xing"><i class="share-btn  fab fa-fw fa-xing" style="color: #007575"></i></a>
+                <a :href="share.whatsapp"><i class="share-btn  fab fa-fw fa-whatsapp" style="color: #00e676"></i></a>
             </div>
 
             <!-- Tags -->
@@ -69,12 +82,13 @@
     // Components
     import CreateComment from './CreateComment';
     import Comment       from './Comment';
+    import Clapper       from '../../ui/Clapper';
 
     // Vuex
     import {mapState} from 'vuex';
 
     export default {
-        components: {CreateComment, Comment},
+        components: {CreateComment, Comment, Clapper},
 
         data() {
             return {
@@ -155,6 +169,15 @@
                 }).catch(() => {
                     this.$router.replace('/');
                 });
+            },
+
+            updateClaps(newClaps) {
+                this.$store.dispatch('posts/incrementClaps', {
+                    newClaps,
+                    postId: this.post.id
+                }).then(claps => {
+                    this.post.claps = claps;
+                });
             }
         }
     };
@@ -169,6 +192,58 @@
     }
 
     .post {
+        position: relative;
+
+        .flow-bar {
+            @include position(0, 0, 0, -4em);
+            position: absolute;
+            width: 3em;
+
+            > div {
+                @include flex(column, center);
+                position: sticky;
+                top: 7.5em;
+                background: $palette-snow-white;
+                padding: 0.5em 0;
+                border-radius: 0.25em;
+                box-shadow: 0 0.05em 1.5em rgba($palette-slate-gray, 0.15);
+                font-size: 0.85em;
+
+                a {
+                    margin: 0.6em 0;
+                }
+
+                .divider {
+                    @include size(50%, 1px);
+                    background: $palette-decent-blue;
+                    margin: 0.5em 0;
+                }
+
+                .clapper {
+                    font-size: 1.25em;
+                }
+
+                .claps {
+                    @include font(500, 0.95em);
+                    color: $palette-slate-gray;
+                    margin-bottom: 0.25em;
+                }
+            }
+        }
+
+        .share-btn {
+            color: $palette-slate-gray;
+            font-size: 1.85em;
+            margin: 0 0.15em;
+            filter: grayscale(1);
+            transition: all 0.3s;
+            cursor: pointer;
+
+            &:hover {
+                filter: none;
+            }
+        }
+
         .by {
             @include font(400, 0.9em);
             margin: -1.5em 0 1.5em;
@@ -189,18 +264,6 @@
 
         .share {
             margin: 3em 0 1em;
-
-            a i {
-                color: $palette-slate-gray;
-                font-size: 1.85em;
-                margin: 0 0.15em;
-                filter: grayscale(1);
-                transition: all 0.3s;
-
-                &:hover {
-                    filter: none;
-                }
-            }
         }
 
         .tags {

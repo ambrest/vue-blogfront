@@ -6,10 +6,10 @@
             <span>+ {{ claps }}</span>
         </div>
 
-        <svg :class="{active: clickActive}"
+        <svg :class="{active: clickActive, 'limit-reached': limitReached}"
              viewBox="0 0 27 27"
              xmlns="http://www.w3.org/2000/svg"
-             @animationend="clickActive = false">
+             @animationend="clickActive = limitReached = false">
 
             <path d="M13.738 1l.762 2.966L15.262 1z"></path>
             <path d="M18.634 2.224l-1.432-.47-.408 3.022z"></path>
@@ -57,7 +57,8 @@
                 transforms: [],
                 clickActive: false,
                 updateTimer: null,
-                updateDone: true
+                updateDone: true,
+                limitReached: false
             };
         },
 
@@ -100,6 +101,8 @@
                         // Clear transform array
                         this.transforms = [];
                     }, 1000);
+                } else {
+                    this.limitReached = true;
                 }
             },
 
@@ -144,6 +147,24 @@
                     }
                     to {
                         transform: none;
+                    }
+                }
+            }
+
+            &.limit-reached {
+                @include animate('1s linear') {
+                    10%, 90% {
+                        transform: translate3d(-1px, 0, 0);
+                    }
+                    20%, 80% {
+                        transform: translate3d(2px, 0, 0);
+                    }
+                    30%, 50%, 70% {
+                        filter: grayscale(1);
+                        transform: translate3d(-4px, 0, 0);
+                    }
+                    40%, 60% {
+                        transform: translate3d(4px, 0, 0);
                     }
                 }
             }

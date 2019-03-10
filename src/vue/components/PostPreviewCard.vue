@@ -12,7 +12,7 @@
             </div>
 
             <div class="claps">
-                <clapper :limit="50" @update="clap"/>
+                <clapper :limit="50" @update="updateClaps"/>
                 <span>{{ post.claps || '' }}</span>
             </div>
         </div>
@@ -95,7 +95,7 @@
 
         methods: {
 
-            clap(newClaps) {
+            updateClaps(newClaps) {
                 this.$store.dispatch('posts/incrementClaps', {
                     newClaps,
                     postId: this.post.id
