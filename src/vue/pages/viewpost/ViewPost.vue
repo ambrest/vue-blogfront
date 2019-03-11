@@ -2,15 +2,18 @@
     <div v-if="post" class="post divided">
 
         <div class="flow-bar">
-            <div>
+            <div :class="{visible: lastScrollDirection === 'up'}">
                 <a :href="share.twitter"><i class="share-btn fab fa-fw fa-twitter" style="color: #1da1f2"></i></a>
                 <a :href="share.facebook"><i class="share-btn  fab fa-fw fa-facebook" style="color: #3a559f"></i></a>
                 <a :href="share.telegram"><i class="share-btn  fab fa-fw fa-telegram" style="color: #269ed2"></i></a>
+                <a :href="share.whatsapp"><i class="share-btn  fab fa-fw fa-whatsapp" style="color: #00e676"></i></a>
 
                 <div class="divider"></div>
 
-                <clapper :post="post" :limit="50"/>
-                <span class="claps">{{ post.totalClaps }}</span>
+                <div class="clap-count">
+                    <clapper :post="post" :limit="50"/>
+                    <span class="claps">{{ post.totalClaps }}</span>
+                </div>
             </div>
         </div>
 
@@ -35,16 +38,6 @@
             <article ref="postBodyElement"
                      class="blog-content"
                      v-html="post.body"></article>
-
-            <!-- Social stuff -->
-            <div class="share">
-                <a :href="share.telegram"><i class="share-btn  fab fa-fw fa-telegram" style="color: #269ed2"></i></a>
-                <a :href="share.twitter"><i class="share-btn  fab fa-fw fa-twitter" style="color: #1da1f2"></i></a>
-                <a :href="share.linkedin"><i class="share-btn  fab fa-fw fa-linkedin" style="color: #2567b3"></i></a>
-                <a :href="share.facebook"><i class="share-btn  fab fa-fw fa-facebook" style="color: #3a559f"></i></a>
-                <a :href="share.xing"><i class="share-btn  fab fa-fw fa-xing" style="color: #007575"></i></a>
-                <a :href="share.whatsapp"><i class="share-btn  fab fa-fw fa-whatsapp" style="color: #00e676"></i></a>
-            </div>
 
             <!-- Tags -->
             <div class="tags">
@@ -92,7 +85,8 @@
 
         data() {
             return {
-                post: null
+                post: null,
+                lastScrollDirection: 'down'
             };
         },
 
@@ -122,6 +116,12 @@
 
         beforeMount() {
             this.fetch();
+
+            let lastScrollY = window.scrollY;
+            this.utils.on(window, 'scroll', () => {
+                this.lastScrollDirection = window.scrollY > lastScrollY ? 'down' : 'up';
+                lastScrollY = window.scrollY;
+            });
         },
 
         destroyed() {
@@ -210,14 +210,18 @@
                     margin: 0.5em 0;
                 }
 
-                .clapper {
-                    font-size: 1.25em;
-                }
+                .clap-count {
+                    @include flex(column, center, center);
 
-                .claps {
-                    @include font(500, 0.95em);
-                    color: $palette-slate-gray;
-                    margin-bottom: 0.25em;
+                    .clapper {
+                        font-size: 1.25em;
+                    }
+
+                    .claps {
+                        @include font(500, 0.95em);
+                        color: $palette-slate-gray;
+                        margin: 0.35em 0;
+                    }
                 }
             }
         }
@@ -251,10 +255,6 @@
                 color: $palette-sweet-red;
                 text-decoration: underline;
             }
-        }
-
-        .share {
-            margin: 3em 0 1em;
         }
 
         .tags {
@@ -326,6 +326,37 @@
     @include mobile {
         .post {
             font-size: 0.9em;
+
+            .flow-bar {
+
+                > div {
+                    @include flex(row, center, space-around);
+                    @include position(auto, 0, 0, 0);
+                    position: fixed;
+                    width: 100%;
+                    z-index: 10;
+                    transform: translateY(100%);
+                    transition: all 0.3s;
+                    opacity: 0;
+
+                    &.visible {
+                        opacity: 1;
+                        transform: none;
+                    }
+
+                    .divider {
+                        display: none;
+                    }
+
+                    .clap-count {
+                        flex-direction: row;
+
+                        .claps {
+                            margin-bottom: -1px;
+                        }
+                    }
+                }
+            }
 
             .by {
                 margin-top: 0;
