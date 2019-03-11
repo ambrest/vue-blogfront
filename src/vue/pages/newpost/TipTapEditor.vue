@@ -59,7 +59,7 @@
 
         <editor-content ref="editor"
                         :editor="editor"
-                        class="editor blog-content"/>
+                        :class="{'editor blog-content': 1, empty: !html}"/>
 
     </div>
 </template>
@@ -111,7 +111,12 @@
             this.editor = new Editor({
                 content: '',
                 onUpdate: ({getHTML}) => {
-                    const html = getHTML();
+                    let html = getHTML();
+
+                    if (html === '<p></p>') {
+                        html = '';
+                    }
+
                     this.$emit('update', html);
                     this.html = html;
                 },
@@ -205,10 +210,16 @@
         .editor {
             position: relative;
             width: 100%;
-            border: 1px solid rgba($palette-decent-blue, 0.5);
-            border-radius: 0.25em;
             margin-top: 0.5em;
             padding: 0.5em;
+
+            &.empty::before {
+                position: absolute;
+                content: "Write something...";
+                opacity: 0.5;
+                font-style: italic;
+                pointer-events: none;
+            }
         }
 
         .menububble {

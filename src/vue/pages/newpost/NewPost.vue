@@ -170,6 +170,9 @@
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });
+
+                // Clear draft
+                localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
             },
 
             removePost() {
