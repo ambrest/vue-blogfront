@@ -13,7 +13,7 @@
 
             <div class="claps">
                 <clapper :post="post" :limit="50"/>
-                <span>{{ post.totalClaps || '' }}</span>
+                <span>{{ post.totalClaps | ReadableNumber }}</span>
             </div>
         </div>
 
@@ -159,6 +159,7 @@
                 span {
                     @include font(500, 0.85em);
                     margin-left: 0.5em;
+                    margin-bottom: -2px;
                 }
             }
 
