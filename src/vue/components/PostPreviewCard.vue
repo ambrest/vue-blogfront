@@ -13,7 +13,7 @@
 
             <div class="claps">
                 <clapper :post="post" :limit="50"/>
-                <span>{{ post.claps || '' }}</span>
+                <span>{{ post.totalClaps || '' }}</span>
             </div>
         </div>
 

@@ -69,6 +69,7 @@ export const posts = {
          * Increments claps for a specific post
          * @param rootState
          * @param newClaps
+         * @param postId
          * @returns {Promise<T | never>}
          */
         incrementClaps({rootState}, {newClaps, postId}) {
@@ -78,7 +79,7 @@ export const posts = {
                 query: {
                     operation: 'incrementClaps',
                     vars: {apikey, postId, newClaps},
-                    fields: ['claps']
+                    fields: ['myClaps', 'totalClaps']
                 }
             }).then(({errors, data: {incrementClaps}}) => {
 
@@ -87,7 +88,7 @@ export const posts = {
                     throw errors[0].message;
                 }
 
-                return incrementClaps.claps;
+                return incrementClaps;
             });
         },
 
@@ -177,7 +178,7 @@ export const posts = {
             return this.dispatch('graphql', {
                 query: {
                     operation: 'removeComment',
-                    vars: {postid, id, apikey},
+                    vars: {apikey, postid, id},
                     fields: ['id']
                 }
             }).then(({errors}) => {
@@ -192,22 +193,25 @@ export const posts = {
          * first from the current state, and if this wasn't successfull
          * it tries to fetch all from the server and resolves it by this action.
          *
+         * @param rootState
          * @param id Post id
          */
-        async findPostById(_, {id}) {
+        async findPostById({rootState}, {id}) {
+            const {apikey} = rootState.auth;
 
             // Make specific request for this post by his id
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
                     operation: 'getPost',
-                    vars: {id},
+                    vars: {apikey, id},
                     fields: `
                         id,
                         title,
                         body,
                         tags,
-                        claps,
+                        totalClaps,
+                        myClaps,
                         timestamp,
                         
                         user {
@@ -240,16 +244,19 @@ export const posts = {
 
         /**
          * Loads the latest post from a specific offset
-         * @param _
+         * @param rootState
          * @param offset
          * @returns {Promise<void>}
          */
-        async getPostInRange(_, {offset = 0} = {}) {
+        async getPostInRange({rootState}, {offset = 0} = {}) {
+            const {apikey} = rootState.auth;
+
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
                     operation: 'getPostCountRange',
                     vars: {
+                        apikey,
                         start: offset,
                         end: offset + config.postsPreloadAmount
                     },
@@ -258,7 +265,8 @@ export const posts = {
                         title,
                         body,
                         tags,
-                        claps,
+                        totalClaps,
+                        myClaps,
                         timestamp,
 
                         user {
@@ -290,11 +298,12 @@ export const posts = {
 
         /**
          * Fetches all posts from a specific user
-         * @param _
+         * @param rootState
          * @param id User id
          * @param offset
          */
-        async getPostsFromUser(_, {id, offset = 0}) {
+        async getPostsFromUser({rootState}, {id, offset = 0}) {
+            const {apikey} = rootState.auth;
 
             // Fetch posts from this user in particular
             return this.dispatch('graphql', {
@@ -302,6 +311,7 @@ export const posts = {
                 query: {
                     operation: 'getPostsBy',
                     vars: {
+                        apikey,
                         userid: id,
                         start: offset,
                         end: offset + config.postsPreloadAmount
@@ -311,7 +321,8 @@ export const posts = {
                         title,
                         body,
                         tags,
-                        claps,
+                        totalClaps,
+                        myClaps,
                         timestamp,
                         
                         comments {
@@ -337,12 +348,13 @@ export const posts = {
 
         /**
          * Searchs all posts with a query
-         * @param _
+         * @param rootState
          * @param query
          * @param offset
          * @returns {Promise<T | never>}
          */
-        async searchPosts(_, {query, offset = 0}) {
+        async searchPosts({rootState}, {query, offset = 0}) {
+            const {apikey} = rootState.auth;
 
             // Search posts
             return this.dispatch('graphql', {
@@ -350,6 +362,7 @@ export const posts = {
                 query: {
                     operation: 'searchPosts',
                     vars: {
+                        apikey,
                         query,
                         start: offset,
                         end: offset + config.postsPreloadAmount
@@ -359,7 +372,8 @@ export const posts = {
                         title,
                         body,
                         tags,
-                        claps,
+                        totalClaps,
+                        myClaps,
                         timestamp,
 
                         user {

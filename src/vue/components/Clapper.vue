@@ -52,7 +52,7 @@
 
         data() {
             return {
-                claps: 0,
+                claps: this.post.myClaps || 0,
                 lastUpdateClaps: 0,
                 transforms: [],
                 clickActive: false,
@@ -64,6 +64,7 @@
 
         methods: {
 
+            // TODO: Get already clap amount from server
             clap() {
 
                 // Check if user is logged in
@@ -119,8 +120,8 @@
                 this.$store.dispatch('posts/incrementClaps', {
                     newClaps,
                     postId: this.post.id
-                }).then(claps => {
-                    this.post.claps = claps;
+                }).then(({totalClaps}) => {
+                    this.post.totalClaps = totalClaps;
                 });
             }
         }

@@ -10,7 +10,7 @@
                 <div class="divider"></div>
 
                 <clapper :post="post" :limit="50"/>
-                <span class="claps">{{ post.claps }}</span>
+                <span class="claps">{{ post.totalClaps }}</span>
             </div>
         </div>
 
