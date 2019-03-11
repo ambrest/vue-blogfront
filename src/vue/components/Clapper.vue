@@ -2,11 +2,11 @@
     <div class="clapper"
          @click="clap">
 
-        <div :class="{claps: 1, active: !updateDone}">
+        <div :class="{claps: 1, active: !updateDone, bump: bumpActive}" @animationend="bumpActive = false">
             <span>+ {{ claps }}</span>
         </div>
 
-        <svg :class="{active: clickActive, 'limit-reached': limitReached}"
+        <svg :class="{active: clickActive}"
              viewBox="0 0 27 27"
              xmlns="http://www.w3.org/2000/svg"
              @animationend="clickActive = limitReached = false">
@@ -55,10 +55,12 @@
                 claps: this.post.myClaps || 0,
                 lastUpdateClaps: 0,
                 transforms: [],
+
                 clickActive: false,
+                bumpActive: false,
+
                 updateTimer: null,
-                updateDone: true,
-                limitReached: false
+                updateDone: true
             };
         },
 
@@ -73,12 +75,17 @@
                 }
 
                 // Stop / replay animation if user clicked multiple times
-                if (this.clickActive) {
-                    this.clickActive = false;
-                    requestAnimationFrame(() => this.clickActive = true);
-                } else {
-                    this.clickActive = true;
+                for (const actives of ['clickActive', 'bumpActive']) {
+                    if (this[actives]) {
+                        this[actives] = false;
+                        requestAnimationFrame(() => this[actives] = true);
+                    } else {
+                        this[actives] = true;
+                    }
                 }
+
+                // Add new transformation
+                this.transforms.push(`rotate(${Math.random() * 360}deg)`);
 
                 // Validate clap limit
                 if (this.claps < this.limit) {
@@ -86,9 +93,6 @@
 
                     // Emit clap event
                     this.$emit('clap');
-
-                    // Add new transformation
-                    this.transforms.push(`rotate(${Math.random() * 360}deg)`);
 
                     // Reset and re-create timer to sync clapps with server
                     clearTimeout(this.updateTimer);
@@ -108,7 +112,13 @@
                         this.transforms = [];
                     }, 1000);
                 } else {
-                    this.limitReached = true;
+                    clearTimeout(this.updateTimer);
+
+                    this.updateDone = false;
+                    this.updateTimer = setTimeout(() => {
+                        this.updateDone = true;
+                        this.transforms = [];
+                    }, 1000);
                 }
             },
 
@@ -165,24 +175,6 @@
                     }
                 }
             }
-
-            &.limit-reached {
-                @include animate('1s linear') {
-                    10%, 90% {
-                        transform: translate3d(-1px, 0, 0);
-                    }
-                    20%, 80% {
-                        transform: translate3d(2px, 0, 0);
-                    }
-                    30%, 50%, 70% {
-                        filter: grayscale(1);
-                        transform: translate3d(-4px, 0, 0);
-                    }
-                    40%, 60% {
-                        transform: translate3d(4px, 0, 0);
-                    }
-                }
-            }
         }
 
         .claps {
@@ -211,6 +203,17 @@
             &.active {
                 opacity: 1;
                 transform: none;
+            }
+
+            &.bump {
+                @include animate('0.2s') {
+                    0%, 100% {
+                        transform: none;
+                    }
+                    50% {
+                        transform: translateY(-0.1em);
+                    }
+                }
             }
         }
 

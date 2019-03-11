@@ -323,6 +323,7 @@
         }
     }
 
+    // TODO: Add tablet style
     @include mobile {
         .post {
             font-size: 0.9em;
