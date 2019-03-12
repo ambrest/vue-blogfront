@@ -149,12 +149,10 @@
                     tags: this.$refs.tags.tags
                 }).then(post => {
                     this.$router.push(`/post/${post.id}`);
+                    localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });
-
-                // Clear draft
-                localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
             },
 
             update() {
@@ -167,12 +165,10 @@
                     tags: this.$refs.tags.tags
                 }).then(() => {
                     this.$router.push(`/post/${this.originalPost.id}`);
+                    localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });
-
-                // Clear draft
-                localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
             },
 
             removePost() {
@@ -186,13 +182,11 @@
                         id: this.originalPost.id
                     }).then(() => {
                         this.$router.push('/');
+                        localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
                     }).catch(reason => {
                         this.errorMsg = reason;
                     });
                 }
-
-                // Clear draft
-                localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
             }
         }
     };
