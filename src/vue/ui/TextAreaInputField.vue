@@ -95,7 +95,7 @@
 
         &.active::after {
             width: 100%;
-            background: $palette-sweet-magenta;
+            background: $palette-slate-gray;
         }
     }
 

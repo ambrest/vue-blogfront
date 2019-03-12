@@ -31,8 +31,7 @@
             </div>
         </div>
 
-        <div class="tab">
-
+        <div class="tab comment-tab">
             <create-comment v-if="canComment"
                             :postid="post.id"
                             @submitted="fetch"/>
@@ -174,7 +173,7 @@
             width: 100%;
 
             &:not(:empty) {
-                padding-top: 0.75em;
+                padding-top: 1.5em;
             }
 
             > span {
@@ -192,6 +191,10 @@
             flex-shrink: 1;
             width: 100%;
         }
+    }
+
+    .comment-tab {
+        width: 75%;
     }
 
     .create-comment {
@@ -212,20 +215,11 @@
         }
 
         .comment {
-            margin-top: 1em;
-
-            &::after {
-                display: block;
-                content: '';
-                @include size(100%, 1px);
-                background: $palette-decent-blue;
-                opacity: 0.5;
-                margin-top: 1em;
-            }
-
-            &:last-child::after {
-                content: none;
-            }
+            margin: 1em auto 0 auto;
+            padding: 1em;
+            border-radius: 0.25em;
+            border: 1px solid rgba($palette-slate-gray, 0.075);
+            box-shadow: 0 1px 4px rgba($palette-slate-gray, 0.05);
         }
 
         .placeholder {

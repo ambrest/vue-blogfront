@@ -33,9 +33,11 @@ export const users = {
 
         /**
          * Fetches a specific user by his id
+         * @param state
+         * @param rootState
          * @param id The userid
          */
-        async findUserById({state, rootState}, {id}) {
+        async findUserById({state: state, rootState}, {id}) {
             const {apikey} = rootState.auth;
 
             // Check if user has been already loaded
@@ -58,13 +60,13 @@ export const users = {
                     state.push(user);
                     return Promise.resolve(user);
                 }
-
             });
         },
 
         /**
          * Updates the permissions of a specific user
          *
+         * @param rootState
          * @param user User object
          * @param type Type, can be 'add' or 'remove'
          * @param permission Permission which should be added or removed from this user
@@ -113,6 +115,7 @@ export const users = {
         /**
          * Deactivates or re-activates a user.
          *
+         * @param rootState
          * @param user User object
          * @param deactivated Deactivation state
          */
@@ -142,5 +145,4 @@ export const users = {
             });
         }
     }
-
 };

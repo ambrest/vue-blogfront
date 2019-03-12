@@ -24,11 +24,16 @@ export default class Heading extends Node {
             group: 'block',
             defining: true,
             draggable: false,
-            parseDOM: this.options.alignments.map(alignment => ({
-                tag: `p`,
-                attrs: {style: `text-align: ${alignment}`}
-            })),
-            toDOM: node => [`p`, {style: `text-align: ${node.attrs.align}`}, 0]
+            parseDOM: [{
+                tag: 'p',
+                priority: 60,
+                getAttrs(dom) {
+                    return {
+                        align: dom.align
+                    };
+                }
+            }],
+            toDOM: node => [`p`, {align: node.attrs.align}, 0]
         };
     }
 

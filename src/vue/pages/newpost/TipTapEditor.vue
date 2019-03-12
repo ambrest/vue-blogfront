@@ -121,6 +121,7 @@
                     this.html = html;
                 },
                 extensions: [
+                    new TextAlign(),
                     new Blockquote(),
                     new Heading({levels: [1, 2, 3]}),
                     new BulletList(),
@@ -134,8 +135,7 @@
                     new Strike(),
                     new Underline(),
                     new Link(),
-                    new Image(),
-                    new TextAlign()
+                    new Image()
                 ]
             });
         },

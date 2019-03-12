@@ -14,18 +14,19 @@
         <div v-if="auth.user && ((auth.user.id === comment.user.id) || auth.user.permissions.includes('administrate'))" class="actions">
 
             <!-- Editor actions -->
-            <span v-show="!edit"
-                  class="edit"
-                  @click="editComment()">Edit</span>
+            <i v-show="edit"
+               class="delete fas fa-fw fa-ban"
+               @click="cancelUpdateComment"></i>
 
-            <span v-show="edit"
-                  @click=" updateComment()">Save</span>
+            <i v-show="!edit"
+               class="edit fas fa-fw fa-pencil-alt"
+               @click="editComment()"></i>
 
-            <span v-show="edit"
-                  class="delete"
-                  @click="cancelUpdateComment">Cancel</span>
+            <i v-show="edit"
+               class="fas fa-fw fa-save"
+               @click=" updateComment()"></i>
 
-            <span class="delete" @click="removeComment">Delete comment</span>
+            <i class="delete fas fa-fw fa-trash-alt" @click="removeComment"></i>
 
             <span v-if="errorMsg" class="error"> - {{ errorMsg }}</span>
         </div>
@@ -142,28 +143,26 @@
 
         .body {
             @include font(400, 0.95em);
-            margin: 1.25em 0 0.5em 0;
+            margin: 1.25em 0 0.75em 0;
             line-height: 1.65em;
             word-break: break-all;
             word-break: break-word;
+            font-family: $font-family-article-stack;
         }
 
         .actions {
+            @include flex(row, center);
 
-            span {
-                @include font(400, 0.8em);
+            i {
+                font-size: 0.8em;
                 margin-top: 0.25em;
-                margin-right: 0.25em;
+                margin-right: 0.75em;
                 transition: all 0.3s;
                 cursor: pointer;
-                color: rgba($palette-slate-gray, 0.45);
+                color: rgba($palette-slate-gray, 0.3);
 
                 &.error {
                     text-decoration: none;
-                }
-
-                &:not(:last-child)::after {
-                    content: ' •';
                 }
             }
 
