@@ -107,6 +107,7 @@
         z-index: 2;
         flex-shrink: 1;
         color: $palette-slate-gray;
+        line-height: 1.4em;
 
         &::placeholder {
             color: $palette-decent-blue;
