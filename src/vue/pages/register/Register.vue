@@ -111,10 +111,10 @@
     .login {
         .input {
             @include flex(column);
+            @include width(15em, 0, 100vw);
 
             .text-input-field {
                 margin: 0.75em 0 0.25em;
-                @include width(13em, 0, 100vw)
             }
 
             .error {
