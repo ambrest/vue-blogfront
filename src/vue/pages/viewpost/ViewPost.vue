@@ -323,19 +323,20 @@
         }
     }
 
-    // TODO: Add tablet style
-    @include mobile {
+    @include tablet {
         .post {
             font-size: 0.9em;
 
             .flow-bar {
+                position: fixed;
+                @include flex(row, center, center);
+                @include position(auto, 0, 0, 0);
+                z-index: 10;
+                width: 100%;
 
                 > div {
                     @include flex(row, center, space-around);
-                    @include position(auto, 0, 0, 0);
-                    position: fixed;
-                    width: 100%;
-                    z-index: 10;
+                    margin-bottom: 1vh;
                     transform: translateY(100%);
                     transition: all 0.3s;
                     opacity: 0;
@@ -347,6 +348,11 @@
 
                     .divider {
                         display: none;
+                    }
+
+                    a,
+                    .clap-count {
+                        margin: 0 1em;
                     }
 
                     .clap-count {
@@ -362,6 +368,13 @@
             .by {
                 margin-top: 0;
             }
+        }
+    }
+
+    @include mobile {
+        .post .flow-bar > div {
+            margin-bottom: 0;
+            width: 100%;
         }
     }
 
