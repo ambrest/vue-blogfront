@@ -88,8 +88,8 @@
                 this.transforms.push(`rotate(${Math.random() * 360}deg)`);
 
                 // Validate clap limit
-                if (this.claps < this.limit) {
-                    this.claps++;
+                if (this.claps <= this.limit) {
+                    this.claps < this.limit && this.claps++;
 
                     // Emit clap event
                     this.$emit('clap');

@@ -10,7 +10,7 @@
 
             <div class="clap-count">
                 <clapper :post="post" :limit="50"/>
-                <span class="claps">{{ post.totalClaps }}</span>
+                <span class="claps">{{ post.totalClaps || '' }}</span>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
     <section class="login small">
 
-        <h1 v-if="!send">Reset Your Password!</h1>
+        <h1 v-if="!send">Reset Your Password</h1>
 
         <div v-if="!send" class="input">
 
