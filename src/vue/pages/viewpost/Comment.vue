@@ -147,7 +147,6 @@
             line-height: 1.65em;
             word-break: break-all;
             word-break: break-word;
-            white-space: pre-line;
             font-family: $font-family-article-stack;
         }
 

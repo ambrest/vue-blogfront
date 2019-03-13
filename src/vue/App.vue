@@ -110,6 +110,7 @@
         margin: 0 auto;
         min-height: 100vh;
         padding-bottom: 1em;
+        overflow-x: hidden;
 
         &::before {
             @include pseudo();

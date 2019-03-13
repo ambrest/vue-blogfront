@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div class="tab comment-tab">
+        <div class="tab">
             <create-comment v-if="canComment"
                             :postid="post.id"
                             @submitted="fetch"/>
@@ -191,10 +191,6 @@
             flex-shrink: 1;
             width: 100%;
         }
-    }
-
-    .comment-tab {
-        width: 75%;
     }
 
     .create-comment {
