@@ -7,7 +7,7 @@
 
         <p ref="body"
            :contenteditable="edit"
-           class="body">
+           :class="{body: 1, editable: edit}">
             {{ comment.body }}
         </p>
 
@@ -148,6 +148,13 @@
             word-break: break-all;
             word-break: break-word;
             font-family: $font-family-article-stack;
+
+            &.editable {
+                border: 1px solid rgba($palette-slate-gray, 0.05);
+                box-shadow: inset 0 1px 2px rgba(black, 0.025);
+                border-radius: 0.15em;
+                padding: 0.5em;
+            }
         }
 
         .actions {

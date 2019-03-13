@@ -142,7 +142,7 @@
 <style lang="scss" scoped>
 
     .tab {
-        width: 100vw;
+        width: 100%;
         margin-bottom: 3em;
     }
 
@@ -215,7 +215,7 @@
             padding: 1em;
             border-radius: 0.25em;
             border: 1px solid rgba($palette-slate-gray, 0.075);
-            box-shadow: 0 1px 4px rgba($palette-slate-gray, 0.05);
+            box-shadow: 0 1px 4px rgba($palette-slate-gray, 0.045);
         }
 
         .placeholder {

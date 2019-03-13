@@ -18,7 +18,7 @@
             <post-preview-card v-for="post of posts" :post="post"/>
 
             <!-- Placeholder -->
-            <div v-if="!posts.length" class="placeholder">{{ errorMsg || 'This user has nothing posted yet...' }}</div>
+            <div v-if="!posts.length" class="placeholder">{{ $store.state.requestsActive ? 'Loading...' : errorMsg || 'This user has nothing posted yet...' }}</div>
         </div>
 
     </div>

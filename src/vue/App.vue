@@ -110,7 +110,6 @@
         margin: 0 auto;
         min-height: 100vh;
         padding-bottom: 1em;
-        overflow-x: hidden;
 
         &::before {
             @include pseudo();
@@ -139,6 +138,7 @@
         margin-top: 10vh;
         transition: all 0.3s;
         transform-origin: center top;
+        max-width: 100vw;
 
         &.inactive {
             pointer-events: none;
@@ -222,11 +222,6 @@
 
     @include tablet {
         .router {
-            &.divided .tab,
-            &:not(.divided) {
-                max-width: 100vw;
-            }
-
             &:not(.small):not(.divided) {
                 padding-left: 2em;
                 padding-right: 2em;

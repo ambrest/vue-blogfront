@@ -1,10 +1,10 @@
 <template>
     <div class="flow-bar">
         <div :class="{visible: lastScrollDirection === 'up'}">
-            <a :href="share.twitter"><i class="share-btn fab fa-fw fa-twitter" style="color: #1da1f2"></i></a>
-            <a :href="share.facebook"><i class="share-btn  fab fa-fw fa-facebook" style="color: #3a559f"></i></a>
-            <a :href="share.telegram"><i class="share-btn  fab fa-fw fa-telegram" style="color: #269ed2"></i></a>
-            <a :href="share.whatsapp"><i class="share-btn  fab fa-fw fa-whatsapp" style="color: #00e676"></i></a>
+            <a :href="share.twitter" target="_blank"><i class="share-btn fab fa-fw fa-twitter" style="color: #1da1f2"></i></a>
+            <a :href="share.facebook" target="_blank"><i class="share-btn  fab fa-fw fa-facebook" style="color: #3a559f"></i></a>
+            <a :href="share.telegram" target="_blank"><i class="share-btn  fab fa-fw fa-telegram" style="color: #269ed2"></i></a>
+            <a :href="share.whatsapp" target="_blank"><i class="share-btn  fab fa-fw fa-whatsapp" style="color: #00e676"></i></a>
 
             <div class="divider"></div>
 
@@ -60,7 +60,6 @@
                 lastScrollY = window.scrollY;
             });
         }
-
     };
 
 </script>
@@ -121,7 +120,7 @@
         }
     }
 
-    @include tablet {
+    @include laptop {
 
         .flow-bar {
             position: fixed;

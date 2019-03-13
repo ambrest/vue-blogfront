@@ -13,7 +13,7 @@
             <post-preview-card v-for="post of posts" :post="post"/>
 
             <!-- Placeholder -->
-            <div v-if="!posts.length" class="placeholder">{{ errorMsg || 'Nothing found' }}</div>
+            <div v-if="!posts.length" class="placeholder">{{ $store.state.requestsActive ? 'Loading...' : errorMsg || 'Nothing found' }}</div>
         </div>
 
     </div>
