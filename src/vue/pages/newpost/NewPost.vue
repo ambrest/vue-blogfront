@@ -228,5 +228,16 @@
         }
     }
 
+    @include mobile{
+        .actions {
+            flex-wrap: wrap;
+            justify-content: center;
+
+            button {
+                margin: 0 0 0.5em 0.5em;
+            }
+        }
+    }
+
 
 </style>
