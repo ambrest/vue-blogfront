@@ -18,6 +18,8 @@ Vue-blogfront has full desktop and mobile support.
 All modern browsers like Chrome, Firefox, Opera, Edge and Safari are supported. See [.browserslistrc](/.browserslistrc) for further details.
 IE support is and will never be in consideration.
 
+See [GitHub Projects](https://github.com/ambrest/vue-blogfront/projects) for the current roadmap.
+
 #### Vue Blogfront - unique features
 * 100% Offline support (Navigation and searching) - via [localStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
 * Lightweight, only '~ 100kb' js and '~ 30kb' css! (both gzipped).
@@ -26,6 +28,9 @@ IE support is and will never be in consideration.
 * Modern Vue frontend with refreshing design.
 * Simple structure and just a few dependencies.
 * Easy-to-use admin panel which includes full control over your users.
+* Full and partial text search function.
+* Clapping possibility to show how much you like a post.
+* Local drafts.
 
 ### Installation
 * [Installing on MacOS](/docs/installation/mac.md)
