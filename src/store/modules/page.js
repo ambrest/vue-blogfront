@@ -15,8 +15,8 @@ export const page = {
             on(window, 'scroll', () => {
                 const diff = window.scrollY - lastScrollY;
 
-                if (Math.abs(diff) > 4) {
-                    state.lastScrollDirection = diff < 0 ? 'down' : 'up';
+                if (Math.abs(diff) > 25 || !window.scrollY) {
+                    state.lastScrollDirection = diff > 0 ? 'down' : 'up';
                     lastScrollY = window.scrollY;
                 }
             });

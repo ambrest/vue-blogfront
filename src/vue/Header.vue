@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div :class="{header: 1, visible: $store.state.page.lastScrollDirection === 'up'}">
 
         <div class="bar">
 
@@ -111,6 +111,14 @@
         top: 0;
         z-index: 10;
         background: $palette-sweet-red;
+        opacity: 0;
+        transform: translateY(-100%) rotateX(45deg);
+        transition: all 0.3s;
+
+        &.visible {
+            opacity: 1;
+            transform: none;
+        }
     }
 
     .bar {
