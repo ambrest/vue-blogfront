@@ -1,6 +1,6 @@
 <template>
     <div class="flow-bar">
-        <div :class="{visible: lastScrollDirection === 'up'}">
+        <div :class="{visible: $store.state.page.lastScrollDirection === 'up'}">
             <a :href="share.twitter" target="_blank"><i class="share-btn fab fa-fw fa-twitter" style="color: #1da1f2"></i></a>
             <a :href="share.facebook" target="_blank"><i class="share-btn  fab fa-fw fa-facebook" style="color: #3a559f"></i></a>
             <a :href="share.telegram" target="_blank"><i class="share-btn  fab fa-fw fa-telegram" style="color: #269ed2"></i></a>
@@ -32,9 +32,7 @@
         },
 
         data() {
-            return {
-                lastScrollDirection: 'down'
-            };
+            return {};
         },
 
         computed: {
@@ -51,14 +49,6 @@
                     telegramm: `https://telegram.me/share/url?url=${url}&text=${text}`
                 };
             }
-        },
-
-        beforeMount() {
-            let lastScrollY = window.scrollY;
-            this.utils.on(window, 'scroll', () => {
-                this.lastScrollDirection = window.scrollY > lastScrollY ? 'down' : 'up';
-                lastScrollY = window.scrollY;
-            });
         }
     };
 

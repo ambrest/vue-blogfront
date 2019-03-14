@@ -11,7 +11,7 @@
         <router-view :class="{router: 1, inactive: $store.state.requestsActive}" :key="$route.fullPath"/>
 
         <!-- Footer -->
-        <page-footer :class="{footer: 1, inactive: $store.state.requestsActive}"/>
+        <page-footer v-show="$store.state.requestsActive" class="footer"/>
 
     </div>
 </template>
@@ -41,6 +41,9 @@
 
             // Scroll to top on route change
             this.$router.afterEach(() => window.scrollTo(0, 0));
+
+            // Init page state
+            this.$store.commit('page/_init');
         }
     };
 </script>
@@ -122,15 +125,6 @@
 
     .header {
         width: 100%;
-    }
-
-    .footer {
-        transition: all 0.3s;
-        opacity: 1;
-
-        &.inactive {
-            opacity: 0;
-        }
     }
 
     .router {
