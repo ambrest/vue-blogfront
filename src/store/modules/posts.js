@@ -76,6 +76,7 @@ export const posts = {
             const {apikey} = rootState.auth;
 
             return this.dispatch('graphql', {
+                silent: true,
                 query: {
                     operation: 'incrementClaps',
                     vars: {apikey, postId, newClaps},

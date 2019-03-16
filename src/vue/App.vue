@@ -11,7 +11,7 @@
         <router-view :class="{router: 1, inactive: $store.state.requestsActive}" :key="$route.fullPath"/>
 
         <!-- Footer -->
-        <page-footer v-show="$store.state.requestsActive" class="footer"/>
+        <page-footer v-show="!$store.state.requestsActive" class="footer"/>
 
     </div>
 </template>
