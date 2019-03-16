@@ -3,12 +3,13 @@
 .button-secondary {
     @include font(500, 0.8em);
     text-transform: uppercase;
-    padding: 0.75em 1.75em;
+    padding: 0.65em 1.6em;
     transition: all 0.3s;
+    border-radius: 0.2em;
 
     &.button-primary {
         background: $palette-sweet-red;
-        border: 1px solid $palette-sweet-red;
+        border: 2px solid $palette-sweet-red;
         color: white;
 
         &:hover {
@@ -18,9 +19,9 @@
     }
 
     &.button-secondary {
-        border: 1px solid $palette-sweet-red;
+        border: 2px solid rgba($palette-sweet-red, 0.85);
         background: white;
-        color: $palette-sweet-red;
+        color: rgba($palette-sweet-red, 0.85);
 
         &:hover {
             background: $palette-sweet-red;

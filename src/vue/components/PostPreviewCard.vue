@@ -24,10 +24,11 @@
             <h2>{{ preparedPost.title }}</h2>
 
             <div class="info">
-                <span class="date">{{ preparedPost.date.day }} {{ preparedPost.date.month }} - {{ preparedPost.date.year }} / </span>
-                By
-                <router-link :to="`/user/${preparedPost.user.id}`" class="name">{{ preparedPost.user.fullname }}</router-link>
-                <span class="name"> / {{ preparedPost.body | HTMLToTimeToReadString }}</span>
+                <router-link :to="`/user/${preparedPost.user.id}`" class="name">By {{ preparedPost.user.fullname }}</router-link>
+
+                <p class="sub">
+                    {{ preparedPost.date.day }} {{ preparedPost.date.month }} {{ preparedPost.date.year }}
+                    • {{ preparedPost.body | HTMLToTimeToReadString }}</p>
             </div>
 
             <!-- Preview -->
@@ -202,12 +203,12 @@
                 color: rgba(black, 0.3);
 
                 a {
-                    color: $palette-sweet-red;
-                    text-decoration: underline;
+                    color: rgba($palette-slate-gray, 0.8);
                 }
 
-                .date {
-                    display: none;
+                .sub {
+                    margin-top: 0.45em;
+                    font-size: 0.9em;
                 }
             }
 
@@ -218,7 +219,6 @@
                 white-space: pre-line;
                 text-overflow: ellipsis;
                 overflow: hidden;
-                margin: 1.5em 0;
                 opacity: 0.9;
                 max-height: 16em;
                 min-width: 0;
@@ -231,13 +231,17 @@
                     // See https://stackoverflow.com/questions/11829410/css3-gradient-rendering-issues-from-transparent-to-white
                     background: linear-gradient(to top, $palette-snow-white, rgba(255, 255, 255, 0.000001) 15%);
                 }
+
+                /deep/ > * {
+                    text-align: left !important;
+                }
             }
 
             .buttons {
-                margin-top: auto;
+                margin-top: 0.5em;
 
                 button {
-                    margin-right: 0.3em;
+                    margin-right: 0.5em;
                 }
             }
         }
@@ -262,14 +266,6 @@
 
             .content {
                 padding: 0;
-
-                .info {
-                    width: 100%;
-
-                    .date {
-                        display: inline;
-                    }
-                }
             }
 
             &::after {
