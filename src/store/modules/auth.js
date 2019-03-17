@@ -39,7 +39,7 @@ export const auth = {
                 query: {
                     operation: 'login',
                     vars: {username, password},
-                    fields: ['apikey', 'email', 'permissions', 'id', 'fullname', 'about']
+                    fields: ['apikey', 'email', 'permissions', 'id', 'fullname', 'about', 'profilePicture']
                 }
             }).then(({errors, data}) => {
 
@@ -47,7 +47,7 @@ export const auth = {
                 if (errors && errors.length) {
                     throw errors[0].message;
                 } else {
-                    const {apikey, id, email, fullname, permissions, about} = data.login;
+                    const {apikey, id, email, fullname, permissions, about, profilePicture} = data.login;
 
                     state.apikey = apikey;
                     state.user = {
@@ -56,7 +56,8 @@ export const auth = {
                         permissions,
                         username,
                         fullname,
-                        about
+                        about,
+                        profilePicture
                     };
 
                     // Save apikey and return loaded user
@@ -82,7 +83,7 @@ export const auth = {
                 query: {
                     operation: 'login',
                     vars: {apikey},
-                    fields: ['email', 'permissions', 'id', 'fullname', 'username', 'about']
+                    fields: ['email', 'permissions', 'id', 'fullname', 'username', 'about', 'profilePicture']
                 }
             }).then(({errors, data}) => {
 
@@ -95,14 +96,15 @@ export const auth = {
                 } else {
 
                     // Save to current state
-                    const {id, email, fullname, username, permissions, about} = data.login;
+                    const {id, email, fullname, username, permissions, about, profilePicture} = data.login;
                     state.user = {
                         email,
                         id,
                         permissions,
                         username,
                         fullname,
-                        about
+                        about,
+                        profilePicture
                     };
 
                     return state.user;
@@ -140,20 +142,22 @@ export const auth = {
          * logged in user.
          *
          * @param state
+         * @param about
+         * @param profilePicture
          * @param email New E-Mail
          * @param fullname New Fullname
          * @param password New Password
          */
-        async updateProfileData({state}, {about, email, fullname, password}) {
+        async updateProfileData({state}, {about, profilePicture, email, fullname, password}) {
             return this.dispatch('graphql', {
                 query: {
                     operation: 'updateUser',
                     vars: {
-                        email, fullname, password, about,
+                        email, fullname, password, about, profilePicture,
                         id: state.user.id,
                         apikey: state.apikey
                     },
-                    fields: ['email', 'fullname', 'permissions', 'about']
+                    fields: ['email', 'fullname', 'permissions', 'about', 'profilePicture']
                 }
             }).then(({errors, data}) => {
 
@@ -163,9 +167,10 @@ export const auth = {
                 } else {
 
                     // Update changes in current state
-                    const {email, fullname, permissions, about} = data.updateUser;
+                    const {email, fullname, permissions, about, profilePicture} = data.updateUser;
                     state.user = {
                         ...state.user,
+                        profilePicture,
                         about,
                         email,
                         fullname,
