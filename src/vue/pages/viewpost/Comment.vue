@@ -113,7 +113,7 @@
 
             editComment() {
                 this.edit = true;
-                this.$refs.body.click();
+                requestAnimationFrame(() => this.$refs.body.focus());
             },
 
             cancelUpdateComment() {
@@ -150,10 +150,14 @@
             font-family: $font-family-article-stack;
 
             &.editable {
-                border: 1px solid rgba($palette-slate-gray, 0.05);
-                box-shadow: inset 0 1px 2px rgba(black, 0.025);
+                border: 1px solid rgba($palette-slate-gray, 0.075);
                 border-radius: 0.15em;
                 padding: 0.5em;
+
+                &:focus {
+                    box-shadow: 0 0 0 1px rgba($palette-cloud-blue, 0.75);
+                    border-color: rgba($palette-cloud-blue, 0.75);
+                }
             }
         }
 
