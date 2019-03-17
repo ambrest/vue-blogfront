@@ -111,14 +111,6 @@
         top: 0;
         z-index: 10;
         background: $palette-sweet-red;
-        opacity: 0;
-        transform: translateY(-100%) rotateX(45deg);
-        transition: all 0.3s;
-
-        &.visible {
-            opacity: 1;
-            transform: none;
-        }
     }
 
     .bar {
@@ -220,6 +212,17 @@
     }
 
     @include tablet {
+        .header {
+            opacity: 0;
+            transform: translateY(-100%) rotateX(45deg);
+            transition: all 0.3s;
+
+            &.visible {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
         .bar {
             width: 90vw;
         }

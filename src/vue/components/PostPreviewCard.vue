@@ -255,8 +255,8 @@
 
     @include mobile {
         .post-preview-card {
+            @include fixed-width(100%);
             position: relative;
-            @include fixed-width(95%);
             padding: 3.5em 0 3em;
             margin: 0;
 
