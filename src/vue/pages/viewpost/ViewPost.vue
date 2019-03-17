@@ -27,7 +27,7 @@
 
             <!-- Tags -->
             <div class="tags">
-                <span v-for="tag of post.tags">{{ tag }}</span>
+                <span v-for="tag of post.tags" @click="searchWithTag(tag)">{{ tag }}</span>
             </div>
         </div>
 
@@ -133,6 +133,10 @@
                 }).catch(() => {
                     this.$router.replace('/');
                 });
+            },
+
+            searchWithTag(tag) {
+                this.$router.push(`/search?query=${tag}`);
             }
         }
     };
@@ -177,6 +181,7 @@
             }
 
             > span {
+                position: relative;
                 font-size: 0.8em;
                 font-weight: 500;
                 background: rgba($palette-slate-gray, 0.07);
@@ -184,6 +189,29 @@
                 margin: 0 0.5em 0.5em 0;
                 border-radius: 0.15em;
                 padding: 0.55em 0.85em 0.5em;
+                cursor: pointer;
+                transition: all 0.3s;
+                overflow: hidden;
+                z-index: 1;
+
+                &::before {
+                    @include pseudo();
+                    @include position(0, 0, auto, 0);
+                    @include size(100%, 0);
+                    background: $palette-sweet-red;
+                    transition: all 0.3s;
+                    z-index: -1;
+                    opacity: 0;
+                }
+
+                &:hover {
+                    color: white;
+
+                    &::before {
+                        height: 100%;
+                        opacity: 1;
+                    }
+                }
             }
         }
 
