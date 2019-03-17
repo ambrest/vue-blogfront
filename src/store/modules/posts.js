@@ -218,7 +218,8 @@ export const posts = {
                         user {
                             id,
                             username,
-                            fullname                                 
+                            fullname,
+                            profilePicture                               
                         },
                         
                         comments {
@@ -273,7 +274,8 @@ export const posts = {
                         user {
                             id,
                             username,
-                            fullname                                 
+                            fullname,
+                            profilePicture
                         },
 
                         comments {
@@ -380,7 +382,8 @@ export const posts = {
                         user {
                             id,
                             username,
-                            fullname                                 
+                            fullname,
+                            profilePicture                            
                         },
 
                         comments {

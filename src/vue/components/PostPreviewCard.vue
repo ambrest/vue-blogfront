@@ -23,12 +23,21 @@
             <!-- Post header and general information -->
             <h2>{{ preparedPost.title }}</h2>
 
-            <div class="info">
-                <router-link :to="`/user/${preparedPost.user.id}`" class="name">By {{ preparedPost.user.fullname }}</router-link>
+            <div class="sub-area">
 
-                <p class="sub">
-                    {{ preparedPost.date.day }} {{ preparedPost.date.month }} {{ preparedPost.date.year }}
-                    • {{ preparedPost.body | HTMLToTimeToReadString }}</p>
+                <!-- Profile picture -->
+                <img v-if="post.user.profilePicture"
+                     :src="post.user.profilePicture"
+                     :alt="post.user.fullname">
+
+                <!-- General post info -->
+                <div class="info">
+                    <router-link :to="`/user/${preparedPost.user.id}`" class="name">By {{ preparedPost.user.fullname }}</router-link>
+
+                    <p class="sub">
+                        {{ preparedPost.date.day }} {{ preparedPost.date.month }} {{ preparedPost.date.year }}
+                        • {{ preparedPost.body | HTMLToTimeToReadString }}</p>
+                </div>
             </div>
 
             <!-- Preview -->
@@ -198,17 +207,27 @@
                 opacity: 0.8;
             }
 
-            .info {
-                @include font(500, 0.8em);
-                color: rgba(black, 0.3);
+            .sub-area {
+                @include flex(row, center);
 
-                a {
-                    color: rgba($palette-slate-gray, 0.8);
+                img {
+                    @include size(2.5em);
+                    border-radius: 0.15em;
+                    margin-right: 0.5em;
                 }
 
-                .sub {
-                    margin-top: 0.45em;
-                    font-size: 0.9em;
+                .info {
+                    @include font(500, 0.8em);
+                    color: rgba(black, 0.3);
+
+                    a {
+                        color: rgba($palette-slate-gray, 0.8);
+                    }
+
+                    .sub {
+                        margin-top: 0.45em;
+                        font-size: 0.9em;
+                    }
                 }
             }
 

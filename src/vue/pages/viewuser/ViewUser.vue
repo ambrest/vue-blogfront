@@ -6,6 +6,11 @@
             <span>This is <b>{{ user.fullname }}</b></span>
         </div>
 
+        <!-- Profile picture -->
+        <img v-if="user.profilePicture"
+             :src="user.profilePicture"
+             :alt="user.fullname">
+
         <div class="sub-header">
             <p>{{ user.about }}</p>
             <div>
@@ -96,10 +101,17 @@
 
 <style lang="scss" scoped>
 
+
+    img {
+        @include size(6em);
+        border-radius: 100%;
+        margin: -0.5em 0 1.5em;
+    }
+
     .sub-header {
         @include flex(column, center, center);
         @include font(400, 0.9em);
-        margin: -1.5em 0 1.5em;
+        margin: 0 0 1.5em;
         color: $palette-slate-gray;
         flex-shrink: 0;
         text-align: center;
