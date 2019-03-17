@@ -34,7 +34,7 @@
 <script>
 
     // UI Components
-    import TextInputField from '../../ui/TextInputField';
+    import TextInputField     from '../../ui/TextInputField';
 
     // Vuex stuff
     import {mapState} from 'vuex';
@@ -76,7 +76,7 @@
                 }
 
                 // Fire auth
-                this.$store.dispatch('auth/updateCredentials', {
+                this.$store.dispatch('auth/updateProfileData', {
                     fullname: inFullName.value || null,
                     email: inEmail.value || null,
                     password: inPassword.value || null
@@ -99,12 +99,12 @@
     .settings {
 
         .error {
-            margin-top: 2em;
+            margin-top: 1em;
         }
 
         > button {
             width: 100%;
-            margin-top: 0.25em;
+            margin-top: 1.5em;
         }
 
         .text-input-field {

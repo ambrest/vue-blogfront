@@ -16,7 +16,7 @@
                   @keyup.enter="$emit('submit')"></textarea>
 
         <!-- Colored border to show focus -->
-        <span :class="{border: 1, active: focused}"></span>
+        <span v-if="!noBorder" :class="{border: 1, active: focused}"></span>
 
     </div>
 </template>
@@ -26,6 +26,7 @@
     export default {
         props: {
             placeholder: {type: String, required: true},
+            noBorder: {type: Boolean, default: false},
             password: {type: Boolean, default: false},
             autofocus: {type: Boolean, default: false}
         },

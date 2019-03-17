@@ -12,6 +12,7 @@ import PasswordReset from '../vue/pages/forgotpassword/ForgotPassword';
 import ViewPost      from '../vue/pages/viewpost/ViewPost';
 import ViewUser      from '../vue/pages/viewuser/ViewUser';
 import Search        from '../vue/pages/search/Search';
+import Me            from '../vue/pages/me/Me';
 
 /**
  * Responsible for trying to authenticate the user via a existing api-key.
@@ -153,6 +154,18 @@ export default [
     {
         path: '/search',
         component: Search
+    },
+    {
+        path: '/me',
+        component: Me,
+        beforeEnter(to, from, next) {
+            setTitle('Me');
+
+            /**
+             * Check if user is logged in.
+             */
+            authenticate().then(() => next()).catch(() => next('/login'));
+        }
     },
 
     // 404 catcher

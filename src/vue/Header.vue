@@ -1,5 +1,5 @@
 <template>
-    <div :class="{header: 1, visible: $store.state.page.lastScrollDirection === 'up'}">
+    <div :class="{header: 1, visible: $store.state.page.lastScrollDirection !== 'down'}">
 
         <div class="bar">
 
@@ -26,9 +26,11 @@
 
                 <!-- Visible as not-logged-in user -->
                 <router-link to="/">Home</router-link>
+
                 <router-link v-if="!user"
                              to="/login">Login
                 </router-link>
+
                 <router-link v-if="!user"
                              to="/register">Register
                 </router-link>
@@ -47,10 +49,14 @@
                 <router-link v-if="user"
                              to="/settings">Settings
                 </router-link>
+
                 <router-link v-if="user"
                              to="/login"
                              @click.native="logout">Logout
                 </router-link>
+
+                <router-link v-if="user"
+                             to="me">Profile</router-link>
 
             </div>
         </div>

@@ -56,7 +56,6 @@
     textarea,
     input,
     [contenteditable] {
-        font-family: $font-family;
         outline: none;
         border: none;
         background: transparent;

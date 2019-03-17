@@ -18,7 +18,7 @@ export const users = {
                 query: {
                     operation: 'getAllUsers',
                     vars: {apikey},
-                    fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email']
+                    fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email', 'about']
                 }
             }).then(({errors, data: {getAllUsers}}) => {
 
@@ -50,7 +50,7 @@ export const users = {
                 query: {
                     operation: 'user',
                     vars: {id, apikey},
-                    fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email']
+                    fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email', 'about']
                 }
             }).then(({errors, data: {user}}) => {
 
