@@ -2,10 +2,10 @@
     <div id="app">
 
         <!-- Loading screen -->
-        <loading-screen class="loader"/>
+        <loading-screen/>
 
         <!-- Header -->
-        <page-header class="header"/>
+        <page-header class="page-header"/>
 
         <!-- Router -->
         <router-view :class="{router: 1, inactive: $store.state.requestsActive}" :key="$route.fullPath"/>
@@ -122,7 +122,7 @@
         }
     }
 
-    .header {
+    .page-header {
         width: 100%;
     }
 
@@ -230,8 +230,8 @@
 
             &.divided .tab,
             &:not(.small):not(.divided) {
-                padding-left: 0.75em;
-                padding-right: 0.75em;
+                padding-left: 1em;
+                padding-right: 1em;
 
                 > h1 {
                     margin-bottom: 1.75em;

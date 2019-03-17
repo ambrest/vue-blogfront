@@ -5,12 +5,4 @@
     margin: 0.25em 0;
     width: 100%;
     text-align: left;
-
-    &:not(:empty){
-        margin-bottom: 0.75em;
-    }
-
-    &:empty {
-        display: none;
-    }
 }

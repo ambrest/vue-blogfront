@@ -1,5 +1,5 @@
 <template>
-    <div class="settings small">
+    <div class="me">
 
         <h1>{{ auth.user.fullname }} aka. {{ auth.user.username }}</h1>
 
@@ -60,11 +60,8 @@
 
 <style lang="scss" scoped>
 
-    .settings {
-
-        .error {
-            margin-top: 2em;
-        }
+    .me {
+        @include flex(column);
 
         > button {
             width: 100%;

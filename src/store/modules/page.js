@@ -5,7 +5,7 @@ export const page = {
     namespaced: true,
 
     state: {
-        lastScrollDirection: 'down'
+        lastScrollDirection: null
     },
 
     mutations: {

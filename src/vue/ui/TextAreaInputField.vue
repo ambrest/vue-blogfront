@@ -39,8 +39,8 @@
         },
 
         updated() {
-            this.$refs.input.style.height = 'auto';
-            this.$refs.input.style.height = `${this.$refs.input.scrollHeight}px`;
+            this.$refs.input.style.height = '100%';
+            this.$refs.input.style.height = `${this.$refs.input.scrollHeight + 5}px`;
         },
 
         methods: {
@@ -108,7 +108,7 @@
         z-index: 2;
         flex-shrink: 1;
         color: $palette-slate-gray;
-        line-height: 1.4em;
+        line-height: 1.5em;
 
         &::placeholder {
             color: $palette-decent-blue;

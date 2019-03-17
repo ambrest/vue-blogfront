@@ -7,8 +7,11 @@
         </div>
 
         <div class="sub-header">
-            <span>aka. <b>{{ user.username }}</b></span>
-            <span v-if="user.email"> / <b>{{ user.email }}</b> </span>
+            <p>{{ user.about }}</p>
+            <div>
+                <span>aka. <b>{{ user.username }}</b></span>
+                <span v-if="user.email"> / <b>{{ user.email }}</b> </span>
+            </div>
         </div>
 
         <!-- Posts listing -->
@@ -18,7 +21,8 @@
             <post-preview-card v-for="post of posts" :post="post"/>
 
             <!-- Placeholder -->
-            <div v-if="!posts.length" class="placeholder">{{ $store.state.requestsActive ? 'Loading...' : errorMsg || 'This user has nothing posted yet...' }}</div>
+            <div v-if="!posts.length" class="placeholder">{{ $store.state.requestsActive ? 'Loading...' : errorMsg || 'This user has nothing posted yet...' }}
+            </div>
         </div>
 
     </div>
@@ -93,10 +97,20 @@
 <style lang="scss" scoped>
 
     .sub-header {
+        @include flex(column, center, center);
         @include font(400, 0.9em);
         margin: -1.5em 0 1.5em;
         color: $palette-slate-gray;
         flex-shrink: 0;
+        text-align: center;
+
+        > p {
+            font-family: $font-family-article-stack;
+            margin-bottom: 0.75em;
+            max-width: 60%;
+            min-width: 25vw;
+            line-height: 1.35em;
+        }
     }
 
     .posts {
@@ -109,6 +123,10 @@
     @include tablet {
         .posts {
             width: 100%;
+        }
+
+        .sub-header > p {
+            min-width: 100%;
         }
     }
 
