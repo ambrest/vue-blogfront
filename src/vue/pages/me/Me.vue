@@ -7,7 +7,8 @@
             <img v-if="auth.user.profilePicture"
                  :src="`data:image/png;base64,${auth.user.profilePicture}`"
                  :alt="auth.user.fullname">
-            <i class="fas fa-fw fa-pencil-alt"></i>
+
+            <profile-picture-placeholder v-if="!auth.user.profilePicture"/>
         </div>
 
         <!-- Edit about text -->
@@ -25,14 +26,15 @@
 <script>
 
     // UI Components
-    import TextInputField     from '../../ui/TextInputField';
-    import TextAreaInputField from '../../ui/TextAreaInputField';
+    import TextInputField            from '../../ui/TextInputField';
+    import TextAreaInputField        from '../../ui/TextAreaInputField';
+    import ProfilePicturePlaceholder from '../../ui/ProfilePicturePlaceholder';
 
     // Vuex stuff
     import {mapState} from 'vuex';
 
     export default {
-        components: {TextInputField, TextAreaInputField},
+        components: {TextInputField, TextAreaInputField, ProfilePicturePlaceholder},
 
         data() {
             return {
@@ -127,41 +129,12 @@
                 }
 
                 &.empty {
-                    &::before,
-                    &::after {
+                    .profile-picture-placeholder {
                         opacity: 0;
                     }
                 }
 
                 i {
-                    opacity: 1;
-                }
-            }
-
-            &.empty {
-                &::before,
-                &::after {
-                    @include pseudo();
-                    @include position(0, 0, 0, 0);
-                    border: 2px solid $palette-snow-white;
-                    border-radius: 100%;
-                    margin: auto;
-                    opacity: 0;
-                    transition: all 0.3s;
-                }
-
-                &::after {
-                    @include size(1em);
-                    bottom: 20%;
-                    opacity: 1;
-                }
-
-                &::before {
-                    @include size(1.8em);
-                    bottom: -42%;
-                    border-bottom-color: transparent;
-                    border-right-color: transparent;
-                    transform: rotate(45deg);
                     opacity: 1;
                 }
             }

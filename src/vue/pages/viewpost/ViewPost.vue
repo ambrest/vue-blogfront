@@ -1,5 +1,5 @@
 <template>
-    <div v-if="post" class="post divided">
+    <div v-if="post" class="view-post divided">
 
         <flow-bar :post="post"/>
 
@@ -145,12 +145,16 @@
 
 <style lang="scss" scoped>
 
+    .view-post {
+        width: 100%;
+    }
+
     .tab {
         width: 100%;
         margin-bottom: 3em;
     }
 
-    .post {
+    .view-post {
         position: relative;
 
         .by {
@@ -236,7 +240,7 @@
     }
 
     @include tablet {
-        .post {
+        .view-post {
             font-size: 0.9em;
 
             .by {

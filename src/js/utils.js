@@ -120,6 +120,8 @@ export function selectFile(cb, types = []) {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', types.map(v => v[0] === '.' ? v : '.' + v).join(','));
+    input.style.display = 'none';
+
     document.body.appendChild(input);
 
     const args = on(input, 'change', e => {

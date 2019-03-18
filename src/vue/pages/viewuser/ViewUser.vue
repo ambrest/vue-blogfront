@@ -11,6 +11,9 @@
              :src="`data:image/png;base64,${user.profilePicture}`"
              :alt="user.fullname">
 
+        <profile-picture-placeholder v-else/>
+
+
         <div class="sub-header">
             <p>{{ user.about }}</p>
             <div>
@@ -38,8 +41,11 @@
     // Components
     import PostPreviewCard from '../../components/PostPreviewCard';
 
+    // UI Components
+    import ProfilePicturePlaceholder from '../../ui/ProfilePicturePlaceholder';
+
     export default {
-        components: {PostPreviewCard},
+        components: {PostPreviewCard, ProfilePicturePlaceholder},
 
         data() {
             return {
@@ -105,10 +111,16 @@
         width: 100%;
     }
 
-    img {
-        @include size(6em);
+    img,
+    .profile-picture-placeholder {
+        @include size(5em);
         border-radius: 100%;
         margin: -0.5em 0 1.5em;
+        background: $palette-slate-gray;
+
+        &img {
+            background: transparent;
+        }
     }
 
     .sub-header {
