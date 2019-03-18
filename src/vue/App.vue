@@ -224,6 +224,8 @@
 
     @include mobile {
         .router {
+            margin-top: 2.5vh;
+
             &.divided .tab {
                 width: 100vw;
             }

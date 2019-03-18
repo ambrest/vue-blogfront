@@ -13,11 +13,12 @@
         <!-- Edit about text -->
         <text-area-input-field ref="inAbout"
                                :no-border="true"
-                               placeholder="Enter a short bio..."/>
+                               placeholder="Enter a short bio..."
+                               @update="updateRequired = true"/>
 
         <p class="error">{{ errorMsg }}</p>
 
-        <button class="button-primary" @click="submit">Update</button>
+        <button :class="{'button-primary': 1, visible: updateRequired}" @click="submit">Update</button>
     </div>
 </template>
 
@@ -35,7 +36,8 @@
 
         data() {
             return {
-                errorMsg: ''
+                errorMsg: '',
+                updateRequired: false
             };
         },
 
@@ -56,6 +58,8 @@
                 // Fire auth
                 this.$store.dispatch('auth/updateProfileData', {
                     about: inAbout.value || null
+                }).then(() => {
+                    inAbout.setContent(this.auth.user.about);
                 }).catch(reason => {
                     this.errorMsg = reason;
                 });
@@ -92,7 +96,6 @@
 
         > button {
             width: 100%;
-            margin-top: 0.25em;
         }
 
         .profile-picture {
@@ -101,8 +104,7 @@
             position: relative;
             margin: 0.5em 0;
             border-radius: 100%;
-            background: rgba($palette-slate-gray, 0.1);
-            border: 1px solid rgba($palette-slate-gray, 0.05);
+            background: rgba($palette-sweet-red, 0.9);
             overflow: hidden;
             cursor: pointer;
 
@@ -119,10 +121,16 @@
                 transition: all 0.3s;
             }
 
-            &:not(.empty):hover {
-
-                img {
+            &:hover {
+                &:not(.empty) img {
                     filter: grayscale(1) brightness(0.5);
+                }
+
+                &.empty {
+                    &::before,
+                    &::after {
+                        opacity: 0;
+                    }
                 }
 
                 i {
@@ -135,7 +143,7 @@
                 &::after {
                     @include pseudo();
                     @include position(0, 0, 0, 0);
-                    border: 2px solid $palette-slate-gray;
+                    border: 2px solid $palette-snow-white;
                     border-radius: 100%;
                     margin: auto;
                     opacity: 0;
@@ -161,6 +169,7 @@
 
         .text-area-input-field {
             font-family: $font-family-article-stack;
+            margin-top: 1.25em;
         }
     }
 

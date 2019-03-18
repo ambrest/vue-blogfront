@@ -103,7 +103,7 @@
     textarea {
         @include font(400, 0.85em);
         resize: none;
-        padding: 0.75em 0;
+        padding: 0.25em 0 0.75em;
         width: 100%;
         z-index: 2;
         flex-shrink: 1;

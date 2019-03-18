@@ -27,7 +27,7 @@
 
                 <!-- Profile picture -->
                 <img v-if="post.user.profilePicture"
-                     :src="post.user.profilePicture"
+                     :src="`data:img/png;base64,${post.user.profilePicture}`"
                      :alt="post.user.fullname">
 
                 <!-- General post info -->
