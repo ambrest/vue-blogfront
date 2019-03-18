@@ -42,7 +42,7 @@
 
                 <router-link v-if="user"
                              to="/login"
-                             @click.native="logout">Login </router-link>
+                             @click.native="logout">Logout</router-link>
 
                 <router-link v-if="user"
                              to="me">Me </router-link>

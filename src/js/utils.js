@@ -110,3 +110,25 @@ export function setMetaTags(tags) {
         });
     }
 }
+
+/**
+ * Opens a file selection dialog.
+ * @param cb
+ * @param types
+ */
+export function selectFile(cb, types = []) {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', types.map(v => v[0] === '.' ? v : '.' + v).join(','));
+    document.body.appendChild(input);
+
+    const args = on(input, 'change', e => {
+        cb(input.files[0], e);
+
+        // Unbind listener, remove from DOM
+        off(...args);
+        document.body.removeChild(input);
+    });
+
+    input.click();
+}
