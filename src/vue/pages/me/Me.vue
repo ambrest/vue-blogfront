@@ -5,7 +5,7 @@
 
         <div :class="{'profile-picture': 1, empty: !auth.user.profilePicture}" @click="changePicture">
             <img v-if="auth.user.profilePicture"
-                 :src="auth.user.profilePicture"
+                 :src="`data:image/png;base64,${auth.user.profilePicture}`"
                  :alt="auth.user.fullname">
             <i class="fas fa-fw fa-pencil-alt"></i>
         </div>

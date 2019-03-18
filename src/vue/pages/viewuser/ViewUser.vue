@@ -8,7 +8,7 @@
 
         <!-- Profile picture -->
         <img v-if="user.profilePicture"
-             :src="user.profilePicture"
+             :src="`data:image/png;base64,${user.profilePicture}`"
              :alt="user.fullname">
 
         <div class="sub-header">
@@ -101,6 +101,9 @@
 
 <style lang="scss" scoped>
 
+    .view-user {
+        width: 100%;
+    }
 
     img {
         @include size(6em);
