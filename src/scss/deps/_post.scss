@@ -87,7 +87,10 @@
         cursor: pointer;
     }
 
-    > p {
+    > p,
+    h1,
+    h2,
+    h3 {
         margin-top: 0.75em;
     }
 

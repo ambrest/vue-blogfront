@@ -213,6 +213,7 @@
 
             .sub-area {
                 @include flex(row, center);
+                margin-bottom: 0em;
 
                 .profile-pic {
                     @include flex(row, center, center);
@@ -268,6 +269,10 @@
 
                 /deep/ > * {
                     text-align: left !important;
+
+                    &:empty {
+                        display: none;
+                    }
                 }
             }
 
