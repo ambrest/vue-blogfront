@@ -26,11 +26,7 @@
         <div class="posts">
 
             <!-- List -->
-            <post-preview-card v-for="post of posts" :post="post"/>
-
-            <!-- Placeholder -->
-            <div v-if="!posts.length" class="placeholder">{{ $store.state.requestsActive ? 'Loading...' : errorMsg || 'This user has nothing posted yet...' }}
-            </div>
+            <post-preview-card-list :fetch-next="loadNext" default-error-message="This user has nothing posted yet..."/>
         </div>
 
     </div>
@@ -39,66 +35,50 @@
 <script>
 
     // Components
-    import PostPreviewCard from '../../components/PostPreviewCard';
+    import PostPreviewCardList from '../../components/PostPreviewCardList';
 
     // UI Components
     import ProfilePicturePlaceholder from '../../ui/ProfilePicturePlaceholder';
 
     export default {
-        components: {PostPreviewCard, ProfilePicturePlaceholder},
+        components: {PostPreviewCardList, ProfilePicturePlaceholder},
 
         data() {
             return {
-                errorMsg: '',
-                posts: [],
-                offset: 0,
                 user: {}
             };
         },
 
-        beforeMount() {
+        created() {
             const {id} = this.$route.params;
 
             // Find user
-            this.$store.dispatch('users/findUserById', {id}).then(user => {
-                this.user = user;
-                this.loadNext();
-            }).catch(() => {
+            this.user = this.$store.dispatch('users/findUserById', {id}).catch(() => {
                 this.$router.replace('/');
             });
-
-            this.utils.on(window, 'scroll', this.onScroll);
-        },
-
-        destroyed() {
-            this.utils.off(window, 'scroll', this.onScroll);
         },
 
         methods: {
 
-            loadNext() {
+            async loadNext(offset) {
+
+                if (this.user instanceof Promise) {
+                    this.user = await Promise.race([this.user]);
+                }
 
                 // Fetch next "page"
-                this.$store.dispatch('posts/getPostsFromUser', {
+                return this.$store.dispatch('posts/getPostsFromUser', {
                     id: this.user.id,
-                    offset: this.offset
+                    offset
                 }).then(({posts, newOffset}) => {
-                    this.offset = newOffset;
-                    this.posts.push(...posts.map(v => {
-                        v.user = this.user;
-                        return v;
-                    }));
-                }).catch(error => {
-                    this.errorMsg = error;
+                    return {
+                        newOffset,
+                        posts: posts.map(v => {
+                            v.user = this.user;
+                            return v;
+                        })
+                    };
                 });
-            },
-
-            onScroll() {
-
-                // Check if the user has reached to bottom of the page
-                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                    this.loadNext();
-                }
             }
         }
     };
@@ -145,6 +125,10 @@
         flex-shrink: 0;
         margin-top: 1em;
         width: 80%;
+
+        .tab-buttons {
+            margin-bottom: 2.5em;
+        }
     }
 
     @include tablet {

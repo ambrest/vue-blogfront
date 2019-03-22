@@ -8,12 +8,7 @@
 
         <!-- Posts listing -->
         <div class="posts">
-
-            <!-- List -->
-            <post-preview-card v-for="post of posts" :post="post"/>
-
-            <!-- Placeholder -->
-            <div v-if="!posts.length" class="placeholder">{{ $store.state.requestsActive ? 'Loading...' : errorMsg || 'Nothing found' }}</div>
+            <post-preview-card-list :fetch-next="loadNext" default-error-message="Nothing found"/>
         </div>
 
     </div>
@@ -22,50 +17,24 @@
 <script>
 
     // Components
-    import PostPreviewCard from '../../components/PostPreviewCard';
+    import PostPreviewCardList from '../../components/PostPreviewCardList';
 
     export default {
-        components: {PostPreviewCard},
+        components: {PostPreviewCardList},
 
         data() {
-            return {
-                errorMsg: '',
-                posts: [],
-                offset: 0
-            };
-        },
-
-        beforeMount() {
-            this.loadNext();
-            this.utils.on(window, 'scroll', this.onScroll);
-        },
-
-        destroyed() {
-            this.utils.off(window, 'scroll', this.onScroll);
+            return {};
         },
 
         methods: {
 
-            loadNext() {
+            async loadNext(offset) {
 
                 // Fetch next "page"
-                this.$store.dispatch('posts/searchPosts', {
+                return this.$store.dispatch('posts/searchPosts', {
                     query: this.$route.query.query,
-                    offset: this.offset
-                }).then(({posts, newOffset}) => {
-                    this.offset = newOffset;
-                    this.posts.push(...posts);
-                }).catch(error => {
-                    this.errorMsg = error;
+                    offset
                 });
-            },
-
-            onScroll() {
-
-                // Check if the user has reached to bottom of the page
-                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                    this.loadNext();
-                }
             }
         }
     };
