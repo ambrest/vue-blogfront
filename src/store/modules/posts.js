@@ -276,17 +276,6 @@ export const posts = {
                             username,
                             fullname,
                             profilePicture
-                        },
-
-                        comments {
-                            id,
-                            body,
-                            timestamp,
-                            user {
-                                id,
-                                fullname,
-                                username
-                            }
                         }
                     `
                 }
@@ -326,18 +315,7 @@ export const posts = {
                         tags,
                         totalClaps,
                         myClaps,
-                        timestamp,
-                        
-                        comments {
-                            id,
-                            body,
-                            timestamp,
-                            user {
-                                id,
-                                fullname,
-                                username
-                            }
-                        }
+                        timestamp
                     `
                 }
             }).then(({errors, data: {getPostsBy}}) => {
