@@ -30,7 +30,8 @@
             return {
                 errorMsg: '',
                 posts: [],
-                offset: 0
+                offset: 0,
+                endReached: false
             };
         },
 
@@ -48,13 +49,18 @@
             onScroll() {
 
                 // Check if the user has reached to bottom of the page
-                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                if (!this.endReached && (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                     this.load();
                 }
             },
 
             load() {
                 this.fetchNext(this.offset).then(({posts, newOffset}) => {
+
+                    if (this.offset === newOffset) {
+                        this.endReached = true;
+                    }
+
                     this.offset = newOffset;
                     this.posts.push(...posts);
                 }).catch(err => {
@@ -64,6 +70,7 @@
 
             setOffset(newOffset) {
                 this.offset = newOffset;
+                this.load();
             }
         }
     };
