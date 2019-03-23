@@ -21,7 +21,7 @@ export const posts = {
 
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'post',
+                    op: 'post',
                     vars: {apikey, title, body, tags},
                     types: {tags: 'String'},
                     fields: ['id', 'timestamp']
@@ -51,7 +51,7 @@ export const posts = {
 
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'updatePost',
+                    op: 'updatePost',
                     vars: {apikey, id, title, body, tags},
                     types: {tags: 'String'},
                     fields: ['id']
@@ -78,7 +78,7 @@ export const posts = {
             return this.dispatch('graphql', {
                 silent: true,
                 query: {
-                    operation: 'incrementClaps',
+                    op: 'incrementClaps',
                     vars: {apikey, postId, newClaps},
                     fields: ['myClaps', 'totalClaps']
                 }
@@ -104,7 +104,7 @@ export const posts = {
 
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'removePost',
+                    op: 'removePost',
                     vars: {apikey, id},
                     fields: ['id']
                 }
@@ -129,7 +129,7 @@ export const posts = {
 
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'comment',
+                    op: 'comment',
                     vars: {postid, body, apikey},
                     fields: ['id']
                 }
@@ -155,7 +155,7 @@ export const posts = {
 
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'updateComment',
+                    op: 'updateComment',
                     vars: {postid, id, body, apikey},
                     fields: ['id']
                 }
@@ -178,7 +178,7 @@ export const posts = {
 
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'removeComment',
+                    op: 'removeComment',
                     vars: {apikey, postid, id},
                     fields: ['id']
                 }
@@ -204,35 +204,16 @@ export const posts = {
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
-                    operation: 'getPost',
+                    op: 'getPost',
                     vars: {apikey, id},
-                    fields: `
-                        id,
-                        title,
-                        body,
-                        tags,
-                        totalClaps,
-                        myClaps,
-                        timestamp,
-                        
-                        user {
-                            id,
-                            username,
-                            fullname,
-                            profilePicture                               
-                        },
-                        
-                        comments {
-                            id,
-                            body,
-                            timestamp,
-                            user {
-                                id,
-                                fullname,
-                                username
-                            }
+                    fields: {
+                        $: ['id', 'title', 'body', 'tags', 'totalClaps', 'myClaps', 'timestamp'],
+                        user: ['id', 'username', 'fullname', 'profilePicture'],
+                        comments: {
+                            $: ['id', 'body', 'timestamp'],
+                            user: ['id', 'fullname', 'username']
                         }
-                    `
+                    }
                 }
             }).then(({errors, data: {getPost}}) => {
 
@@ -256,28 +237,16 @@ export const posts = {
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
-                    operation: 'getPostCountRange',
+                    op: 'getPostCountRange',
                     vars: {
                         apikey,
                         start: offset,
                         end: offset + config.postsPreloadAmount
                     },
-                    fields: `
-                        id,
-                        title,
-                        body,
-                        tags,
-                        totalClaps,
-                        myClaps,
-                        timestamp,
-
-                        user {
-                            id,
-                            username,
-                            fullname,
-                            profilePicture
-                        }
-                    `
+                    fields: {
+                        $: ['id', 'title', 'body', 'tags', 'totalClaps', 'myClaps', 'timestamp'],
+                        user: ['id', 'username', 'fullname', 'profilePicture']
+                    }
                 }
             }).then(({errors, data: {getPostCountRange}}) => {
                 if (errors && errors.length) {
@@ -301,22 +270,14 @@ export const posts = {
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
-                    operation: 'getPostsBy',
+                    op: 'getPostsBy',
                     vars: {
                         apikey,
                         userid,
                         start: offset,
                         end: offset + config.postsPreloadAmount
                     },
-                    fields: `
-                        id,
-                        title,
-                        body,
-                        tags,
-                        totalClaps,
-                        myClaps,
-                        timestamp
-                    `
+                    fields: ['id', 'title', 'body', 'tags', 'totalClaps', 'myClaps', 'timestamp']
                 }
             }).then(({errors, data: {getPostsBy}}) => {
                 if (errors && errors.length) {
@@ -334,29 +295,17 @@ export const posts = {
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
-                    operation: 'getPostsWhereClapped',
+                    op: 'getPostsWhereClapped',
                     vars: {
                         apikey,
                         userid,
                         start: offset,
                         end: offset + config.postsPreloadAmount
                     },
-                    fields: `
-                        id,
-                        title,
-                        body,
-                        tags,
-                        totalClaps,
-                        myClaps,
-                        timestamp,
-                        
-                        user {
-                            id,
-                            username,
-                            fullname,
-                            profilePicture                            
-                        }
-                    `
+                    fields: {
+                        $: ['id', 'title', 'body', 'tags', 'totalClaps', 'myClaps', 'timestamp'],
+                        user: ['id', 'username', 'fullname', 'profilePicture']
+                    }
                 }
             }).then(({errors, data: {getPostsWhereClapped}}) => {
                 if (errors && errors.length) {
@@ -381,40 +330,21 @@ export const posts = {
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
-                    operation: 'searchPosts',
+                    op: 'searchPosts',
                     vars: {
                         apikey,
                         query,
                         start: offset,
                         end: offset + config.postsPreloadAmount
                     },
-                    fields: `
-                        id,
-                        title,
-                        body,
-                        tags,
-                        totalClaps,
-                        myClaps,
-                        timestamp,
-
-                        user {
-                            id,
-                            username,
-                            fullname,
-                            profilePicture                            
-                        },
-
-                        comments {
-                            id,
-                            body,
-                            timestamp,
-                            user {
-                                id,
-                                fullname,
-                                username
-                            }
+                    fields: {
+                        $: ['id', 'title', 'body', 'tags', 'totalClaps', 'myClaps', 'timestamp'],
+                        user: ['id', 'username', 'fullname', 'profilePicture'],
+                        comments: {
+                            $: ['id', 'body', 'timestamp'],
+                            user: ['id', 'fullname', 'username']
                         }
-                    `
+                    }
                 }
             }).then(({errors, data: {searchPosts}}) => {
                 if (errors && errors.length) {

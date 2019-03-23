@@ -1,20 +1,20 @@
 /**
  * Generates a graphql query object
  * @param type Query type.
- * @param operation Operation / function name.
+ * @param op Operation / function name.
  * @param vars Optional variables.
  * @param types Types map if var contains a array which is empty and the type cannot be examined
  * @param fields Array of fields.
  * @returns {{variables, query: string}}
  */
-export default function ({type = 'query', operation, vars = {}, types = {}, fields = []}) {
+export default function ({type = 'query', op, vars = {}, types = {}, fields = []}) {
     const noVars = !!Object.keys(vars).length;
 
     return {
         query: `
-            ${type} ${noVars ? `${cfl(operation)}(${queryTypeList(vars, types)})` : ''} {
-                ${operation}${noVars ? `(${queryVarList(vars)})` : ''} 
-                ${fields.length ? `{${Array.isArray(fields) ? fields.join(', ') : fields}}` : ''}
+            ${type} ${noVars ? `${cfl(op)}(${queryTypeList(vars, types)})` : ''} {
+                ${op}${noVars ? `(${queryVarList(vars)})` : ''} 
+                ${fields ? `{${toGraphQLFieldString(fields)}}` : ''}
             }
         `,
         variables: vars
@@ -22,27 +22,31 @@ export default function ({type = 'query', operation, vars = {}, types = {}, fiel
 }
 
 function queryTypeList(data, types) {
-    let typeList = '';
+    const typeList = [];
 
     for (const [k, v] of Object.entries(data)) {
         if (v !== null && v !== undefined) {
-            typeList += `,$${k}:${Array.isArray(v) ? `[${cfl(v.length ? getType(v[0]) : types[k])}!]` : cfl(getType(v))}!`;
+            if (Array.isArray(v)) {
+                typeList.push(`$${k}:[${cfl(v.length ? getType(v[0]) : types[k])}!]!`);
+            } else {
+                typeList.push(`$${k}:${cfl(getType(v))}!`);
+            }
         }
     }
 
-    return typeList.substr(1);
+    return typeList.join(',');
 }
 
 function queryVarList(data) {
-    let varList = '';
+    const varList = [];
 
     for (const [k, v] of Object.entries(data)) {
         if (v !== null && v !== undefined) {
-            varList += `,${k}:$${k}`;
+            varList.push(`${k}:$${k}`);
         }
     }
 
-    return varList.substr(1);
+    return varList.join(',');
 }
 
 function cfl(str) {
@@ -57,5 +61,29 @@ function getType(v) {
             return 'Int';
         case 'boolean':
             return 'Boolean';
+    }
+
+    /* eslint-disable no-console */
+    console.warn(`[GQB] getType: Unknown type - `, v);
+}
+
+function toGraphQLFieldString(q) {
+    if (typeof q === 'string') {
+        return q;
+    } else if (Array.isArray(q)) {
+        return q.join(',');
+    } else if (typeof q === 'object') {
+        const str = (q.$ || []);
+
+        delete q.$;
+        for (const group in q) {
+            str.push(`${group}{${toGraphQLFieldString(q[group])}}`);
+        }
+
+        return str.join(',');
+    } else {
+
+        /* eslint-disable no-console */
+        console.warn(`[GQB] toGraphQLFieldString: Unknown type - `, q);
     }
 }

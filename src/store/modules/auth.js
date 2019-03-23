@@ -37,7 +37,7 @@ export const auth = {
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
-                    operation: 'login',
+                    op: 'login',
                     vars: {username, password},
                     fields: ['apikey', 'email', 'permissions', 'id', 'fullname', 'about', 'profilePicture']
                 }
@@ -81,7 +81,7 @@ export const auth = {
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
-                    operation: 'login',
+                    op: 'login',
                     vars: {apikey},
                     fields: ['email', 'permissions', 'id', 'fullname', 'username', 'about', 'profilePicture']
                 }
@@ -124,7 +124,7 @@ export const auth = {
         async register(_, {email, username, fullname, password}) {
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'register',
+                    op: 'register',
                     vars: {email, username, fullname, password},
                     fields: ['id', 'permissions']
                 }
@@ -151,7 +151,7 @@ export const auth = {
         async updateProfileData({state}, {about, profilePicture, email, fullname, password}) {
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'updateUser',
+                    op: 'updateUser',
                     vars: {
                         email, fullname, password, about, profilePicture,
                         id: state.user.id,
@@ -190,7 +190,7 @@ export const auth = {
         async resetPassword(_, {email}) {
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'recoverPassword',
+                    op: 'recoverPassword',
                     vars: {email}
                 }
             }).then(({errors}) => {

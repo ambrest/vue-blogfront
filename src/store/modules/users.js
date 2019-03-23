@@ -16,7 +16,7 @@ export const users = {
             return this.dispatch('graphql', {
                 cache: true,
                 query: {
-                    operation: 'getAllUsers',
+                    op: 'getAllUsers',
                     vars: {apikey},
                     fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email', 'about', 'profilePicture']
                 }
@@ -48,7 +48,7 @@ export const users = {
 
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'user',
+                    op: 'user',
                     vars: {id, apikey},
                     fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email', 'about', 'profilePicture']
                 }
@@ -87,7 +87,7 @@ export const users = {
 
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'updateUser',
+                    op: 'updateUser',
                     vars: {
                         apikey, id,
                         permissions: editArray(type, [...user.permissions], permission)
@@ -125,7 +125,7 @@ export const users = {
 
             return this.dispatch('graphql', {
                 query: {
-                    operation: 'updateUser',
+                    op: 'updateUser',
                     vars: {apikey, deactivated, id},
                     fields: ['id']
                 }
