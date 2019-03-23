@@ -25,8 +25,15 @@
         <!-- Posts listing -->
         <div class="posts">
 
+            <tab-buttons :labels="['His writings', 'Where he clapped']" @select="selectTab"/>
+
             <!-- List -->
-            <post-preview-card-list :fetch-next="loadNext" default-error-message="This user has nothing posted yet..."/>
+            <post-preview-card-list v-show="tab === 0"
+                                    :fetch-next="loadNextByOffset"
+                                    default-error-message="This user has nothing posted yet..."/>
+            <post-preview-card-list v-show="tab === 1"
+                                    :fetch-next="loadNextByClapps"
+                                    default-error-message="User hasn't clapped so far"/>
         </div>
 
     </div>
@@ -39,13 +46,15 @@
 
     // UI Components
     import ProfilePicturePlaceholder from '../../ui/ProfilePicturePlaceholder';
+    import TabButtons                from '../../ui/TabButtons';
 
     export default {
-        components: {PostPreviewCardList, ProfilePicturePlaceholder},
+        components: {ProfilePicturePlaceholder, PostPreviewCardList, TabButtons},
 
         data() {
             return {
-                user: {}
+                user: {},
+                tab: 0
             };
         },
 
@@ -60,15 +69,20 @@
 
         methods: {
 
-            async loadNext(offset) {
+            selectTab({index}) {
+                this.tab = index;
+            },
 
+            async loadNextByOffset(offset) {
+
+                // Resolve user first
                 if (this.user instanceof Promise) {
                     this.user = await Promise.race([this.user]);
                 }
 
                 // Fetch next "page"
                 return this.$store.dispatch('posts/getPostsFromUser', {
-                    id: this.user.id,
+                    userid: this.user.id,
                     offset
                 }).then(({posts, newOffset}) => {
                     return {
@@ -78,6 +92,20 @@
                             return v;
                         })
                     };
+                });
+            },
+
+            async loadNextByClapps(offset) {
+
+                // Resolve user first
+                if (this.user instanceof Promise) {
+                    this.user = await Promise.race([this.user]);
+                }
+
+                // Fetch next "page"
+                return this.$store.dispatch('posts/getPostsWhereClapped', {
+                    userid: this.user.id,
+                    offset
                 });
             }
         }

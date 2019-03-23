@@ -294,7 +294,7 @@ export const posts = {
          * @param id User id
          * @param offset
          */
-        async getPostsFromUser({rootState}, {id, offset = 0}) {
+        async getPostsFromUser({rootState}, {userid, offset = 0}) {
             const {apikey} = rootState.auth;
 
             // Fetch posts from this user in particular
@@ -304,7 +304,7 @@ export const posts = {
                     operation: 'getPostsBy',
                     vars: {
                         apikey,
-                        userid: id,
+                        userid,
                         start: offset,
                         end: offset + config.postsPreloadAmount
                     },
@@ -323,6 +323,46 @@ export const posts = {
                     throw errors[0].message;
                 } else {
                     return {posts: getPostsBy, newOffset: getPostsBy.length + offset};
+                }
+            });
+        },
+
+        async getPostsWhereClapped({rootState}, {userid, offset = 0}) {
+            const {apikey} = rootState.auth;
+
+            // Fetch posts from this user in particular
+            return this.dispatch('graphql', {
+                cache: true,
+                query: {
+                    operation: 'getPostsWhereClapped',
+                    vars: {
+                        apikey,
+                        userid,
+                        start: offset,
+                        end: offset + config.postsPreloadAmount
+                    },
+                    fields: `
+                        id,
+                        title,
+                        body,
+                        tags,
+                        totalClaps,
+                        myClaps,
+                        timestamp,
+                        
+                        user {
+                            id,
+                            username,
+                            fullname,
+                            profilePicture                            
+                        }
+                    `
+                }
+            }).then(({errors, data: {getPostsWhereClapped}}) => {
+                if (errors && errors.length) {
+                    throw errors[0].message;
+                } else {
+                    return {posts: getPostsWhereClapped, newOffset: getPostsWhereClapped.length + offset};
                 }
             });
         },
