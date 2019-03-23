@@ -57,8 +57,8 @@
             load() {
                 this.fetchNext(this.offset).then(({posts, newOffset}) => {
 
-                    if (this.offset === newOffset) {
-                        this.endReached = true;
+                    if ((this.endReached = this.offset === newOffset)) {
+                        return;
                     }
 
                     this.offset = newOffset;

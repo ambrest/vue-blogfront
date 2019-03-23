@@ -39,12 +39,10 @@
                 this.loadNext();
             },
 
-            async loadNext() {
+            async loadNext(offset) {
 
                 // Fetch next "page"
-                return this.$store.dispatch('posts/getPostInRange', {
-                    offset: this.offset
-                });
+                return this.$store.dispatch('posts/getPostInRange', {offset});
             }
         }
     };
