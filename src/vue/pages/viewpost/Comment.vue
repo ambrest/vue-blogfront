@@ -15,9 +15,7 @@
 
         <p ref="body"
            :contenteditable="edit"
-           :class="{body: 1, editable: edit}">
-            {{ comment.body }}
-        </p>
+           :class="{body: 1, editable: edit}">{{ comment.body.replace(/^[\n\r\t ]+|[\n\r\t ]+$/g, '') }}</p>
 
         <div v-if="auth.user && ((auth.user.id === comment.user.id) || auth.user.permissions.includes('administrate'))" class="actions">
 
@@ -169,6 +167,7 @@
             word-break: break-all;
             word-break: break-word;
             font-family: $font-family-article-stack;
+            white-space: pre-line;
 
             &.editable {
                 border: 1px solid rgba($palette-slate-gray, 0.075);
