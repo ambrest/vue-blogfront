@@ -1,9 +1,17 @@
 <template>
     <div class="comment">
 
-        <p class="author">{{ comment.user.fullname }}</p>
+        <div class="header">
+            <img v-if="comment.user.profilePicture"
+                 :src="`data:img/png;base64,${comment.user.profilePicture}`"
+                 :alt="comment.user.fullname">
 
-        <p class="date">{{ toDateString(comment.timestamp) }} • {{ comment.body | HTMLToTimeToReadString }}</p>
+            <div class="meta">
+                <p class="author">{{ comment.user.fullname }}</p>
+                <p class="date">{{ toDateString(comment.timestamp) }}</p>
+            </div>
+        </div>
+
 
         <p ref="body"
            :contenteditable="edit"
@@ -129,21 +137,34 @@
     .comment {
         color: $palette-slate-gray;
 
-        .author {
-            @include font(400, 0.95em);
-            margin-bottom: 0.25em;
-        }
+        .header {
+            @include flex(row, center);
 
-        .date {
-            @include font(400, 0.75em);
-            color: rgba(black, 0.5);
-            margin-top: 0.5em;
-            opacity: 0.8;
+            img {
+                @include size(2.5em);
+                border-radius: 100%;
+            }
+
+            .meta {
+                margin-left: 0.75em;
+
+                .author {
+                    @include font(400, 0.95em);
+                    margin-bottom: 0.25em;
+                }
+
+                .date {
+                    @include font(400, 0.75em);
+                    color: rgba(black, 0.5);
+                    margin-top: 0.5em;
+                    opacity: 0.8;
+                }
+            }
         }
 
         .body {
             @include font(400, 0.95em);
-            margin: 1.25em 0 0.75em 0;
+            margin: 1.3em 0 1.25em 0;
             line-height: 1.65em;
             word-break: break-all;
             word-break: break-word;

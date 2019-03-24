@@ -1,7 +1,7 @@
 {
     "pageTitle": "Vue Blogfront",
     "themeColor": "#C62642",
-    "apiEndPoint": "http://localhost:4000/api",
+    "apiEndPoint": "http://192.168.178.156:4000/api",
     "wordsPerMinute": 250,
     "postsPreloadAmount": 3
 }

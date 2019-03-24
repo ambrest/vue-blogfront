@@ -211,7 +211,7 @@ export const posts = {
                         user: ['id', 'username', 'fullname', 'profilePicture'],
                         comments: {
                             $: ['id', 'body', 'timestamp'],
-                            user: ['id', 'fullname', 'username']
+                            user: ['id', 'fullname', 'username', 'profilePicture']
                         }
                     }
                 }
@@ -342,7 +342,7 @@ export const posts = {
                         user: ['id', 'username', 'fullname', 'profilePicture'],
                         comments: {
                             $: ['id', 'body', 'timestamp'],
-                            user: ['id', 'fullname', 'username']
+                            user: ['id', 'fullname', 'username', 'profilePicture']
                         }
                     }
                 }
