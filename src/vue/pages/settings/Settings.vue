@@ -34,7 +34,7 @@
 <script>
 
     // UI Components
-    import TextInputField     from '../../ui/TextInputField';
+    import TextInputField from '../../ui/TextInputField';
 
     // Vuex stuff
     import {mapState} from 'vuex';

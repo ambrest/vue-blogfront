@@ -1,9 +1,9 @@
 // Buttons
 .button-primary,
 .button-secondary {
-    @include font(500, 0.8em);
+    @include font(500, 0.85em);
     text-transform: uppercase;
-    padding: 0.65em 1.6em;
+    padding: 0.55em 1.5em;
     transition: all 0.3s;
     border-radius: 0.2em;
 
@@ -39,3 +39,13 @@
     }
 }
 
+.button-tertiary {
+    @include font(500, 0.85em);
+    align-self: flex-end;
+    color: rgba($palette-slate-gray, 0.5);
+    transition: all 0.3s;
+
+    &:hover {
+        color: rgba($palette-slate-gray, 0.75);
+    }
+}

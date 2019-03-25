@@ -9,10 +9,11 @@ import config from '../../config/config';
 import queryBuilder from '../js/GraphQLQueryBuilder';
 
 // Modules
-import {posts} from './modules/posts';
-import {auth}  from './modules/auth';
-import {users} from './modules/users';
-import {page}  from './modules/page';
+import {posts}       from './modules/posts';
+import {auth}        from './modules/auth';
+import {users}       from './modules/users';
+import {page}        from './modules/page';
+import {popupDialog} from './modules/popupDialog';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -23,7 +24,7 @@ export default new Vuex.Store({
      * posts - Stores and caches posts, also responsible for adding, deleting posts and comments.
      * users - Same as posts, also responsible for setting permissions and deactivating a user.
      */
-    modules: {posts, auth, users, page},
+    modules: {posts, auth, users, page, popupDialog},
 
     state: {
 

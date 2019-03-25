@@ -89,15 +89,30 @@
             },
 
             removeComment() {
-                this.errorMsg = '';
-                const postid = this.post.id;
-                const {id} = this.comment;
+                this.$store.commit('popupDialog/show', {
+                    title: 'Please confirm',
+                    text: `Do you really want to delete this comment written by ${this.comment.user.fullname}?`,
 
-                this.$store.dispatch('posts/removeComment', {postid, id}).then(() => {
-                    const cmdIndex = this.post.comments.findIndex(v => v.id === id);
-                    this.post.comments.splice(cmdIndex, 1);
-                }).catch(error => {
-                    this.errorMsg = error;
+                    buttons: [
+                        {class: 'primary', text: 'Nah'},
+                        {class: 'secondary', text: 'Yes Please'}
+                    ],
+
+                    onResolve: btn => {
+                        if (btn) {
+
+                            this.errorMsg = '';
+                            const postid = this.post.id;
+                            const {id} = this.comment;
+
+                            this.$store.dispatch('posts/removeComment', {postid, id}).then(() => {
+                                const cmdIndex = this.post.comments.findIndex(v => v.id === id);
+                                this.post.comments.splice(cmdIndex, 1);
+                            }).catch(error => {
+                                this.errorMsg = error;
+                            });
+                        }
+                    }
                 });
             },
 

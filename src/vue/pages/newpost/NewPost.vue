@@ -228,7 +228,7 @@
         }
     }
 
-    @include mobile{
+    @include mobile {
         .actions {
             flex-wrap: wrap;
             justify-content: center;

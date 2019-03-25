@@ -37,8 +37,8 @@
 <script>
 
     // Components
-    import PostPreviewCardList       from '../../components/PostPreviewCardList';
-    import ProfilePicture from '../../components/ProfilePicture';
+    import PostPreviewCardList from '../../components/PostPreviewCardList';
+    import ProfilePicture      from '../../components/ProfilePicture';
 
     // UI Components
     import TabButtons from '../../ui/TabButtons';

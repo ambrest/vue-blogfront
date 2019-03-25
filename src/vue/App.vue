@@ -1,9 +1,6 @@
 <template>
     <div id="app">
 
-        <!-- Loading screen -->
-        <loading-screen/>
-
         <!-- Header -->
         <page-header class="page-header"/>
 
@@ -12,6 +9,10 @@
 
         <!-- Footer -->
         <page-footer v-show="!$store.state.requestsActive" class="footer"/>
+
+        <!-- Loading screen, popupDialog box -->
+        <loading-screen/>
+        <popup-dialog/>
 
     </div>
 </template>
@@ -28,10 +29,11 @@
     import PageHeader    from './Header';
     import PageFooter    from './Footer';
     import LoadingScreen from './overlays/LoadingScreen';
+    import PopupDialog   from './overlays/PopupDialog';
 
     export default {
 
-        components: {PageHeader, PageFooter, LoadingScreen},
+        components: {PageHeader, PageFooter, LoadingScreen, PopupDialog},
 
         data() {
             return {};

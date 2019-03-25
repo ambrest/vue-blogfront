@@ -67,7 +67,7 @@ export const users = {
          * Fetches the profile picture from a single user
          * @returns {Promise<void>}
          */
-        async getProfilePictureByUserID({}, {id}) {
+        async getProfilePictureByUserID(_, {id}) {
             return this.dispatch('graphql', {
                 silent: true,
                 query: {

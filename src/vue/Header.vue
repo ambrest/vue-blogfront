@@ -30,22 +30,27 @@
 
                 <!-- Only visible with permission 'admin' -->
                 <router-link v-if="user && user.permissions.includes('administrate')"
-                             to="/admin">Admin</router-link>
+                             to="/admin">Admin
+                </router-link>
 
                 <!-- Only visible with permission 'post' -->
                 <router-link v-if="user && user.permissions.includes('post')"
-                             to="/new">New post</router-link>
+                             to="/new">New post
+                </router-link>
 
                 <!-- Visible if logged in -->
                 <router-link v-if="user"
-                             to="/settings">Settings</router-link>
+                             to="/settings">Settings
+                </router-link>
 
                 <router-link v-if="user"
                              to="/login"
-                             @click.native="logout">Logout</router-link>
+                             @click.native="logout">Logout
+                </router-link>
 
                 <router-link v-if="user"
-                             to="me">Me </router-link>
+                             to="me">Me
+                </router-link>
             </div>
         </div>
 

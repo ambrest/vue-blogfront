@@ -112,6 +112,11 @@
         background: transparent;
         user-select: none;
     }
+
+    ::selection {
+        background: $palette-sweet-red;
+        color: white;
+    }
 }
 
 @include mobile {
