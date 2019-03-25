@@ -47,7 +47,7 @@
         position: fixed;
         @include position(0, 0, 0, 0);
         @include flex(column, center, center);
-        background: rgba($palette-slate-gray, 0.1);
+        background: rgba($palette-slate-gray, 0.05);
         opacity: 0;
         transition: all 0.3s;
         pointer-events: none;

@@ -5,7 +5,7 @@
         <page-header class="page-header"/>
 
         <!-- Router -->
-        <router-view :class="{router: 1, inactive: $store.state.requestsActive}" :key="$route.fullPath"/>
+        <router-view :class="{router: 1, inactive: $store.state.requestsActive || $store.state.popupDialog.open}" :key="$route.fullPath"/>
 
         <!-- Footer -->
         <page-footer v-show="!$store.state.requestsActive" class="footer"/>

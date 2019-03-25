@@ -1,6 +1,7 @@
 <template>
     <div class="new-post">
 
+        <!-- Content input fields -->
         <text-input-field ref="title"
                           class="title"
                           placeholder="Title"
@@ -14,12 +15,13 @@
 
         <p class="error">{{ errorMsg }}</p>
 
+        <!-- Actions -->
         <div class="actions">
 
             <button v-if="originalPost"
                     class="button-secondary icon"
                     @click="removePost">
-                <i class="fas fa-fw fa-trash"></i> {{ proceedDelete ? 'Are you sure?' : 'delete' }}
+                <i class="fas fa-fw fa-trash"></i> delete
             </button>
 
             <button v-if="isDraft"
@@ -57,8 +59,6 @@
         data() {
             return {
                 errorMsg: '',
-
-                proceedDelete: false,
                 originalPost: null,
                 isDraft: false,
                 postId: this.$route.params.id
@@ -172,21 +172,31 @@
             },
 
             removePost() {
-                this.errorMsg = '';
 
                 // Warn user about deleting this post
-                if (!this.proceedDelete) {
-                    this.proceedDelete = true;
-                } else {
-                    this.$store.dispatch('posts/removePost', {
-                        id: this.originalPost.id
-                    }).then(() => {
-                        this.$router.push('/');
-                        localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
-                    }).catch(reason => {
-                        this.errorMsg = reason;
-                    });
-                }
+                this.$store.commit('popupDialog/show', {
+                    title: 'Please confirm',
+                    text: `Do you really want to delete ${this.originalPost.title}?`,
+
+                    buttons: [
+                        {class: 'primary', text: 'Nah'},
+                        {class: 'secondary', text: 'Yes Please'}
+                    ],
+
+                    onResolve: btn => {
+                        if (btn) {
+                            this.errorMsg = '';
+                            this.$store.dispatch('posts/removePost', {
+                                id: this.originalPost.id
+                            }).then(() => {
+                                this.$router.push('/');
+                                localStorage.removeItem(`post-draft-${this.$route.params.id || 'new'}`);
+                            }).catch(reason => {
+                                this.errorMsg = reason;
+                            });
+                        }
+                    }
+                });
             }
         }
     };
