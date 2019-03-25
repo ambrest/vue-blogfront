@@ -3,13 +3,9 @@
 
         <h1>{{ auth.user.fullname }} aka. {{ auth.user.username }}</h1>
 
-        <div :class="{'profile-picture': 1, empty: !auth.user.profilePicture}" @click="changePicture">
-            <img v-if="auth.user.profilePicture"
-                 :src="`data:image/png;base64,${auth.user.profilePicture}`"
-                 :alt="auth.user.fullname">
-
-            <profile-picture-placeholder v-if="!auth.user.profilePicture"/>
-        </div>
+        <profile-picture :class="{'profile-picture': 1, empty: !auth.user.profilePicture}"
+                         :user="auth.user"
+                         @click="changePicture"/>
 
         <!-- Edit about text -->
         <text-area-input-field ref="inAbout"
@@ -26,15 +22,15 @@
 <script>
 
     // UI Components
-    import TextInputField            from '../../ui/TextInputField';
-    import TextAreaInputField        from '../../ui/TextAreaInputField';
-    import ProfilePicturePlaceholder from '../../ui/ProfilePicturePlaceholder';
+    import TextInputField     from '../../ui/TextInputField';
+    import TextAreaInputField from '../../ui/TextAreaInputField';
+    import ProfilePicture     from '../../components/ProfilePicture';
 
     // Vuex stuff
     import {mapState} from 'vuex';
 
     export default {
-        components: {TextInputField, TextAreaInputField, ProfilePicturePlaceholder},
+        components: {TextInputField, TextAreaInputField, ProfilePicture},
 
         data() {
             return {

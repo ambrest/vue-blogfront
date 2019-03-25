@@ -208,10 +208,10 @@ export const posts = {
                     vars: {apikey, id},
                     fields: {
                         $: ['id', 'title', 'body', 'tags', 'totalClaps', 'myClaps', 'timestamp'],
-                        user: ['id', 'username', 'fullname', 'profilePicture'],
+                        user: ['id', 'username', 'fullname'],
                         comments: {
                             $: ['id', 'body', 'timestamp'],
-                            user: ['id', 'fullname', 'username', 'profilePicture']
+                            user: ['id', 'fullname', 'username']
                         }
                     }
                 }
@@ -245,7 +245,7 @@ export const posts = {
                     },
                     fields: {
                         $: ['id', 'title', 'body', 'tags', 'totalClaps', 'myClaps', 'timestamp'],
-                        user: ['id', 'username', 'fullname', 'profilePicture']
+                        user: ['id', 'username', 'fullname']
                     }
                 }
             }).then(({errors, data: {getPostCountRange}}) => {
@@ -304,7 +304,7 @@ export const posts = {
                     },
                     fields: {
                         $: ['id', 'title', 'body', 'tags', 'totalClaps', 'myClaps', 'timestamp'],
-                        user: ['id', 'username', 'fullname', 'profilePicture']
+                        user: ['id', 'username', 'fullname']
                     }
                 }
             }).then(({errors, data: {getPostsWhereClapped}}) => {
@@ -339,10 +339,10 @@ export const posts = {
                     },
                     fields: {
                         $: ['id', 'title', 'body', 'tags', 'totalClaps', 'myClaps', 'timestamp'],
-                        user: ['id', 'username', 'fullname', 'profilePicture'],
+                        user: ['id', 'username', 'fullname'],
                         comments: {
                             $: ['id', 'body', 'timestamp'],
-                            user: ['id', 'fullname', 'username', 'profilePicture']
+                            user: ['id', 'fullname', 'username']
                         }
                     }
                 }

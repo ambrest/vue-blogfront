@@ -1,8 +1,8 @@
 <template>
     <router-link :to="`/user/${user.id}`" class="profile-picture">
 
-        <img v-if="user.profilePicture"
-             :src="`data:img/png;base64,${user.profilePicture}`"
+        <img v-if="image"
+             :src="image"
              :alt="user.fullname">
 
         <profile-picture-placeholder v-else/>
@@ -21,7 +21,13 @@
         },
 
         data() {
-            return {};
+            return {
+                image: null
+            };
+        },
+
+        async beforeMount() {
+            this.image = await this.$store.dispatch('users/getProfilePictureByUserID', {id: this.user.id}).catch(() => null);
         }
     };
 

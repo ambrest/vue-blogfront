@@ -39,7 +39,7 @@ export const auth = {
                 query: {
                     op: 'login',
                     vars: {username, password},
-                    fields: ['apikey', 'email', 'permissions', 'id', 'fullname', 'about', 'profilePicture']
+                    fields: ['apikey', 'email', 'permissions', 'id', 'fullname', 'about']
                 }
             }).then(({errors, data}) => {
 
@@ -83,7 +83,7 @@ export const auth = {
                 query: {
                     op: 'login',
                     vars: {apikey},
-                    fields: ['email', 'permissions', 'id', 'fullname', 'username', 'about', 'profilePicture']
+                    fields: ['email', 'permissions', 'id', 'fullname', 'username', 'about']
                 }
             }).then(({errors, data}) => {
 
@@ -157,7 +157,7 @@ export const auth = {
                         id: state.user.id,
                         apikey: state.apikey
                     },
-                    fields: ['email', 'fullname', 'permissions', 'about', 'profilePicture']
+                    fields: ['email', 'fullname', 'permissions', 'about']
                 }
             }).then(({errors, data}) => {
 

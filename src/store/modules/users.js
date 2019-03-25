@@ -18,7 +18,7 @@ export const users = {
                 query: {
                     op: 'getAllUsers',
                     vars: {apikey},
-                    fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email', 'about', 'profilePicture']
+                    fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email', 'about']
                 }
             }).then(({errors, data: {getAllUsers}}) => {
 
@@ -37,7 +37,7 @@ export const users = {
          * @param rootState
          * @param id The userid
          */
-        async findUserById({state: state, rootState}, {id}) {
+        async findUserById({state, rootState}, {id}) {
             const {apikey} = rootState.auth;
 
             // Check if user has been already loaded
@@ -50,7 +50,7 @@ export const users = {
                 query: {
                     op: 'user',
                     vars: {id, apikey},
-                    fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email', 'about', 'profilePicture']
+                    fields: ['id', 'username', 'fullname', 'permissions', 'deactivated', 'email', 'about']
                 }
             }).then(({errors, data: {user}}) => {
 
@@ -59,6 +59,27 @@ export const users = {
                 } else {
                     state.push(user);
                     return Promise.resolve(user);
+                }
+            });
+        },
+
+        /**
+         * Fetches the profile picture from a single user
+         * @returns {Promise<void>}
+         */
+        async getProfilePictureByUserID({}, {id}) {
+            return this.dispatch('graphql', {
+                silent: true,
+                query: {
+                    op: 'user',
+                    vars: {id},
+                    fields: ['profilePicture']
+                }
+            }).then(({errors, data: {user}}) => {
+                if (errors && errors.length) {
+                    throw errors[0].message;
+                } else {
+                    return user.profilePicture ? `data:img/png;base64,${user.profilePicture}` : null;
                 }
             });
         },
