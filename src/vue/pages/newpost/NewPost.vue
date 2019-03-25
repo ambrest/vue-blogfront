@@ -176,7 +176,7 @@
                 // Warn user about deleting this post
                 this.$store.commit('popupDialog/show', {
                     title: 'Please confirm',
-                    text: `Do you really want to delete ${this.originalPost.title}?`,
+                    text: `Do you really want to delete "${this.originalPost.title}"?`,
 
                     buttons: [
                         {class: 'primary', text: 'Nah'},

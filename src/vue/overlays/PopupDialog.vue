@@ -2,7 +2,11 @@
     <div :class="{'popup-dialog': 1, open: popupDialog.open}">
 
         <div class="content">
-            <h1>{{ popupDialog.title }}</h1>
+
+            <div class="header">
+                <i class="fas fa-fw fa-question-circle"></i>
+                <h1> {{ popupDialog.title }}</h1>
+            </div>
 
             <p v-if="popupDialog.text">{{ popupDialog.text }}</p>
 
@@ -76,13 +80,22 @@
         transform: translateY(-0.5em) rotateX(35deg);
         transition: all 0.3s;
 
-        h1 {
-            @include font(500, 1.075em);
+        .header {
+            @include flex(row, center);
+
+            h1 {
+                @include font(500, 1.075em);
+            }
+
+            i {
+                font-size: 0.95em;
+                margin-right: 0.5em;
+            }
         }
 
         p {
-            @include font(400, 0.975em);
-            margin: 1em 0;
+            @include font(500, 0.96em);
+            margin: 1.25em 0;
             line-height: 1.5em;
         }
 
