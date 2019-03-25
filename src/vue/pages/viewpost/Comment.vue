@@ -2,9 +2,7 @@
     <div class="comment">
 
         <div class="header">
-            <img v-if="comment.user.profilePicture"
-                 :src="`data:img/png;base64,${comment.user.profilePicture}`"
-                 :alt="comment.user.fullname">
+            <profile-picture :user="comment.user"/>
 
             <div class="meta">
                 <p class="author">{{ comment.user.fullname }}</p>
@@ -30,7 +28,7 @@
 
             <i v-show="edit"
                class="fas fa-fw fa-save"
-               @click=" updateComment()"></i>
+               @click="updateComment()"></i>
 
             <i class="delete fas fa-fw fa-trash-alt" @click="removeComment"></i>
 
@@ -44,12 +42,13 @@
 
     // UI Components
     import TextAreaInputField from '../../ui/TextAreaInputField';
+    import ProfilePicture     from '../../components/ProfilePicture';
 
     // Vuex stuff
     import {mapState} from 'vuex';
 
     export default {
-        components: {TextAreaInputField},
+        components: {TextAreaInputField, ProfilePicture},
 
         props: {
             comment: {
@@ -138,9 +137,8 @@
         .header {
             @include flex(row, center);
 
-            img {
-                @include size(2.5em);
-                border-radius: 100%;
+            .profile-picture {
+                margin-right: 0.25em;
             }
 
             .meta {

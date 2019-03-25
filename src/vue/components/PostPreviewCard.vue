@@ -26,12 +26,7 @@
             <div class="sub-area">
 
                 <!-- Profile picture -->
-                <router-link :to="`/user/${preparedPost.user.id}`" class="profile-pic">
-                    <img v-if="post.user.profilePicture"
-                         :src="`data:img/png;base64,${post.user.profilePicture}`"
-                         :alt="post.user.fullname">
-                    <profile-picture-placeholder v-else/>
-                </router-link>
+                <profile-picture :user="preparedPost.user"/>
 
                 <!-- General post info -->
                 <div class="info">
@@ -70,12 +65,12 @@
     // Vuex stuff
     import {mapState} from 'vuex';
 
-    import ProfilePicturePlaceholder from '../ui/ProfilePicturePlaceholder';
-    import Clapper                   from './Clapper';
+    import ProfilePicture from '../components/ProfilePicture';
+    import Clapper        from './Clapper';
 
     export default {
 
-        components: {ProfilePicturePlaceholder, Clapper},
+        components: {ProfilePicture, Clapper},
 
         props: {
             post: {
@@ -215,21 +210,8 @@
                 @include flex(row, center);
                 margin-bottom: 0em;
 
-                .profile-pic {
-                    @include flex(row, center, center);
-                    @include size(2.5em);
+                .profile-picture {
                     margin-right: 0.5em;
-                    border-radius: 0.15em;
-                    background: $palette-slate-gray;
-                    overflow: hidden;
-
-                    img {
-                        @include size(100%);
-                    }
-
-                    .profile-picture-placeholder {
-                        transform: scale(0.6);
-                    }
                 }
 
                 .info {

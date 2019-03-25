@@ -6,7 +6,6 @@
 
     .profile-picture-placeholder {
         position: relative;
-        @include size(5em);
 
         &::before,
         &::after {
@@ -20,14 +19,14 @@
         }
 
         &::after {
-            @include size(1em);
-            bottom: 20%;
+            @include size(30%);
+            bottom: 35%;
             opacity: 1;
         }
 
         &::before {
-            @include size(1.8em);
-            bottom: -42%;
+            @include size(55%);
+            bottom: -62%;
             border-bottom-color: transparent;
             border-right-color: transparent;
             transform: rotate(45deg);

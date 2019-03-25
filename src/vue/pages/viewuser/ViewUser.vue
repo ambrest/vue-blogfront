@@ -7,12 +7,7 @@
         </div>
 
         <!-- Profile picture -->
-        <img v-if="user.profilePicture"
-             :src="`data:image/png;base64,${user.profilePicture}`"
-             :alt="user.fullname">
-
-        <profile-picture-placeholder v-else/>
-
+        <profile-picture v-if="userLoaded" :user="user"/>
 
         <div class="sub-header">
             <p>{{ user.about }}</p>
@@ -42,18 +37,19 @@
 <script>
 
     // Components
-    import PostPreviewCardList from '../../components/PostPreviewCardList';
+    import PostPreviewCardList       from '../../components/PostPreviewCardList';
+    import ProfilePicture from '../../components/ProfilePicture';
 
     // UI Components
-    import ProfilePicturePlaceholder from '../../ui/ProfilePicturePlaceholder';
-    import TabButtons                from '../../ui/TabButtons';
+    import TabButtons from '../../ui/TabButtons';
 
     export default {
-        components: {ProfilePicturePlaceholder, PostPreviewCardList, TabButtons},
+        components: {ProfilePicture, PostPreviewCardList, TabButtons},
 
         data() {
             return {
                 user: {},
+                userLoaded: false,
                 tab: 0
             };
         },
@@ -78,6 +74,7 @@
                 // Resolve user first
                 if (this.user instanceof Promise) {
                     this.user = await Promise.race([this.user]);
+                    this.userLoaded = true;
                 }
 
                 // Fetch next "page"
@@ -100,6 +97,7 @@
                 // Resolve user first
                 if (this.user instanceof Promise) {
                     this.user = await Promise.race([this.user]);
+                    this.userLoaded = true;
                 }
 
                 // Fetch next "page"
@@ -119,16 +117,10 @@
         width: 100%;
     }
 
-    img,
-    .profile-picture-placeholder {
+    .profile-picture {
         @include size(5em);
         border-radius: 100%;
         margin: -0.5em 0 1.5em;
-        background: $palette-slate-gray;
-
-        &img {
-            background: transparent;
-        }
     }
 
     .sub-header {
