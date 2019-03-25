@@ -12,7 +12,7 @@ import queryBuilder from '../js/GraphQLQueryBuilder';
 import {posts} from './modules/posts';
 import {auth}  from './modules/auth';
 import {users} from './modules/users';
-import {page} from './modules/page';
+import {page}  from './modules/page';
 
 Vue.use(Vuex);
 export default new Vuex.Store({
@@ -63,7 +63,7 @@ export default new Vuex.Store({
                 },
 
                 body: json
-            });
+            }).then(res => res.ok ? Promise.resolve(res) : Promise.reject(res));
 
             if (cache) {
                 const hash = await md5(json);

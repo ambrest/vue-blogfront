@@ -1,9 +1,10 @@
 <template>
     <div v-if="post" class="view-post divided">
 
-        <flow-bar :post="post"/>
-
         <div class="tab">
+
+            <flow-bar :post="post"/>
+
             <div class="header">
                 <span>{{ post.title }}</span>
 
