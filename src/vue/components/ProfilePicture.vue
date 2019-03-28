@@ -37,7 +37,7 @@
 
     .profile-picture {
         @include flex(row, center, center);
-        @include size(2.5em);
+        @include size(2.75em);
         border-radius: 0.15em;
         background: $palette-slate-gray;
         overflow: hidden;
@@ -47,7 +47,7 @@
         }
 
         .profile-picture-placeholder {
-            @include size(70%);
+            @include size(60%);
         }
     }
 

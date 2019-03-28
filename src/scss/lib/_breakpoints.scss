@@ -5,7 +5,7 @@
 }
 
 @mixin tablet {
-    @media all and (max-width: 859px) {
+    @media all and (max-width: 900px) {
         @content
     }
 }
