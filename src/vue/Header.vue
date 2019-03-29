@@ -44,12 +44,12 @@
                 </router-link>
 
                 <router-link v-if="user"
-                             to="/login"
-                             @click.native="logout">Logout
+                             to="me">Me
                 </router-link>
 
                 <router-link v-if="user"
-                             to="me">Me
+                             to="/login"
+                             @click.native="logout">Logout
                 </router-link>
             </div>
         </div>
