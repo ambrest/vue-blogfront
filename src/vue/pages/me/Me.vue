@@ -3,9 +3,12 @@
 
         <h1>{{ auth.user.fullname }} aka. {{ auth.user.username }}</h1>
 
-        <profile-picture :class="{'profile-picture': 1, empty: !auth.user.profilePicture}"
-                         :user="auth.user"
-                         @click="changePicture"/>
+        <div :class="{'profile-picture': 1, empty: !auth.user.profilePicture}" @click="changePicture">
+            <profile-picture ref="profilePicture"
+                             :user="auth.user"
+                             :disable-link="true"/>
+            <i class="fas fa-fw fa-pencil-alt"></i>
+        </div>
 
         <!-- Edit about text -->
         <text-area-input-field ref="inAbout"
@@ -74,6 +77,8 @@
                         // Fire auth
                         this.$store.dispatch('auth/updateProfileData', {
                             profilePicture: result
+                        }).then(() => {
+                            this.$refs.profilePicture.loadImg();
                         }).catch(reason => {
                             this.errorMsg = reason;
                         });
@@ -102,7 +107,6 @@
             position: relative;
             margin: 0.5em 0;
             border-radius: 100%;
-            background: rgba($palette-sweet-red, 0.9);
             overflow: hidden;
             cursor: pointer;
 

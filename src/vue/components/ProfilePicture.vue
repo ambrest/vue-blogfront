@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="`/user/${user.id}`" class="profile-picture">
+    <router-link :to="`/user/${user.id}`" :class="{'profile-picture': 1, disabled: disableLink}">
 
         <img v-if="image"
              :src="image"
@@ -17,7 +17,8 @@
         components: {ProfilePicturePlaceholder},
 
         props: {
-            user: {type: Object, required: true}
+            user: {type: Object, required: true},
+            disableLink: {type: Boolean, default: false}
         },
 
         data() {
@@ -26,8 +27,14 @@
             };
         },
 
-        async beforeMount() {
-            this.image = await this.$store.dispatch('users/getProfilePictureByUserID', {id: this.user.id}).catch(() => null);
+        beforeMount() {
+            this.loadImg();
+        },
+
+        methods: {
+            async loadImg() {
+                this.image = await this.$store.dispatch('users/getProfilePictureByUserID', {id: this.user.id}).catch(() => null);
+            }
         }
     };
 
@@ -41,6 +48,10 @@
         border-radius: 0.15em;
         background: $palette-slate-gray;
         overflow: hidden;
+
+        &.disabled {
+            pointer-events: none;
+        }
 
         img {
             @include size(100%);
