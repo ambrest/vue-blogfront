@@ -240,7 +240,7 @@
         }
     }
 
-    @include tablet {
+    @include MQTablets {
         .view-post {
             font-size: 0.9em;
 

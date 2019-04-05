@@ -265,7 +265,7 @@
         font-size: 0.7em;
     }
 
-    @include mobile {
+    @include MQPhones {
         .user {
 
             .index,

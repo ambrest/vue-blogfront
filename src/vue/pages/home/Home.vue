@@ -66,7 +66,7 @@
         width: 80%;
     }
 
-    @include tablet {
+    @include MQTablets {
         .posts {
             width: 100%;
         }

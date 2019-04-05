@@ -71,7 +71,7 @@
         color: $palette-slate-gray;
     }
 
-    @include mobile {
+    @include MQPhones {
         .ok {
             font-size: 0.65em;
         }

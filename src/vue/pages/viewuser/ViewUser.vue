@@ -151,7 +151,7 @@
         }
     }
 
-    @include tablet {
+    @include MQTablets {
         .posts {
             width: 100%;
         }
@@ -161,7 +161,7 @@
         }
     }
 
-    @include mobile {
+    @include MQPhones {
         .sub-header {
             margin-top: 0;
         }

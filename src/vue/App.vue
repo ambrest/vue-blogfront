@@ -215,7 +215,7 @@
         flex-shrink: 0;
     }
 
-    @include tablet {
+    @include MQTablets {
         .router {
             &:not(.small):not(.divided) {
                 padding-left: 2em;
@@ -224,7 +224,7 @@
         }
     }
 
-    @include mobile {
+    @include MQPhones {
         .router {
             margin-top: 2.5vh;
 

@@ -110,7 +110,7 @@
         }
     }
 
-    @include laptop {
+    @include MQDesktop {
 
         .flow-bar {
             position: fixed;
@@ -151,7 +151,7 @@
         }
     }
 
-    @include mobile {
+    @include MQPhones {
         .flow-bar > div {
             margin-bottom: 0;
             width: 100%;

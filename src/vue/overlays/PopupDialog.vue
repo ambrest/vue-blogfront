@@ -110,7 +110,7 @@
         }
     }
 
-    @include mobile {
+    @include MQPhones {
         .content {
             max-width: 90vw;
             width: 90vw;

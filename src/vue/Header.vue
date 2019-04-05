@@ -214,7 +214,7 @@
         }
     }
 
-    @include tablet {
+    @include MQTablets {
         .header {
             opacity: 0;
             transform: translateY(-100%) rotateX(45deg);
@@ -231,7 +231,7 @@
         }
     }
 
-    @include mobile {
+    @include MQPhones {
         .bar {
 
             > i {

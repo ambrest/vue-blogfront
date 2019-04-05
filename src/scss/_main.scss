@@ -1,8 +1,8 @@
 // Libraries
-@import './lib/mixins';
+@import '~sassyfication';
 @import './lib/variables';
-@import './lib/breakpoints';
 @import './components/buttons';
 @import './components/general';
+
 // Dependencies
 @import 'deps/post';

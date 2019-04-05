@@ -238,7 +238,7 @@
         }
     }
 
-    @include mobile {
+    @include MQPhones {
         .actions {
             flex-wrap: wrap;
             justify-content: center;

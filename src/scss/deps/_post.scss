@@ -119,7 +119,7 @@
     }
 }
 
-@include mobile {
+@include MQPhones {
     .blog-content {
         blockquote {
             margin-left: 10px;

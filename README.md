@@ -31,6 +31,7 @@ See [GitHub Projects](https://github.com/ambrest/vue-blogfront/projects) for the
 * Full and partial text search function.
 * Clapping possibility to show how much you like a post.
 * Local drafts.
+* Tagging and user profiles.
 
 ### Installation
 * [Installing on MacOS](/docs/installation/mac.md)

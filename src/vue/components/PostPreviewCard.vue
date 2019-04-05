@@ -268,13 +268,13 @@
         }
     }
 
-    @include tablet {
+    @include MQTablets {
         .post-preview-card {
             @include fixed-width(90%);
         }
     }
 
-    @include mobile {
+    @include MQPhones {
         .post-preview-card {
             @include fixed-width(100%);
             position: relative;
